@@ -1,12 +1,20 @@
 <template>
   <div>
+    <!-- Header -->
+    <b-jumbotron>
+      <div class="text-white">
+        <h1 class="font-weight-bold display-4">Q & A</h1>
+        <hr style="border: 1px solid white" />
+        <span style="font-size: 20px"><h6>관리자와 고객 1:1 질의응답</h6></span>
+      </div>
+    </b-jumbotron>
     <router-view :qnas="qnas" @create-qna="createQna" @update-qna="updateQna" @delete-qna="deleteQna" @create-qna-ans="createQnaAns" @update-qna-ans="updateQnaAns" />
   </div>
 </template>
 
 <script>
 export default {
-  name: "Qna",
+  name: "QnaView",
   data() {
     return {
       qnas: [],
@@ -101,4 +109,17 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.jumbotron {
+  background-image: url("@/assets/login-bg.jpg");
+  background-position: center;
+  background-size: fill;
+  height: 40vh;
+  text-align: center;
+}
+.jumbotron > div {
+  width: 70%;
+  height: 40vh;
+  display: inline-block;
+}
+</style>

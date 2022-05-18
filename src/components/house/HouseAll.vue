@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- Header -->
     <b-jumbotron>
       <div>
         <h1 class="font-weight-bold display-4">Happy House</h1>

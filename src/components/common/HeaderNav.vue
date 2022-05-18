@@ -14,7 +14,7 @@
             <b-dropdown-item href="/house/apt">아파트별조회</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item to="/notice" class="mr-3">공지사항</b-nav-item>
-          <b-nav-item to="/intro" class="mr-3">QnA</b-nav-item>
+          <b-nav-item to="/qna" class="mr-3">QnA</b-nav-item>
           <b-nav-item v-if="getUser" href="#" @click="logout">logout</b-nav-item>
           <b-nav-item v-else to="/login" class="mr-3">login</b-nav-item>
           <b-nav-item v-if="getUser" :to="{ name: 'UserDetail', params: { id: user.id } }" class="mr-3">mypage</b-nav-item>

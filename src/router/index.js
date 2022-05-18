@@ -6,6 +6,7 @@ import IntroView from "@/components/IntroView.vue";
 import UserView from "@/views/UserView.vue";
 import NoticeView from "@/views/NoticeView.vue";
 import LoginForm from "@/components/LoginForm.vue";
+import QnaView from "@/views/QnaView.vue";
 
 Vue.use(VueRouter);
 
@@ -105,9 +106,18 @@ const routes = [
     ],
   },
   {
-    path: "/about",
-    name: "About",
-    component: () => import("../views/AboutView.vue"),
+    // QnA 화면
+    path: "/qna",
+    name: "QnaView",
+    component: QnaView,
+    redirect: "/qna/list",
+    children: [
+      {
+        path: "list",
+        name: "QnaList",
+        component: () => import("@/components/qna/QnaList.vue"),
+      },
+    ],
   },
 ];
 

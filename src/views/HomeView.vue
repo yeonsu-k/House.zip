@@ -21,9 +21,10 @@
 export default {};
 </script>
 
-<style>
+<style scoped>
 .jumbotron {
   background-image: url("@/assets/home-bg.jpg");
+  background-position: center;
   background-size: fill;
   height: 40vh;
   text-align: center;
