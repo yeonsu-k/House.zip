@@ -1,5 +1,11 @@
 <template>
   <div>
+    <!-- Header -->
+    <b-jumbotron>
+      <div class="text-white">
+        <h1 class="font-weight-bold display-4">공지사항</h1>
+      </div>
+    </b-jumbotron>
     <router-view :notices="notices" @create-notice="createNotice" @update-notice="updateNotice" @delete-notice="deleteNotice" />
   </div>
 </template>
@@ -71,4 +77,17 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.jumbotron {
+  background-image: url("@/assets/notice.jpg");
+  background-position: center;
+  background-size: fill;
+  height: 40vh;
+  text-align: center;
+}
+.jumbotron > div {
+  width: 70%;
+  height: 40vh;
+  display: inline-block;
+}
+</style>

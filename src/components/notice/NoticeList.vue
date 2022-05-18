@@ -1,8 +1,9 @@
 <template>
   <div class="container">
-    <h2>공시사항 목록</h2>
-    <b-button variant="outline-success" to="/notice/regist">글쓰기</b-button>
-    <h4>등록된 공지사항 수 : {{ noticeCnt }}</h4>
+    <span style="font-size: 35px">공시사항 목록</span>
+    <b-button variant="outline-success" style="float: right; width: auto" to="/notice/regist">글쓰기</b-button>
+    <hr />
+    <h4 class="mt-3">등록된 공지사항 수 : {{ noticeCnt }}</h4>
     <div v-if="notices.length">
       <table class="notice-list">
         <colgroup>

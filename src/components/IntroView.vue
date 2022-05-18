@@ -3,9 +3,9 @@
     <!-- Header-->
     <b-jumbotron>
       <div>
-        <h1 class="font-weight-bold display-4">Happy House</h1>
+        <h1 class="font-weight-bold display-4" style="text-shadow: 1px 1px 1px #999">Happy House</h1>
         <hr />
-        <span style="font-size: 25px">introduce</span>
+        <span style="font-size: 25px"><h4>introduce</h4></span>
       </div>
     </b-jumbotron>
     <!-- Main Content-->
@@ -27,4 +27,17 @@
 export default {};
 </script>
 
-<style></style>
+<style scoped>
+.jumbotron {
+  background-image: url("@/assets/home-bg.jpg");
+  background-position: center;
+  background-size: fill;
+  height: 40vh;
+  text-align: center;
+}
+.jumbotron > div {
+  width: 80%;
+  height: 40vh;
+  display: inline-block;
+}
+</style>

@@ -64,3 +64,18 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.jumbotron {
+  background-image: url("@/assets/login-bg.jpg");
+  background-position: center;
+  background-size: fill;
+  height: 40vh;
+  text-align: center;
+}
+.jumbotron > div {
+  width: 70%;
+  height: 40vh;
+  display: inline-block;
+}
+</style>
