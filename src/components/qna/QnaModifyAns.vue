@@ -1,26 +1,32 @@
 <template>
-  <div class="container">
-    <h2>수정</h2>
-
-    <b-form-group label="제목" label-for="input-title">
-      <b-form-input id="input-title" v-model="qna.title" placeholder="Enter title" readonly></b-form-input>
-    </b-form-group>
-    <b-form-group label="작성자" label-for="input-id">
-      <b-form-input id="input-id" v-model="qna.userid" readonly></b-form-input>
-    </b-form-group>
-    <b-form-group label="작성시간" label-for="input-asktime">
-      <b-form-input id="input-asktime" v-model="qna.asktime" readonly></b-form-input>
-    </b-form-group>
-    <b-form-group label="내용" label-for="input-content">
-      <b-form-input id="input-content" v-model="qna.content" placeholder="Enter content" readonly></b-form-input>
-    </b-form-group>
-
-    <h4>QnA 답변 수정</h4>
+  <b-container>
+    <span style="font-size: 35px">답변 수정</span>
+    <hr />
+    <b-table-simple class="mt-2 table-bordered text-center" style="min-height: 400px">
+      <b-thead class="table-secondary">
+        <b-tr>
+          <b-th width="auto">제목</b-th>
+          <b-th style="width: 50wh">{{ qna.title }}</b-th>
+          <b-th width="auto">작성시간</b-th>
+          <b-th>{{ qna.asktime }}</b-th>
+          <b-th width="auto">작성자</b-th>
+          <b-th>{{ qna.userid }}</b-th>
+        </b-tr>
+      </b-thead>
+      <b-tbody>
+        <b-tr>
+          <b-td colspan="6" style="text-align: left">{{ qna.content }}</b-td>
+        </b-tr>
+      </b-tbody>
+    </b-table-simple>
+    <hr style="border-top: 2px dashed #bbb" />
+    <span style="font-size: 35px" class="mb-3">QnA 답변 수정</span>
+    <hr />
     <b-form-group label="답변내용" label-for="input-anscontent">
       <b-form-input id="input-anscontent" v-model="qna.anscontent" placeholder="Enter content"></b-form-input>
     </b-form-group>
     <b-button variant="outline-success" @click="updateAns">저장</b-button>
-  </div>
+  </b-container>
 </template>
 <script>
 import axios from "axios";

@@ -1,13 +1,15 @@
 <template>
-  <div class="container">
+  <b-container>
+    <span style="font-size: 35px">수정하기</span>
+    <hr />
     <b-form-group label="제목" label-for="input-title">
       <b-form-input id="input-title" v-model="qna.title" placeholder="Enter title"></b-form-input>
     </b-form-group>
     <b-form-group label="내용" label-for="input-content">
-      <b-form-input id="input-content" v-model="qna.content" placeholder="Enter content"></b-form-input>
+      <b-form-textarea id="input-content" v-model="qna.content" placeholder="Enter content" rows="8"></b-form-textarea>
     </b-form-group>
-    <b-button variant="outline-success" class="btn" @click="updateQna">저장</b-button>
-  </div>
+    <b-button variant="outline-success" style="width: 98%" class="btn" @click="updateQna">저장</b-button>
+  </b-container>
 </template>
 <script>
 import axios from "axios";

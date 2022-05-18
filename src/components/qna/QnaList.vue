@@ -14,6 +14,7 @@
             <b-th>제목</b-th>
             <b-th>날짜</b-th>
             <b-th>아이디</b-th>
+            <b-th>상태</b-th>
           </b-tr>
         </b-thead>
         <b-tbody>
@@ -24,6 +25,8 @@
             </b-td>
             <b-td>{{ qna.asktime }}</b-td>
             <b-td>{{ qna.userid }}</b-td>
+            <b-td v-if="qna.masterid">완료</b-td>
+            <b-td style="color: brown; font-weight: bold" v-else>대기</b-td>
           </b-tr>
         </b-tbody>
       </b-table-simple>
