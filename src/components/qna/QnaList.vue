@@ -1,8 +1,6 @@
 <template>
   <div class="container">
     <span style="font-size: 35px">QnA 목록</span>
-    <div>{{ this.isManager }}</div>
-    <div>{{ this.userid }}</div>
     <b-button v-if="this.userid && !this.isManager" variant="outline-warning" style="float: right; width: auto" to="/qna/regist">문의하기</b-button>
     <hr />
     <div class="text-right">
