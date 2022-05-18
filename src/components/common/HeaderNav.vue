@@ -13,14 +13,10 @@
             <b-dropdown-item href="/house/dong">동별조회</b-dropdown-item>
             <b-dropdown-item href="/house/apt">아파트별조회</b-dropdown-item>
           </b-nav-item-dropdown>
-          <div v-if="getUser">
-            <b-nav-item href="#" @click="logout">로그아웃</b-nav-item>
-            <b-nav-item to="/about" class="mr-3">mypage</b-nav-item>
-          </div>
-          <div v-else>
-            <b-nav-item to="/login" class="ml-3 mr-3">login</b-nav-item>
-            <b-nav-item to="/about" class="mr-3">siginup</b-nav-item>
-          </div>
+          <b-nav-item v-if="getUser" href="#" @click="logout">로그아웃</b-nav-item>
+          <b-nav-item v-else to="/login" class="mr-3">login</b-nav-item>
+          <b-nav-item v-if="getUser" to="/about" class="mr-3">mypage</b-nav-item>
+          <b-nav-item v-else to="/about" class="mr-3">siginup</b-nav-item>
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
