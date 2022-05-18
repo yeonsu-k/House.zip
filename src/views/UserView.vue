@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "UserView",
   data() {
@@ -20,19 +21,22 @@ export default {
       }
     },
     createUser(user) {
-      let userList = JSON.parse(localStorage.getItem("userList"));
-      if (userList) {
-        userList.push(user);
-      } else {
-        userList = [];
-        userList.push(user);
-      }
-
-      localStorage.setItem("userList", JSON.stringify(userList));
-      alert("등록 완료");
-      this.getUserList();
-      // 리스트 화면으로 이동
-      this.$router.push("/user");
+      axios
+        .post("http://localhost:8080/happyhouse/user/", {
+          userid: user.id,
+          password: user.password,
+          name: user.password,
+          email: user.email,
+          tel: user.tel,
+        })
+        .then(({ data }) => {
+          let msg = "등록 처리시 문제가 발생했습니다.";
+          if (data == "success") {
+            msg = "등록이 완료되었습니다.";
+          }
+          alert(msg);
+          this.$router.push("/user");
+        });
     },
     updateUser(user) {
       let userList = JSON.parse(localStorage.getItem("userList"));

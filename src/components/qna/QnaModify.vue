@@ -10,6 +10,7 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "QnaModify",
   data() {
@@ -28,21 +29,17 @@ export default {
   },
   methods: {
     updateQna() {
-      if (this.title === "" || this.content === "") {
+      if (this.qna.title === "" || this.qna.content === "") {
         alert("모든 내용을 입력해주세요");
       }
+
       this.$emit("update-qna", this.qna);
     },
   },
   created() {
-    const no = this.$route.params.no;
-    let qnaList = JSON.parse(localStorage.getItem("qnaList"));
-
-    for (let i = 0; i < qnaList.length; i++) {
-      if (qnaList[i].no === no) {
-        this.qna = qnaList[i];
-      }
-    }
+    axios.get("http://localhost:8080/happyhouse/qna/" + this.$route.params.no).then(({ data }) => {
+      this.qna = data;
+    });
   },
 };
 </script>
