@@ -15,7 +15,7 @@
       <b-thead class="table-secondary">
         <b-tr>
           <b-th width="auto">제목</b-th>
-          <b-th style="width: 50%">{{ notice.title }}</b-th>
+          <b-th style="width: 50ch">{{ notice.title }}</b-th>
           <b-th width="auto">날짜</b-th>
           <b-th>{{ notice.regtime }}</b-th>
           <b-th width="auto">작성자</b-th>

@@ -6,7 +6,7 @@
       <b-thead class="table-secondary">
         <b-tr>
           <b-th width="auto">제목</b-th>
-          <b-th style="width: 50wh">{{ qna.title }}</b-th>
+          <b-th style="width: 50ch">{{ qna.title }}</b-th>
           <b-th width="auto">작성시간</b-th>
           <b-th>{{ qna.asktime }}</b-th>
           <b-th width="auto">작성자</b-th>
