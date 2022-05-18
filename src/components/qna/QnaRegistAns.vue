@@ -23,19 +23,12 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "QnARegist",
-  //no 가져오는 방법..
-  //유저 아이디 가져오는 방법..
-  // props: {
-  //   user: {
-  //     id: "",
-  //     password: "",
-  //     name: "",
-  //     email: "",
-  //     tel: "",
-  //   },
-  // },
+  props: {
+    userid: null,
+  },
   data() {
     return {
       qna: {
@@ -57,21 +50,15 @@ export default {
         return;
       }
 
-      this.qna.anstime = "2022-05-19 17:32";
-      this.qna.masterid = "ssafyssafy";
+      this.qna.masterid = this.userid;
 
       this.$emit("create-qna-ans", this.qna);
     },
   },
   created() {
-    const no = this.$route.params.no;
-    let qnaList = JSON.parse(localStorage.getItem("qnaList"));
-
-    for (let i = 0; i < qnaList.length; i++) {
-      if (qnaList[i].no === no) {
-        this.qna = qnaList[i];
-      }
-    }
+    axios.get("http://localhost:8080/happyhouse/qna/" + this.$route.params.no).then(({ data }) => {
+      this.qna = data;
+    });
   },
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header-nav :user="user" @logout="logout"></header-nav>
-    <router-view @login="login"></router-view>
+    <router-view :user="user" @login="login"></router-view>
     <footer-view></footer-view>
   </div>
 </template>
@@ -9,6 +9,7 @@
 <script>
 import HeaderNav from "@/components/common/HeaderNav.vue";
 import FooterView from "@/components/common/FooterView.vue";
+import axios from "axios";
 export default {
   components: {
     HeaderNav,
@@ -25,25 +26,15 @@ export default {
       this.$router.push({ name: "Home" });
     },
     login(user) {
-      let userList = JSON.parse(localStorage.getItem("userList"));
-      let matched = false;
-
-      for (let i = 0; i < userList.length; i++) {
-        if (user.id === userList[i].id && user.password === userList[i].password) {
-          matched = true;
-          break;
+      axios.post("http://localhost:8080/happyhouse/user/login", { id: user.id, password: user.password }).then(({ data }) => {
+        this.user = data;
+        if (this.user) {
+          // localStorage.setItem("loginUser", this.user.id);
+          this.$router.push({ name: "Home" });
+        } else {
+          alert("로그인 실패");
         }
-      }
-      if (matched) {
-        this.user = user;
-        localStorage.setItem("loginUser", JSON.stringify(user));
-        alert("로그인 성공");
-        // 메인 화면으로 이동
-        // this.$router.push("/");
-        this.$router.push({ name: "Home" });
-      } else {
-        alert("로그인 실패");
-      }
+      });
     },
   },
 };

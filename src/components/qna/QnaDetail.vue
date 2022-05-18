@@ -35,6 +35,7 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "QnaDetail",
   data() {
@@ -57,14 +58,9 @@ export default {
     },
   },
   created() {
-    const no = this.$route.params.no;
-    let qnaList = JSON.parse(localStorage.getItem("qnaList"));
-
-    for (let i = 0; i < qnaList.length; i++) {
-      if (qnaList[i].no === no) {
-        this.qna = qnaList[i];
-      }
-    }
+    axios.get("http://localhost:8080/happyhouse/qna/" + this.$route.params.no).then(({ data }) => {
+      this.qna = data;
+    });
   },
 };
 </script>
