@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h2>QnA 목록</h2>
-    <b-button v-if="this.userid" variant="outline-success" to="/qna/regist">문의하기</b-button>
+    <b-button v-if="this.userid" variant="warning" to="/qna/regist">문의하기</b-button>
     <h4>등록된 QnA 수 : {{ qnaCnt }}</h4>
     <div v-if="qnas.length">
       <table class="qna-list">
