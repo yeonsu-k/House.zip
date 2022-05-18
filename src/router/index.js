@@ -2,9 +2,11 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import HouseView from "../views/HouseView.vue";
-import LoginForm from "@/components/LoginForm.vue";
 import IntroView from "@/components/IntroView.vue";
 import UserView from "@/views/UserView.vue";
+import UserRegist from "@/components/user/UserRegist.vue";
+import UserDetail from "@/components/user/UserDetail.vue";
+import LoginForm from "@/components/LoginForm.vue";
 
 Vue.use(VueRouter);
 
@@ -31,6 +33,19 @@ const routes = [
     path: "/user",
     name: "User",
     component: UserView,
+    // redirect: "/user/login",
+    children: [
+      {
+        path: "regist",
+        name: "UserRegist",
+        component: UserRegist,
+      },
+      {
+        path: "detail/:id",
+        name: "UserDetail",
+        component: UserDetail,
+      },
+    ],
   },
   {
     //거래 조회

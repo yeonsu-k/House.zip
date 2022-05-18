@@ -42,7 +42,7 @@
     </div>
     <div role="group" class="mt-2">
       <label for="input-tel">전화번호</label>
-      <b-form-input id="input-tel" type="number" v-model="tel" placeholder="Enter your tel" trim></b-form-input>
+      <b-form-input id="input-tel" v-model="tel" placeholder="Enter your tel" trim></b-form-input>
     </div>
     <div class="mt-2">
       <b-button variant="outline-success" @click="regist">등록</b-button>
@@ -51,7 +51,7 @@
 </template>
 <script>
 export default {
-  name: "UserList",
+  name: "UserRegist",
   data() {
     return {
       id: "",

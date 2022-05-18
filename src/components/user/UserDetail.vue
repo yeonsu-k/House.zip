@@ -14,7 +14,7 @@
       <b-form-input id="input-email" type="email" v-model="user.email" placeholder="Enter email"></b-form-input>
     </b-form-group>
     <b-form-group label="전화번호" label-for="input-tel">
-      <b-form-input id="input-tel" type="number" v-model="user.tel" placeholder="Enter tel"></b-form-input>
+      <b-form-input id="input-tel" v-model="user.tel" placeholder="Enter tel"></b-form-input>
     </b-form-group>
     <b-button variant="outline-success" class="btn" @click="updateUser">수정</b-button>
     <b-button variant="outline-success" class="btn" @click="deleteUser">삭제</b-button>
