@@ -22,6 +22,7 @@ export default {
   methods: {
     logout() {
       this.user = null;
+      this.$router.push({ name: "Home" });
     },
     login(user) {
       let userList = JSON.parse(localStorage.getItem("userList"));
