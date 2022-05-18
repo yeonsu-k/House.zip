@@ -62,10 +62,61 @@ export default {
   methods: {
     initMap() {
       var container = document.getElementById("map");
-      var options = { center: new kakao.maps.LatLng(33.450701, 126.570667), level: 3 };
+      var options = { center: new kakao.maps.LatLng(37.5742806, 126.970598), level: 4 };
       var map = new kakao.maps.Map(container, options); //마커추가하려면 객체를 아래와 같이 하나 만든다.
-      var marker = new kakao.maps.Marker({ position: map.getCenter() });
-      marker.setMap(map);
+      // house 데이터 받아야함 ******************
+      /*
+      var positions = [
+        <c:forEach items="${houses}" var="house">
+          title: '${house.aptName}', latlng: new kakao.maps.LatLng(${house.lat},${house.lng})
+        </c:forEach>,
+      ];
+      var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+
+      var bounds = new kakao.maps.LatLngBounds();
+      for (var i = 0; i < positions.length; i++) {
+        var imageSize = new kakao.maps.Size(24, 35); // 마커 이미지의 이미지 크기
+        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); // 마커 이미지를 생성
+        // 마커를 생성
+        var marker = new kakao.maps.Marker({
+          map: map, // 마커를 표시할 지도
+          position: positions[i].latlng, // 마커를 표시할 위치
+          title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+          image: markerImage, // 마커 이미지
+        });
+
+        // 마커에 표시할 인포윈도우를 생성
+        var infowindow = new kakao.maps.InfoWindow({
+          content: positions[i].title, // 인포윈도우에 표시할 내용
+        });
+        bounds.extend(positions[i].latlng);
+
+        // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
+        // 이벤트 리스너로는 클로저를 만들어 등록합니다
+        // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+        kakao.maps.event.addListener(marker, "mouseover", makeOverListener(map, marker, infowindow));
+        kakao.maps.event.addListener(marker, "mouseout", makeOutListener(infowindow));
+      }
+
+      //LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
+      // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
+      <c:if test="${!empty houses}">map.setBounds(bounds);</c:if>;
+
+      // 인포윈도우를 표시하는 클로저를 만드는 함수입니다
+      function makeOverListener(map, marker, infowindow) {
+        return function () {
+          infowindow.open(map, marker);
+        };
+      }
+
+      // 인포윈도우를 닫는 클로저를 만드는 함수입니다
+      function makeOutListener(infowindow) {
+        return function () {
+          infowindow.close();
+        };
+      }
+    },
+    */
     },
     addScript() {
       const script = document.createElement("script");
@@ -77,8 +128,6 @@ export default {
 };
 </script>
 
-<style scoped>
-#map {
-  @include css-size(300px, 300px);
-}
+<style>
+@import "@/assets/stylesheets/index.css";
 </style>
