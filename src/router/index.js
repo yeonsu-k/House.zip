@@ -117,6 +117,31 @@ const routes = [
         name: "QnaList",
         component: () => import("@/components/qna/QnaList.vue"),
       },
+      {
+        path: "regist",
+        name: "QnaRegist",
+        component: () => import("@/components/qna/QnaRegist.vue"),
+      },
+      {
+        path: "detail/:no",
+        name: "QnaDetail",
+        component: () => import("@/components/qna/QnaDetail.vue"),
+      },
+      {
+        path: "modify/:no",
+        name: "QnaModify",
+        component: () => import("@/components/qna/QnaModify.vue"),
+      },
+      {
+        path: "ans/regist/:no",
+        name: "QnaRegistAns",
+        component: () => import("@/components/qna/QnaRegistAns.vue"),
+      },
+      {
+        path: "ans/modify/:no",
+        name: "QnaModifyAns",
+        component: () => import("@/components/qna/QnaModifyAns.vue"),
+      },
     ],
   },
 ];

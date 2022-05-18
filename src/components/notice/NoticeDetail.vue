@@ -14,7 +14,7 @@
       <b-form-input id="input-content" v-model="notice.content" placeholder="Enter content" readonly></b-form-input>
     </b-form-group>
     <b-button variant="outline-success" class="btn" :to="{ name: 'NoticeModify', params: { no: notice.no } }">수정</b-button>
-    <b-button variant="outline-success" class="btn" @click="deleteUser">삭제</b-button>
+    <b-button variant="outline-success" class="btn" @click="deleteNotice">삭제</b-button>
   </div>
 </template>
 <script>
@@ -32,7 +32,7 @@ export default {
     };
   },
   methods: {
-    deleteUser() {
+    deleteNotice() {
       this.$emit("delete-notice", this.notice);
     },
   },

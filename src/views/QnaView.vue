@@ -46,7 +46,7 @@ export default {
       let qnaList = JSON.parse(localStorage.getItem("qnaList"));
 
       for (let i = 0; i < qnaList.length; i++) {
-        if (qnaList[i].id === qna.id) {
+        if (qnaList[i].no === qna.no) {
           this.$set(qnaList, i, qna);
           qnaList[i] = qna;
           alert("수정 완료");
@@ -61,22 +61,21 @@ export default {
       let qnaList = JSON.parse(localStorage.getItem("qnaList"));
 
       for (let i = 0; i < qnaList.length; i++) {
-        if (qnaList[i].id === qna.id) {
+        if (qnaList[i].no === qna.no) {
           qnaList.splice(i, 1);
           alert("삭제 완료");
           break;
         }
       }
-
       localStorage.setItem("qnaList", JSON.stringify(qnaList));
-      this.qnaList();
+      this.getQnaList();
       this.$router.push("/qna");
     },
     createQnaAns(qna) {
       let qnaList = JSON.parse(localStorage.getItem("qnaList"));
 
       for (let i = 0; i < qnaList.length; i++) {
-        if (qnaList[i].id === qna.id) {
+        if (qnaList[i].no === qna.no) {
           this.$set(qnaList, i, qna);
           qnaList[i] = qna;
           alert("답변 등록 완료");
@@ -91,7 +90,7 @@ export default {
       let qnaList = JSON.parse(localStorage.getItem("qnaList"));
 
       for (let i = 0; i < qnaList.length; i++) {
-        if (qnaList[i].id === qna.id) {
+        if (qnaList[i].no === qna.no) {
           this.$set(qnaList, i, qna);
           qnaList[i] = qna;
           alert("답변 수정 완료");
