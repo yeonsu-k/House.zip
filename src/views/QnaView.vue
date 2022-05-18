@@ -8,7 +8,16 @@
         <span style="font-size: 20px"><h6>관리자와 고객 1:1 질의응답</h6></span>
       </div>
     </b-jumbotron>
-    <router-view :userid="this.userid" :qnas="this.qnas" @create-qna="createQna" @update-qna="updateQna" @delete-qna="deleteQna" @create-qna-ans="createQnaAns" @update-qna-ans="updateQnaAns" />
+    <router-view
+      :userid="this.userid"
+      :isManager="this.isManager"
+      :qnas="this.qnas"
+      @create-qna="createQna"
+      @update-qna="updateQna"
+      @delete-qna="deleteQna"
+      @create-qna-ans="createQnaAns"
+      @update-qna-ans="updateQnaAns"
+    />
     <!-- <router-view @create-qna="createQna" @update-qna="updateQna" @delete-qna="deleteQna" @create-qna-ans="createQnaAns" @update-qna-ans="updateQnaAns" /> -->
   </div>
 </template>
@@ -23,6 +32,7 @@ export default {
   data() {
     return {
       userid: "",
+      isManager: "",
       qnas: [],
     };
   },
@@ -121,8 +131,13 @@ export default {
   },
   created() {
     this.getQnaList();
-    if (this.user) this.userid = this.user.id;
-    else this.userid = null;
+    if (this.user) {
+      this.userid = this.user.id;
+      this.isManager = this.user.manager;
+    } else {
+      this.userid = null;
+      this.isManager = null;
+    }
   },
 };
 </script>
