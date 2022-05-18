@@ -1,66 +1,52 @@
 <template>
-  <div>
-    <section class="page-section bg-light" id="전체">
-      <div class="container">
-        <div class="list-control float-base" style="float: right">
-          <c:if test="${!empty ism && ism}">
-            <a class="btn btn-warning" style="width: 90%" href="${root}/qna/write">문의하기</a>
-          </c:if>
-        </div>
-        <div class="text-center">
-          <table class="mt-2 table table-bordered">
-            <thead class="table-secondary">
-              <tr>
-                <th class="col-md-2">id</th>
-                <th class="col-md-8">질문</th>
-                <th class="col-md-2">날짜</th>
-              </tr>
-            </thead>
-            <c:if test="${!empty notices}">
-              <c:forEach var="notice" items="${notices}">
-                <tr>
-                  <td>${notice.userId}</td>
-                  <td><a href="${root}/notice/detail?no=${notice.no}" style="text-decoration: none">${notice.title}</a></td>
-                  <td>${notice.regtime.substring(0,10)}</td>
-                </tr>
-              </c:forEach>
-            </c:if>
-          </table>
-        </div>
-      </div>
-    </section>
+  <div class="container">
+    <h2>QnA 목록</h2>
+    <b-button variant="outline-success" to="/qna/regist">문의하기</b-button>
+    <h4>등록된 QnA 수 : {{ qnaCnt }}</h4>
+    <div v-if="qnas.length">
+      <table class="qna-list">
+        <colgroup>
+          <col style="width: 10%" />
+          <col style="width: 35%" />
+          <col style="width: 30%" />
+          <col style="width: 25%" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>날짜</th>
+            <th>아이디</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(qna, index) in qnas" :key="index">
+            <td>{{ qna.no }}</td>
+            <td>
+              <router-link class="qna-link" :to="{ name: 'QnaDetail', params: { no: qna.no } }">{{ qna.title }}</router-link>
+            </td>
+            <td>{{ qna.asktime }}</td>
+            <td>{{ qna.userid }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div v-else>등록된 QnA가 없습니다.</div>
   </div>
 </template>
-
 <script>
 export default {
-  data() {
-    return {
-      // Note 'isActive' is left out and will not appear in the rendered table
-      fields: [
-        {
-          key: "last_name",
-          sortable: true,
-        },
-        {
-          key: "first_name",
-          sortable: false,
-        },
-        {
-          key: "age",
-          label: "Person age",
-          sortable: true,
-          // Variant applies to the whole column, including the header and footer
-          variant: "danger",
-        },
-      ],
-      items: [
-        { isActive: true, age: 40, first_name: "Dickerson", last_name: "Macdonald" },
-        { isActive: false, age: 21, first_name: "Larsen", last_name: "Shaw" },
-        { isActive: false, age: 89, first_name: "Geneva", last_name: "Wilson" },
-        { isActive: true, age: 38, first_name: "Jami", last_name: "Carney" },
-      ],
-    };
+  name: "QnaList",
+  props: {
+    qnas: {
+      type: Array,
+    },
+  },
+  methods: {},
+  computed: {
+    qnaCnt() {
+      return this.qnas.length;
+    },
   },
 };
 </script>
