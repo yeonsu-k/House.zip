@@ -20,12 +20,11 @@
       </b-tbody>
     </b-table-simple>
     <hr style="border-top: 2px dashed #bbb" />
-    <span style="font-size: 35px" class="mb-3">QnA 답변 수정</span>
-    <hr />
-    <b-form-group label="답변내용" label-for="input-anscontent">
-      <b-form-input id="input-anscontent" v-model="qna.anscontent" placeholder="Enter content"></b-form-input>
+    <span style="font-size: 35px">QnA 답변 수정</span>
+    <b-form-group class="mt-3" label-for="input-anscontent">
+      <b-form-textarea id="input-anscontent" v-model="qna.anscontent" placeholder="Enter content" rows="6"></b-form-textarea>
     </b-form-group>
-    <b-button variant="outline-success" @click="updateAns">저장</b-button>
+    <b-button style="width: 99%" variant="outline-success" @click="updateAns">저장</b-button>
   </b-container>
 </template>
 <script>
