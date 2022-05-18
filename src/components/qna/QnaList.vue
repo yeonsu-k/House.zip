@@ -1,7 +1,9 @@
 <template>
   <div class="container">
     <span style="font-size: 35px">QnA 목록</span>
-    <b-button v-if="this.userid" variant="outline-warning" style="float: right; width: auto" to="/qna/regist">문의하기</b-button>
+    <div>{{ this.isManager }}</div>
+    <div>{{ this.userid }}</div>
+    <b-button v-if="this.userid && !this.isManager" variant="outline-warning" style="float: right; width: auto" to="/qna/regist">문의하기</b-button>
     <hr />
     <div class="text-right">
       <small class="mb-3 text-right">* 전체 QnA 수 : {{ qnaCnt }} </small>
@@ -40,6 +42,7 @@ export default {
   name: "QnaList",
   props: {
     userid: null,
+    isManager: null,
   },
   data() {
     return {
