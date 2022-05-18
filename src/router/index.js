@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import HouseView from "../views/HouseView.vue";
 import LoginForm from "@/components/LoginForm.vue";
+import IntroView from "@/components/IntroView.vue";
 
 Vue.use(VueRouter);
 
@@ -13,25 +14,37 @@ const routes = [
     component: HomeView,
   },
   {
+    // Intro 화면
+    path: "/intro",
+    name: "Intro",
+    component: IntroView,
+  },
+  {
     // 로그인 화면
     path: "/login",
     name: "Login",
     component: LoginForm,
   },
   {
-    path: "/movie",
-    name: "Movie",
+    //거래 조회
+    path: "/house",
+    name: "house",
     component: HouseView,
-    redirect: "/movie/list",
+    redirect: "/house/all",
     children: [
       {
-        path: "list",
-        name: "MovieList",
-        //component: () => import("@/components/house/MovieList.vue"),
+        path: "all",
+        name: "HouseAll",
+        component: () => import("@/components/house/HouseAll.vue"),
       },
       {
-        path: "create",
-        name: "MovieCreate",
+        path: "apt",
+        name: "HouseApt",
+        //component: () => import("@/components/house/MovieCreate.vue"),
+      },
+      {
+        path: "dong",
+        name: "HouseDong",
         //component: () => import("@/components/house/MovieCreate.vue"),
       },
       {
