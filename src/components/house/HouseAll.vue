@@ -128,6 +128,4 @@ export default {
 };
 </script>
 
-<style>
-@import "@/assets/stylesheets/index.css";
-</style>
+<style></style>
