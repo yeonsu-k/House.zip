@@ -25,7 +25,6 @@ export default {
         id: this.id,
         password: this.password,
       };
-
       this.$emit("login", user);
     },
   },

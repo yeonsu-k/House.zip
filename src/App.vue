@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <header-nav></header-nav>
-    <router-view></router-view>
+    <header-nav :user="user" @logout="logout"></header-nav>
+    <router-view @login="login"></router-view>
     <footer-view></footer-view>
   </div>
 </template>
@@ -20,9 +20,11 @@ export default {
     };
   },
   methods: {
+    logout() {
+      this.user = null;
+    },
     login(user) {
       let userList = JSON.parse(localStorage.getItem("userList"));
-
       let matched = false;
 
       for (let i = 0; i < userList.length; i++) {
