@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import HouseView from "../views/HouseView.vue";
+import LoginForm from "@/components/LoginForm.vue";
 
 Vue.use(VueRouter);
 
@@ -10,6 +11,12 @@ const routes = [
     path: "/",
     name: "Home",
     component: HomeView,
+  },
+  {
+    // 로그인 화면
+    path: "/login",
+    name: "Login",
+    component: LoginForm,
   },
   {
     path: "/movie",
