@@ -3,10 +3,8 @@
     <b-jumbotron>
       <div>
         <h1 class="font-weight-bold display-4">Happy House</h1>
-        <div class="site-heading">
-          <hr class="my-4" />
-          <span style="font-size: 25px">welcome to house</span>
-        </div>
+        <hr />
+        <span style="font-size: 25px">welcome to house</span>
       </div>
     </b-jumbotron>
     <!-- Main Content-->
@@ -25,12 +23,13 @@ export default {};
 <style>
 .jumbotron {
   background-image: url("@/assets/home-bg.jpg");
-  background-size: cover;
+  background-size: fill;
   height: 40vh;
   text-align: center;
 }
 .jumbotron > div {
   width: 80%;
+  height: 40vh;
   display: inline-block;
 }
 </style>

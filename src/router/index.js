@@ -20,24 +20,24 @@ const routes = [
       {
         path: "list",
         name: "MovieList",
-        component: () => import(/* webpackChunkName: "about" */ "@/components/house/MovieList.vue"),
+        //component: () => import("@/components/house/MovieList.vue"),
       },
       {
         path: "create",
         name: "MovieCreate",
-        component: () => import(/* webpackChunkName: "about" */ "@/components/house/MovieCreate.vue"),
+        //component: () => import("@/components/house/MovieCreate.vue"),
       },
       {
         path: "detail/:code",
         name: "MovieDetail",
-        component: () => import(/* webpackChunkName: "about" */ "@/components/house/MovieDetail.vue"),
+        //component: () => import("@/components/house/MovieDetail.vue"),
       },
     ],
   },
   {
     path: "/about",
     name: "About",
-    component: () => import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+    component: () => import("../views/AboutView.vue"),
   },
 ];
 
