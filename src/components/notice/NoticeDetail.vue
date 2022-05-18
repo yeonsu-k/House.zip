@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h2>상세보기</h2>
+    <span style="font-size: 35px">상세보기</span>
     <hr />
     <!-- <b-container class="bv-example-row mb-3">
       <b-row align-v class="border" cols="2">

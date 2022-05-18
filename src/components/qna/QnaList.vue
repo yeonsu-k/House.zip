@@ -1,35 +1,32 @@
 <template>
   <div class="container">
-    <h2>QnA 목록</h2>
-    <b-button v-if="this.userid" variant="warning" to="/qna/regist">문의하기</b-button>
-    <h4>등록된 QnA 수 : {{ qnaCnt }}</h4>
+    <span style="font-size: 35px">QnA 목록</span>
+    <b-button v-if="this.userid" variant="outline-warning" style="float: right; width: auto" to="/qna/regist">문의하기</b-button>
+    <hr />
+    <div class="text-right">
+      <small class="mb-3 text-right">* 전체 QnA 수 : {{ qnaCnt }} </small>
+    </div>
     <div v-if="qnas.length">
-      <table class="qna-list">
-        <colgroup>
-          <col style="width: 10%" />
-          <col style="width: 35%" />
-          <col style="width: 30%" />
-          <col style="width: 25%" />
-        </colgroup>
-        <thead>
-          <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>날짜</th>
-            <th>아이디</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(qna, index) in qnas" :key="index">
-            <td>{{ qna.no }}</td>
-            <td>
+      <b-table-simple class="qna-list">
+        <b-thead>
+          <b-tr>
+            <b-th>번호</b-th>
+            <b-th>제목</b-th>
+            <b-th>날짜</b-th>
+            <b-th>아이디</b-th>
+          </b-tr>
+        </b-thead>
+        <b-tbody>
+          <b-tr v-for="(qna, index) in qnas" :key="index">
+            <b-td>{{ qna.no }}</b-td>
+            <b-td>
               <router-link class="qna-link" :to="{ name: 'QnaDetail', params: { no: qna.no } }">{{ qna.title }}</router-link>
-            </td>
-            <td>{{ qna.asktime }}</td>
-            <td>{{ qna.userid }}</td>
-          </tr>
-        </tbody>
-      </table>
+            </b-td>
+            <b-td>{{ qna.asktime }}</b-td>
+            <b-td>{{ qna.userid }}</b-td>
+          </b-tr>
+        </b-tbody>
+      </b-table-simple>
     </div>
     <div v-else>등록된 QnA가 없습니다.</div>
   </div>
