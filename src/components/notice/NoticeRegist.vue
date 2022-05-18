@@ -11,7 +11,7 @@
       <b-form-textarea id="input-content" v-model="content" placeholder="Enter content" rows="8"></b-form-textarea>
     </div>
     <div style="text-align: center">
-      <b-button variant="outline-success" @click="regist">등록</b-button>
+      <b-button style="width: 99%" variant="outline-success" @click="regist">등록</b-button>
     </div>
   </div>
 </template>

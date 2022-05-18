@@ -129,4 +129,28 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.jumbotron {
+  height: 40vh;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+.jumbotron::after {
+  width: 100%;
+  height: 100%;
+  content: "";
+  background: url("@/assets/home-bg.jpg");
+  background-position: center;
+  background-size: fill;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  opacity: 0.65;
+}
+.jumbotron > div {
+  width: 70%;
+  display: inline-block;
+}
+</style>

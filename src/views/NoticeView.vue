@@ -79,15 +79,22 @@ export default {
 
 <style scoped>
 .jumbotron {
-  background-image: url("@/assets/notice.jpg");
-  background-position: center;
-  background-size: fill;
   height: 40vh;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
-.jumbotron > div {
-  width: 70%;
-  height: 40vh;
-  display: inline-block;
+.jumbotron::after {
+  width: 100%;
+  height: 100%;
+  content: "";
+  background: url("@/assets/notice.jpg");
+  background-position: center;
+  background-size: fill;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  opacity: 0.8;
 }
 </style>

@@ -3,34 +3,30 @@
     <span style="font-size: 35px">공시사항 목록</span>
     <b-button variant="outline-success" style="float: right; width: auto" to="/notice/regist">글쓰기</b-button>
     <hr />
-    <h4 class="mt-3">등록된 공지사항 수 : {{ noticeCnt }}</h4>
+    <div class="text-right">
+      <small class="mb-3 text-right">* 전체 공지사항 수 : {{ noticeCnt }} </small>
+    </div>
     <div v-if="notices.length">
-      <table class="notice-list">
-        <colgroup>
-          <col style="width: 10%" />
-          <col style="width: 35%" />
-          <col style="width: 30%" />
-          <col style="width: 25%" />
-        </colgroup>
-        <thead>
-          <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>시간</th>
-            <th>아이디</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(notice, index) in notices" :key="index">
-            <td>{{ notice.no }}</td>
-            <td>
+      <b-table-simple hover striped responsive class="text-center">
+        <b-thead>
+          <b-tr>
+            <b-th>번호</b-th>
+            <b-th>제목</b-th>
+            <b-th>시간</b-th>
+            <b-th>아이디</b-th>
+          </b-tr>
+        </b-thead>
+        <b-tbody>
+          <b-tr v-for="(notice, index) in notices" :key="index">
+            <b-td>{{ notice.no }}</b-td>
+            <b-td>
               <router-link class="notice-link" :to="{ name: 'NoticeDetail', params: { no: notice.no } }">{{ notice.title }}</router-link>
-            </td>
-            <td>{{ notice.regtime }}</td>
-            <td>{{ notice.id }}</td>
-          </tr>
-        </tbody>
-      </table>
+            </b-td>
+            <b-td>{{ notice.regtime }}</b-td>
+            <b-td>{{ notice.id }}</b-td>
+          </b-tr>
+        </b-tbody>
+      </b-table-simple>
     </div>
     <div v-else>등록된 공지사항이 없습니다.</div>
   </div>
