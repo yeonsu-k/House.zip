@@ -14,6 +14,35 @@ export default {
     HeaderNav,
     FooterView,
   },
+  data() {
+    return {
+      user: null,
+    };
+  },
+  methods: {
+    login(user) {
+      let userList = JSON.parse(localStorage.getItem("userList"));
+
+      let matched = false;
+
+      for (let i = 0; i < userList.length; i++) {
+        if (user.id === userList[i].id && user.password === userList[i].password) {
+          matched = true;
+          break;
+        }
+      }
+      if (matched) {
+        this.user = user;
+        localStorage.setItem("loginUser", JSON.stringify(user));
+        alert("로그인 성공");
+        // 메인 화면으로 이동
+        // this.$router.push("/");
+        this.$router.push({ name: "Home" });
+      } else {
+        alert("로그인 실패");
+      }
+    },
+  },
 };
 </script>
 <style>
