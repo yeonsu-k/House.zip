@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "Notice",
+  name: "NoticeView",
   data() {
     return {
       notices: [],
@@ -38,7 +38,7 @@ export default {
       let noticeList = JSON.parse(localStorage.getItem("noticeList"));
 
       for (let i = 0; i < noticeList.length; i++) {
-        if (noticeList[i].id === notice.id) {
+        if (noticeList[i].no === notice.no) {
           this.$set(noticeList, i, notice);
           noticeList[i] = notice;
           alert("수정 완료");
@@ -53,7 +53,7 @@ export default {
       let noticeList = JSON.parse(localStorage.getItem("noticeList"));
 
       for (let i = 0; i < noticeList.length; i++) {
-        if (noticeList[i].id === notice.id) {
+        if (noticeList[i].no === notice.no) {
           noticeList.splice(i, 1);
           alert("삭제 완료");
           break;

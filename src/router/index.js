@@ -4,8 +4,7 @@ import HomeView from "../views/HomeView.vue";
 import HouseView from "../views/HouseView.vue";
 import IntroView from "@/components/IntroView.vue";
 import UserView from "@/views/UserView.vue";
-import UserRegist from "@/components/user/UserRegist.vue";
-import UserDetail from "@/components/user/UserDetail.vue";
+import NoticeView from "@/views/NoticeView.vue";
 import LoginForm from "@/components/LoginForm.vue";
 
 Vue.use(VueRouter);
@@ -38,12 +37,41 @@ const routes = [
       {
         path: "regist",
         name: "UserRegist",
-        component: UserRegist,
+        component: () => import("@/components/user/UserRegist.vue"),
       },
       {
         path: "detail/:id",
         name: "UserDetail",
-        component: UserDetail,
+        component: () => import("@/components/user/UserDetail.vue"),
+      },
+    ],
+  },
+  {
+    // 공지사항 화면
+    path: "/notice",
+    name: "Notice",
+    component: NoticeView,
+    redirect: "/notice/list",
+    children: [
+      {
+        path: "list",
+        name: "NoticeList",
+        component: () => import("@/components/notice/NoticeList.vue"),
+      },
+      {
+        path: "regist",
+        name: "NoticeRegist",
+        component: () => import("@/components/notice/NoticeRegist.vue"),
+      },
+      {
+        path: "detail/:no",
+        name: "NoticeDetail",
+        component: () => import("@/components/notice/NoticeDetail.vue"),
+      },
+      {
+        path: "modify/:no",
+        name: "NoticeModify",
+        component: () => import("@/components/notice/NoticeModify.vue"),
       },
     ],
   },
