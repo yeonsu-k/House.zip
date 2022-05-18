@@ -14,8 +14,8 @@
           <form action="${root}/house/all" id="searchForm" method="post">
             <input type="hidden" name="currentPage" id="currentPage" />
             <div class="mb-3 row">
-              <select class="col me-1 text-light s bg-secondary" id="sido" name="sido">
-                <option value=""></option>
+              <select class="col me-1 mr-4 text-light form-control-lg bg-secondary" id="sido" name="sido">
+                <option value="">시도선택</option>
               </select>
               <select class="col me-1 text-light form-control-lg bg-secondary" id="gugun" name="gugun">
                 <option value="">구군선택</option>
@@ -34,20 +34,20 @@
                 <th>법정동</th>
                 <th>전용면적</th>
                 <th>거래금액</th>
-                <house-list-row var="house" items="${houses}">
+                <c:forEach var="house" items="${houses}">
                   <tr>
                     <td><a href="${root}/house/view?no=${house.no}">${house.aptName}</a></td>
                     <td>${house.dongName}</td>
                     <td>${house.area}</td>
                     <td>${house.dealAmount}</td>
                   </tr>
-                </house-list-row>
+                </c:forEach>
               </tr>
 
               <tbody id="aptinfo"></tbody>
             </table>
           </div>
-          <pagig></pagig>
+          <!-- <%@ include file="/WEB-INF/views/include/paging.jsp" %><br /> -->
         </div>
       </div>
     </div>
@@ -55,19 +55,30 @@
 </template>
 
 <script>
-export default {};
+export default {
+  mounted() {
+    window.kakao && window.kakao.maps ? this.initMap() : this.addScript();
+  },
+  methods: {
+    initMap() {
+      var container = document.getElementById("map");
+      var options = { center: new kakao.maps.LatLng(33.450701, 126.570667), level: 3 };
+      var map = new kakao.maps.Map(container, options); //마커추가하려면 객체를 아래와 같이 하나 만든다.
+      var marker = new kakao.maps.Marker({ position: map.getCenter() });
+      marker.setMap(map);
+    },
+    addScript() {
+      const script = document.createElement("script");
+      /* global kakao */ script.onload = () => kakao.maps.load(this.initMap);
+      script.src = "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=7f40405e29341c1fa46226d9889e981a";
+      document.head.appendChild(script);
+    },
+  },
+};
 </script>
 
-<style>
-.jumbotron {
-  background-image: url("@/assets/home-bg.jpg");
-  background-size: fill;
-  height: 40vh;
-  text-align: center;
-}
-.jumbotron > div {
-  width: 80%;
-  height: 40vh;
-  display: inline-block;
+<style scoped>
+#map {
+  @include css-size(300px, 300px);
 }
 </style>

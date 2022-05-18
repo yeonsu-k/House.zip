@@ -4,6 +4,7 @@ import HomeView from "../views/HomeView.vue";
 import HouseView from "../views/HouseView.vue";
 import LoginForm from "@/components/LoginForm.vue";
 import IntroView from "@/components/IntroView.vue";
+import UserView from "@/views/UserView.vue";
 
 Vue.use(VueRouter);
 
@@ -24,6 +25,12 @@ const routes = [
     path: "/login",
     name: "Login",
     component: LoginForm,
+  },
+  {
+    // 사용자 화면
+    path: "/user",
+    name: "User",
+    component: UserView,
   },
   {
     //거래 조회
