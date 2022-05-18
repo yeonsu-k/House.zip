@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-view :users="users" @create-user="createUser" @update-user="updateUser" @delete-user="deleteUser" />
+    <router-view @create-user="createUser" @update-user="updateUser" @delete-user="deleteUser" />
   </div>
 </template>
 
@@ -8,34 +8,40 @@
 import axios from "axios";
 export default {
   name: "UserView",
-  data() {
-    return {
-      users: [],
-    };
-  },
+  // data() {
+  //   return {
+  //     users: [],
+  //   };
+  // },
   methods: {
-    getUserList() {
-      let userList = JSON.parse(localStorage.getItem("userList"));
-      if (userList) {
-        this.users = userList;
-      }
-    },
+    // getUserList() {
+    //   let userList = JSON.parse(localStorage.getItem("userList"));
+    //   if (userList) {
+    //     this.users = userList;
+    //   }
+    // },
     createUser(user) {
       axios
         .post("http://localhost:8080/happyhouse/user/", {
-          userid: user.id,
+          id: user.id,
           password: user.password,
-          name: user.password,
+          name: user.name,
           email: user.email,
           tel: user.tel,
         })
         .then(({ data }) => {
           let msg = "등록 처리시 문제가 발생했습니다.";
-          if (data == "success") {
+          if (data == 1) {
             msg = "등록이 완료되었습니다.";
           }
           alert(msg);
-          this.$router.push("/user");
+          this.$router.push("/");
+        })
+        .catch(({ error }) => {
+          let msg = "등록 처리시 문제가 발생했습니다.";
+
+          alert(msg);
+          this.$router.push("/");
         });
     },
     updateUser(user) {
@@ -49,8 +55,8 @@ export default {
           break;
         }
       }
-      localStorage.setItem("userList", JSON.stringify(userList));
-      this.getUserList();
+      // localStorage.setItem("userList", JSON.stringify(userList));
+      // this.getUserList();
       this.$router.push("/user");
     },
     deleteUser(user) {
@@ -64,14 +70,14 @@ export default {
         }
       }
 
-      localStorage.setItem("userList", JSON.stringify(userList));
-      this.getUserList();
+      // localStorage.setItem("userList", JSON.stringify(userList));
+      // this.getUserList();
       this.$router.push("/user");
     },
   },
-  created() {
-    this.getUserList();
-  },
+  // created() {
+  //   this.getUserList();
+  // },
 };
 </script>
 

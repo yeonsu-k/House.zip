@@ -67,7 +67,6 @@ export default {
         alert("모든 내용을 입력해주세요");
         return;
       }
-
       let user = {
         id: this.id,
         password: this.password,
