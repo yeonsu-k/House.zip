@@ -2,7 +2,7 @@
   <div id="app">
     <header-nav :user="user" @logout="logout"></header-nav>
     <router-view :user="user" @login="login"></router-view>
-    <footer-view></footer-view>
+    <footer-view />
   </div>
 </template>
 

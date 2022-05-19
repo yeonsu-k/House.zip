@@ -1,18 +1,21 @@
 <template>
   <div class="home">
     <!-- Header-->
-    <b-jumbotron>
+
+    <!-- <b-jumbotron>
       <div>
+        <img class="mb-4" src="@/assets/house_rogo.png" />
         <h1 class="font-weight-bold display-4">Happy House</h1>
         <hr />
         <span style="font-size: 25px"><h4>welcome to house</h4></span>
       </div>
-    </b-jumbotron>
-    <!-- Main Content-->
-    <div class="container mb-4">
-      <div class="row gx-4 gx-lg-5 justify-content-center">
-        <div class="col-md-10 col-lg-8 col-xl-7"></div>
-      </div>
+    </b-jumbotron> -->
+
+    <div class="text-center">
+      <img class="mt-5 mb-4" src="@/assets/house_rogo.png" />
+      <h1 class="font-weight-bold display-4 mb-4">Happy House</h1>
+      <hr />
+      <span style="font-size: 25px"><h4>welcome to house</h4></span>
     </div>
   </div>
 </template>
@@ -22,27 +25,24 @@ export default {};
 </script>
 
 <style scoped>
-.jumbotron {
+.home {
   height: 40vh;
+  width: 100%;
   text-align: center;
   position: relative;
   z-index: 1;
 }
-.jumbotron::after {
+.home::after {
   width: 100%;
   height: 100%;
   content: "";
   background: url("@/assets/home-bg.jpg");
   background-position: center;
-  background-size: fill;
+  background-size: cover;
   position: absolute;
   top: 0;
   left: 0;
   z-index: -1;
   opacity: 0.65;
-}
-.jumbotron > div {
-  width: 70%;
-  display: inline-block;
 }
 </style>
