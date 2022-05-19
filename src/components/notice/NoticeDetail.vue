@@ -60,6 +60,11 @@ export default {
     },
   },
   created() {
+    if (!this.loginUser) {
+      alert("로그인이 필요합니다.");
+      this.$router.push("/login");
+      return;
+    }
     axios.get("http://localhost:8080/happyhouse/notice/" + this.$route.params.no).then(({ data }) => {
       this.notice = data;
     });

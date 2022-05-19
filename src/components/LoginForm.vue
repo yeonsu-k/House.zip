@@ -14,11 +14,11 @@
           <h1>Login</h1>
           <hr />
           <div class="form-floating">
-            <b-label for="id">ID</b-label>
+            <label for="id">ID</label>
             <b-input class="form-control mb-3" id="id" v-model="id" type="text" />
           </div>
           <div class="form-floating">
-            <b-label for="password">Password</b-label>
+            <label for="password">Password</label>
             <b-input class="form-control mb-3" id="password" v-model="password" name="userpwd" type="password" />
           </div>
           <!-- Login Button-->

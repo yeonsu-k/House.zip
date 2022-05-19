@@ -8,7 +8,7 @@
         <span style="font-size: 25px"><h4>welcome to house</h4></span>
       </div>
     </b-jumbotron>
-    <router-view @create-user="createUser" @update-user="updateUser" @delete-user="deleteUser" />
+    <router-view :loginUser="this.loginUser" :isManager="this.isManager" @create-user="createUser" @update-user="updateUser" @delete-user="deleteUser" />
   </div>
 </template>
 
@@ -16,18 +16,16 @@
 import axios from "axios";
 export default {
   name: "UserView",
-  // data() {
-  //   return {
-  //     users: [],
-  //   };
-  // },
+  props: {
+    user: null,
+  },
+  data() {
+    return {
+      loginUser: "",
+      isManager: "",
+    };
+  },
   methods: {
-    // getUserList() {
-    //   let userList = JSON.parse(localStorage.getItem("userList"));
-    //   if (userList) {
-    //     this.users = userList;
-    //   }
-    // },
     createUser(user) {
       axios
         .post("http://localhost:8080/happyhouse/user/", {
@@ -53,39 +51,43 @@ export default {
         });
     },
     updateUser(user) {
-      let userList = JSON.parse(localStorage.getItem("userList"));
-
-      for (let i = 0; i < userList.length; i++) {
-        if (userList[i].id === user.id) {
-          this.$set(userList, i, user);
-          userList[i] = user;
-          alert("수정 완료");
-          break;
-        }
-      }
-      // localStorage.setItem("userList", JSON.stringify(userList));
-      // this.getUserList();
-      this.$router.push("/user");
+      axios
+        .put("http://localhost:8080/happyhouse/user/" + user.id, {
+          id: user.id,
+          password: user.password,
+          name: user.name,
+          email: user.email,
+          tel: user.tel,
+        })
+        .then(({ data }) => {
+          let msg = "수정 처리시 문제가 발생했습니다.";
+          if (data == 1) {
+            msg = "수정이 완료되었습니다.";
+          }
+          alert(msg);
+          this.$router.push("/user");
+        });
     },
     deleteUser(user) {
-      let userList = JSON.parse(localStorage.getItem("userList"));
-
-      for (let i = 0; i < userList.length; i++) {
-        if (userList[i].id === user.id) {
-          userList.splice(i, 1);
-          alert("삭제 완료");
-          break;
+      axios.delete("http://localhost:8080/happyhouse/user/" + user.id).then(({ data }) => {
+        let msg = "삭제 처리시 문제가 발생했습니다.";
+        if (data == 1) {
+          msg = "삭제가 완료되었습니다.";
         }
-      }
-
-      // localStorage.setItem("userList", JSON.stringify(userList));
-      // this.getUserList();
-      this.$router.push("/user");
+        alert(msg);
+        this.$emit("logout");
+      });
     },
   },
-  // created() {
-  //   this.getUserList();
-  // },
+  created() {
+    if (this.user) {
+      this.loginUser = this.user.id;
+      this.isManager = this.user.manager;
+    } else {
+      this.loginUser = null;
+      this.isManager = null;
+    }
+  },
 };
 </script>
 

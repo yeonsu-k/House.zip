@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <header-nav :user="user" @logout="logout"></header-nav>
-    <router-view :user="user" @login="login"></router-view>
-    <footer-view />
+    <router-view :user="user" @logout="logout" @login="login"></router-view>
+    <footer-view></footer-view>
   </div>
 </template>
 

@@ -17,12 +17,17 @@
       <b-form-input id="input-tel" v-model="user.tel" placeholder="Enter tel"></b-form-input>
     </b-form-group>
     <b-button variant="outline-success" class="btn" @click="updateUser">수정</b-button>
-    <b-button variant="outline-success" class="btn" @click="deleteUser">삭제</b-button>
+    <b-button v-if="!isManager" variant="outline-success" class="btn" @click="deleteUser">삭제</b-button>
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "UserDetail",
+  props: {
+    loginUser: null,
+    isManager: null,
+  },
   data() {
     return {
       user: {
@@ -43,17 +48,9 @@ export default {
     },
   },
   created() {
-    // const pathName = new URL(document.location).pathname.split("/");
-    // const id = pathName[pathName.length - 1];
-    const id = this.$route.params.id;
-    // localStorage에서 carList 저장된 자동차 목록을 얻어온 후 JSON객체로 parsing한다.
-    let userList = JSON.parse(localStorage.getItem("userList"));
-
-    for (let i = 0; i < userList.length; i++) {
-      if (userList[i].id === id) {
-        this.user = userList[i];
-      }
-    }
+    axios.get("http://localhost:8080/happyhouse/user/" + this.loginUser).then(({ data }) => {
+      this.user = data;
+    });
   },
 };
 </script>
