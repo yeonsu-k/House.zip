@@ -37,7 +37,7 @@
           </b-tr>
         </b-tbody>
       </b-table-simple>
-      <b-button variant="outline-warning" style="width: 99%" class="btn" :to="{ name: 'QnaModifyAns', params: { no: qna.no } }">답변수정</b-button>
+      <b-button v-if="this.isManager" variant="outline-warning" style="width: 99%" class="btn" :to="{ name: 'QnaModifyAns', params: { no: qna.no } }">답변수정</b-button>
     </div>
     <div v-else>
       <b-button v-if="this.loginUser == qna.userid" style="width: 99%" variant="outline-success" class="btn" :to="{ name: 'QnaModify', params: { no: qna.no } }">질문수정</b-button>
