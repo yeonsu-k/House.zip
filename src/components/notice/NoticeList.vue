@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <span style="font-size: 35px">공시사항 목록</span>
-    <b-button variant="outline-success" style="float: right; width: auto" to="/notice/regist">글쓰기</b-button>
+    <b-button v-if="isManager" variant="outline-success" style="float: right; width: auto" to="/notice/regist">글쓰기</b-button>
     <hr />
     <div class="text-right">
       <small class="mb-3 text-right">* 전체 공지사항 수 : {{ noticeCnt }} </small>
@@ -18,12 +18,12 @@
         </b-thead>
         <b-tbody>
           <b-tr v-for="(notice, index) in notices" :key="index">
-            <b-td>{{ notice.no }}</b-td>
+            <b-td>{{ index + 1 }}</b-td>
             <b-td>
               <router-link class="notice-link" :to="{ name: 'NoticeDetail', params: { no: notice.no } }">{{ notice.title }}</router-link>
             </b-td>
             <b-td>{{ notice.regtime }}</b-td>
-            <b-td>{{ notice.id }}</b-td>
+            <b-td>{{ notice.userid }}</b-td>
           </b-tr>
         </b-tbody>
       </b-table-simple>
@@ -38,6 +38,8 @@ export default {
     notices: {
       type: Array,
     },
+    loginUser: null,
+    isManager: null,
   },
   methods: {},
   computed: {

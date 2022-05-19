@@ -19,7 +19,7 @@
           <b-th width="auto">날짜</b-th>
           <b-th>{{ notice.regtime }}</b-th>
           <b-th width="auto">작성자</b-th>
-          <b-th>{{ notice.id }}</b-th>
+          <b-th>{{ notice.userid }}</b-th>
         </b-tr>
       </b-thead>
       <b-tbody>
@@ -29,15 +29,20 @@
         </b-tr>
       </b-tbody>
     </b-table-simple>
-    <div class="text-center">
+    <div v-if="isManager && loginUser === notice.userid" class="text-center">
       <b-button variant="outline-success" class="btn" style="width: 48%" :to="{ name: 'NoticeModify', params: { no: notice.no } }">수정</b-button>
       <b-button variant="outline-success" class="btn" style="width: 48%" @click="deleteNotice">삭제</b-button>
     </div>
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "NoticeDetail",
+  props: {
+    loginUser: null,
+    isManager: null,
+  },
   data() {
     return {
       notice: {
@@ -45,7 +50,7 @@ export default {
         title: "",
         content: "",
         regtime: "",
-        id: "",
+        userid: "",
       },
     };
   },
@@ -55,14 +60,9 @@ export default {
     },
   },
   created() {
-    const no = this.$route.params.no;
-    let noticeList = JSON.parse(localStorage.getItem("noticeList"));
-
-    for (let i = 0; i < noticeList.length; i++) {
-      if (noticeList[i].no === no) {
-        this.notice = noticeList[i];
-      }
-    }
+    axios.get("http://localhost:8080/happyhouse/notice/" + this.$route.params.no).then(({ data }) => {
+      this.notice = data;
+    });
   },
 };
 </script>

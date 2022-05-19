@@ -12,6 +12,7 @@
   </b-container>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "NoticeModify",
   data() {
@@ -21,7 +22,7 @@ export default {
         title: "",
         content: "",
         regtime: "",
-        id: "",
+        userid: "",
       },
     };
   },
@@ -34,14 +35,9 @@ export default {
     },
   },
   created() {
-    const no = this.$route.params.no;
-    let noticeList = JSON.parse(localStorage.getItem("noticeList"));
-
-    for (let i = 0; i < noticeList.length; i++) {
-      if (noticeList[i].no === no) {
-        this.notice = noticeList[i];
-      }
-    }
+    axios.get("http://localhost:8080/happyhouse/notice/" + this.$route.params.no).then(({ data }) => {
+      this.notice = data;
+    });
   },
 };
 </script>

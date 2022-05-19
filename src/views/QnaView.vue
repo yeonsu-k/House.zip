@@ -41,10 +41,6 @@ export default {
       axios.get("http://localhost:8080/happyhouse/qna/").then(({ data }) => {
         this.qnas = data;
       });
-      // let qnaList = JSON.parse(localStorage.getItem("qnaList"));
-      // if (qnaList) {
-      //   this.qnas = qnaList;
-      // }
     },
     createQna(qna) {
       axios

@@ -6,73 +6,89 @@
         <h1 class="font-weight-bold display-4">공지사항</h1>
       </div>
     </b-jumbotron>
-    <router-view :notices="notices" @create-notice="createNotice" @update-notice="updateNotice" @delete-notice="deleteNotice" />
+    <router-view :notices="notices" :loginUser="loginUser" :isManager="isManager" @create-notice="createNotice" @update-notice="updateNotice" @delete-notice="deleteNotice" />
   </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "NoticeView",
+  props: {
+    user: null,
+  },
   data() {
     return {
+      loginUser: "",
+      isManager: "",
       notices: [],
     };
   },
   methods: {
     getNoticeList() {
-      let noticeList = JSON.parse(localStorage.getItem("noticeList"));
-      if (noticeList) {
-        this.notices = noticeList;
-      }
+      axios.get("http://localhost:8080/happyhouse/notice/").then(({ data }) => {
+        this.notices = data;
+      });
     },
     createNotice(notice) {
-      let noticeList = JSON.parse(localStorage.getItem("noticeList"));
-      if (noticeList) {
-        noticeList.push(notice);
-      } else {
-        noticeList = [];
-        noticeList.push(notice);
-      }
-
-      localStorage.setItem("noticeList", JSON.stringify(noticeList));
-      alert("등록 완료");
-      this.getNoticeList();
-      // 리스트 화면으로 이동
-      this.$router.push("/notice");
+      axios
+        .post("http://localhost:8080/happyhouse/notice/", {
+          no: notice.no,
+          title: notice.title,
+          content: notice.content,
+          regtime: notice.regtime,
+          userid: notice.userid,
+        })
+        .then(({ data }) => {
+          let msg = "등록 처리시 문제가 발생했습니다.";
+          if (data == "success") {
+            msg = "등록이 완료되었습니다.";
+          }
+          alert(msg);
+          this.getNoticeList();
+          // this.$router.push({ name: "NoticeView" });
+          this.$router.push("/notice");
+        });
     },
     updateNotice(notice) {
-      let noticeList = JSON.parse(localStorage.getItem("noticeList"));
-
-      for (let i = 0; i < noticeList.length; i++) {
-        if (noticeList[i].no === notice.no) {
-          this.$set(noticeList, i, notice);
-          noticeList[i] = notice;
-          alert("수정 완료");
-          break;
-        }
-      }
-      localStorage.setItem("noticeList", JSON.stringify(noticeList));
-      this.getNoticeList();
-      this.$router.push("/notice");
+      axios
+        .put("http://localhost:8080/happyhouse/notice/" + notice.no, {
+          title: notice.title,
+          content: notice.content,
+          no: notice.no,
+        })
+        .then(({ data }) => {
+          let msg = "수정 처리시 문제가 발생했습니다.";
+          if (data == "success") {
+            msg = "수정이 완료되었습니다.";
+          }
+          alert(msg);
+          this.getNoticeList();
+          this.$router.push("/notice");
+        });
     },
     deleteNotice(notice) {
-      let noticeList = JSON.parse(localStorage.getItem("noticeList"));
-
-      for (let i = 0; i < noticeList.length; i++) {
-        if (noticeList[i].no === notice.no) {
-          noticeList.splice(i, 1);
-          alert("삭제 완료");
-          break;
+      axios.delete("http://localhost:8080/happyhouse/notice/" + notice.no).then(({ data }) => {
+        let msg = "삭제 처리시 문제가 발생했습니다.";
+        if (data == "success") {
+          msg = "삭제가 완료되었습니다.";
         }
-      }
-
-      localStorage.setItem("noticeList", JSON.stringify(noticeList));
-      this.getNoticeList();
-      this.$router.push("/notice");
+        alert(msg);
+        this.getNoticeList();
+        // this.$router.push({ name: "NoticeView" });
+        this.$router.push("/notice");
+      });
     },
   },
   created() {
     this.getNoticeList();
+    if (this.user) {
+      this.loginUser = this.user.id;
+      this.isManager = this.user.manager;
+    } else {
+      this.loginUser = null;
+      this.isManager = null;
+    }
   },
 };
 </script>

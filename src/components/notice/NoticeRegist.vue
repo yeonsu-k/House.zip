@@ -18,24 +18,13 @@
 <script>
 export default {
   name: "NoticeRegist",
-  //no 가져오는 방법..
-  //유저 아이디 가져오는 방법..
-  // props: {
-  //   user: {
-  //     id: "",
-  //     password: "",
-  //     name: "",
-  //     email: "",
-  //     tel: "",
-  //   },
-  // },
+  props: {
+    loginUser: null,
+  },
   data() {
     return {
-      no: "",
       title: "",
       content: "",
-      regtime: "",
-      id: "",
     };
   },
   methods: {
@@ -46,11 +35,11 @@ export default {
       }
 
       let notice = {
-        no: 2,
+        no: 0,
         title: this.title,
         content: this.content,
-        regtime: "2022-05-18 16:32",
-        id: "ssafy",
+        regtime: "",
+        userid: this.loginUser,
       };
 
       this.$emit("create-notice", notice);
