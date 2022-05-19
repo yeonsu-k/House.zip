@@ -6,7 +6,7 @@
         <h1 class="font-weight-bold display-4">공지사항</h1>
       </div>
     </b-jumbotron>
-    <router-view :notices="notices" :loginUser="loginUser" :isManager="isManager" @create-notice="createNotice" @update-notice="updateNotice" @delete-notice="deleteNotice" />
+    <router-view :loginUser="loginUser" :isManager="isManager" @create-notice="createNotice" @update-notice="updateNotice" @delete-notice="deleteNotice" />
   </div>
 </template>
 
@@ -21,15 +21,9 @@ export default {
     return {
       loginUser: "",
       isManager: "",
-      notices: [],
     };
   },
   methods: {
-    getNoticeList() {
-      axios.get("http://localhost:8080/happyhouse/notice/").then(({ data }) => {
-        this.notices = data;
-      });
-    },
     createNotice(notice) {
       axios
         .post("http://localhost:8080/happyhouse/notice/", {
@@ -45,7 +39,6 @@ export default {
             msg = "등록이 완료되었습니다.";
           }
           alert(msg);
-          this.getNoticeList();
           // this.$router.push({ name: "NoticeView" });
           this.$router.push("/notice");
         });
@@ -63,7 +56,6 @@ export default {
             msg = "수정이 완료되었습니다.";
           }
           alert(msg);
-          this.getNoticeList();
           this.$router.push("/notice");
         });
     },
@@ -74,14 +66,12 @@ export default {
           msg = "삭제가 완료되었습니다.";
         }
         alert(msg);
-        this.getNoticeList();
         // this.$router.push({ name: "NoticeView" });
         this.$router.push("/notice");
       });
     },
   },
   created() {
-    this.getNoticeList();
     if (this.user) {
       this.loginUser = this.user.id;
       this.isManager = this.user.manager;

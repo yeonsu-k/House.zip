@@ -32,20 +32,30 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "NoticeList",
   props: {
-    notices: {
-      type: Array,
-    },
     loginUser: null,
     isManager: null,
+  },
+  data() {
+    return {
+      notices: {
+        type: Array,
+      },
+    };
   },
   methods: {},
   computed: {
     noticeCnt() {
       return this.notices.length;
     },
+  },
+  created() {
+    axios.get("http://localhost:8080/happyhouse/notice/").then(({ data }) => {
+      this.notices = data;
+    });
   },
 };
 </script>
