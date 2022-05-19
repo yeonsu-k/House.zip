@@ -32,7 +32,7 @@ import axios from "axios";
 export default {
   name: "QnARegist",
   props: {
-    userid: null,
+    loginUser: null,
   },
   data() {
     return {
@@ -55,7 +55,7 @@ export default {
         return;
       }
 
-      this.qna.masterid = this.userid;
+      this.qna.masterid = this.loginUser;
 
       this.$emit("create-qna-ans", this.qna);
     },

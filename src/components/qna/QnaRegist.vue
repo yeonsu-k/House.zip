@@ -19,7 +19,7 @@
 export default {
   name: "QnARegist",
   props: {
-    userid: null,
+    loginUser: null,
   },
   data() {
     return {
@@ -47,7 +47,7 @@ export default {
         title: this.qna.title,
         content: this.qna.content,
         asktime: "",
-        userid: this.userid,
+        userid: this.loginUser,
         anscontent: "",
         anstime: "",
         masterid: "",

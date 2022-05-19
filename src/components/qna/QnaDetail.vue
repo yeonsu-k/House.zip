@@ -40,12 +40,12 @@
       <b-button variant="outline-warning" style="width: 99%" class="btn" :to="{ name: 'QnaModifyAns', params: { no: qna.no } }">답변수정</b-button>
     </div>
     <div v-else>
-      <b-button v-if="this.userid == qna.userid" style="width: 99%" variant="outline-success" class="btn" :to="{ name: 'QnaModify', params: { no: qna.no } }">질문수정</b-button>
+      <b-button v-if="this.loginUser == qna.userid" style="width: 99%" variant="outline-success" class="btn" :to="{ name: 'QnaModify', params: { no: qna.no } }">질문수정</b-button>
       <hr />
       <h6 align="center">아직 답변이 달리지 않았습니다.</h6>
       <b-button v-if="this.isManager" variant="outline-warning  " style="width: 99%" class="btn" :to="{ name: 'QnaRegistAns', params: { no: qna.no } }">답변작성</b-button>
     </div>
-    <b-button v-if="this.userid == qna.userid || this.isManager" variant="outline-success " style="width: 99%" class="btn" @click="deleteQna">질문삭제</b-button>
+    <b-button v-if="this.loginUser == qna.userid || this.isManager" variant="outline-success " style="width: 99%" class="btn" @click="deleteQna">질문삭제</b-button>
   </div>
 </template>
 <script>
@@ -53,7 +53,7 @@ import axios from "axios";
 export default {
   name: "QnaDetail",
   props: {
-    userid: null,
+    loginUser: null,
     isManager: null,
   },
   data() {

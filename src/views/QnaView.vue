@@ -9,9 +9,8 @@
       </div>
     </b-jumbotron>
     <router-view
-      :userid="this.userid"
+      :loginUser="this.loginUser"
       :isManager="this.isManager"
-      :qnas="this.qnas"
       @create-qna="createQna"
       @update-qna="updateQna"
       @delete-qna="deleteQna"
@@ -31,17 +30,11 @@ export default {
   },
   data() {
     return {
-      userid: "",
+      loginUser: "",
       isManager: "",
-      qnas: [],
     };
   },
   methods: {
-    getQnaList() {
-      axios.get("http://localhost:8080/happyhouse/qna/").then(({ data }) => {
-        this.qnas = data;
-      });
-    },
     createQna(qna) {
       axios
         .post("http://localhost:8080/happyhouse/qna/", {
@@ -86,7 +79,6 @@ export default {
           msg = "삭제가 완료되었습니다.";
         }
         alert(msg);
-        // this.movieList();
         this.$router.push({ name: "QnaView" });
       });
     },
@@ -126,12 +118,11 @@ export default {
     },
   },
   created() {
-    this.getQnaList();
     if (this.user) {
-      this.userid = this.user.id;
+      this.loginUser = this.user.id;
       this.isManager = this.user.manager;
     } else {
-      this.userid = null;
+      this.loginUser = null;
       this.isManager = null;
     }
   },

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <span style="font-size: 35px">QnA 목록</span>
-    <b-button v-if="this.userid && !this.isManager" variant="outline-warning" style="float: right; width: auto" to="/qna/regist">문의하기</b-button>
+    <b-button v-if="this.loginUser && !this.isManager" variant="outline-warning" style="float: right; width: auto" to="/qna/regist">문의하기</b-button>
     <hr />
     <div class="text-right">
       <small class="mb-3 text-right">* 전체 QnA 수 : {{ qnaCnt }} </small>
@@ -19,7 +19,7 @@
         </b-thead>
         <b-tbody>
           <b-tr v-for="(qna, index) in qnas" :key="index">
-            <b-td>{{ qna.no }}</b-td>
+            <b-td>{{ index + 1 }}</b-td>
             <b-td>
               <router-link class="qna-link" :to="{ name: 'QnaDetail', params: { no: qna.no } }">{{ qna.title }}</router-link>
             </b-td>
@@ -39,7 +39,7 @@ import axios from "axios";
 export default {
   name: "QnaList",
   props: {
-    userid: null,
+    loginUser: null,
     isManager: null,
   },
   data() {
@@ -54,13 +54,6 @@ export default {
     qnaCnt() {
       return this.qnas.length;
     },
-    // getloginUser() {
-    //   if (localStorage.getItem("loginUser")) {
-    //     return true;
-    //   } else {
-    //     return false;
-    //   }
-    // },
   },
   created() {
     axios.get("http://localhost:8080/happyhouse/qna/").then(({ data }) => {
