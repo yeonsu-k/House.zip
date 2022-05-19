@@ -3,20 +3,35 @@
     <!-- Header-->
     <b-jumbotron>
       <div>
-        <h1 class="font-weight-bold display-4">Happy House</h1>
+        <h1 class="font-weight-bold display-4">Welcome</h1>
         <hr />
-        <span style="font-size: 25px"><h4>welcome to house</h4></span>
+        <span style="font-size: 25px"><h4>login page</h4></span>
       </div>
     </b-jumbotron>
     <div class="container">
-      <h2>로그인</h2>
-      <fieldset class="text-center">
-        <label for="id">아이디</label>
-        <input type="text" id="id" v-model="id" class="view" /><br />
-        <label for="password">비밀번호</label>
-        <input type="password" id="password" v-model="password" class="view" /><br />
-        <button class="btn" @click="login">로그인</button>
-      </fieldset>
+      <div class="container px-4 px-lg-5">
+        <div class="justify-content-center">
+          <h1>Login</h1>
+          <hr />
+          <div class="form-floating">
+            <b-label for="id">ID</b-label>
+            <b-input class="form-control mb-3" id="id" v-model="id" type="text" />
+          </div>
+          <div class="form-floating">
+            <b-label for="password">Password</b-label>
+            <b-input class="form-control mb-3" id="password" v-model="password" name="userpwd" type="password" />
+          </div>
+          <!-- Login Button-->
+          <div class="d-grid">
+            <button class="btn" style="background-color: #ece6cc; width: 100%" id="loginBtn" @click="login">로그인</button>
+          </div>
+        </div>
+        <div class="mt-1 text-end">
+          <a href="${root}/user/findpwd">
+            <h6 style="color: #ffbf00">비밀번호 찾기</h6>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </template>
