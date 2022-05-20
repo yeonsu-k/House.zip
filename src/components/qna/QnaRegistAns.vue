@@ -45,6 +45,7 @@ export default {
         anscontent: "",
         anstime: "",
         masterid: "",
+        hit: "",
       },
     };
   },

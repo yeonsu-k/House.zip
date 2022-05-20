@@ -14,6 +14,7 @@
             <b-th>제목</b-th>
             <b-th>시간</b-th>
             <b-th>아이디</b-th>
+            <b-th>조회수</b-th>
           </b-tr>
         </b-thead>
         <b-tbody>
@@ -24,6 +25,7 @@
             </b-td>
             <b-td>{{ notice.regtime }}</b-td>
             <b-td>{{ notice.userid }}</b-td>
+            <b-td>{{ notice.hit }}</b-td>
           </b-tr>
         </b-tbody>
       </b-table-simple>

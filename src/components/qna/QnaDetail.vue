@@ -11,11 +11,13 @@
           <b-th>{{ qna.asktime }}</b-th>
           <b-th width="auto">작성자</b-th>
           <b-th>{{ qna.userid }}</b-th>
+          <b-th width="auto">조회수</b-th>
+          <b-th>{{ qna.hit }}</b-th>
         </b-tr>
       </b-thead>
       <b-tbody>
         <b-tr>
-          <b-td colspan="6" style="text-align: left">{{ qna.content }}</b-td>
+          <b-td colspan="8" style="text-align: left">{{ qna.content }}</b-td>
         </b-tr>
       </b-tbody>
     </b-table-simple>
@@ -67,6 +69,7 @@ export default {
         anscontent: "",
         anstime: "",
         masterid: "",
+        hit: "",
       },
     };
   },
