@@ -1,22 +1,7 @@
 <template>
   <div>
-    <!-- Main Content-->
-
-    <!-- <b-container v-if="houses && houses.length != 0" class="bv-example-row mt-3">
-      <b-row v-for="(house, index) in houses" :key="index" class="m-2" @click="selectHouse" @mouseover="colorChange(true)" @mouseout="colorChange(false)" :class="{ 'mouse-over-bgcolor': isColor }">
-        <b-col cols="2" class="text-center align-self-center">
-          <b-img thumbnail src="https://picsum.photos/250/250/?image=58" alt="Image 1"></b-img>
-        </b-col>
-        <b-col cols="5" class="align-self-center"> [{{ index + 1 }}] {{ house.aptName }} </b-col>
-        <b-col cols="5" class="align-self-center"> 정보: {{ house.no }} | {{ house.buildYear }} | {{ house.aptcode }} | {{ house.type }} </b-col>
-      </b-row>
-    </b-container>
-    <b-container v-else class="bv-example-row mt-3">
-      <b-row>
-        <b-col><b-alert show>주택 목록이 없습니다.</b-alert></b-col>
-      </b-row>
-    </b-container> -->
-
+    <!-- 지도 -->
+    <div class="mb-4" id="map" style="height: 500px"></div>
     <div v-if="houses.length">
       <b-table-simple hover striped responsive class="text-center">
         <b-thead>
@@ -47,50 +32,6 @@
         <b-col><b-alert show>주택 목록이 없습니다.</b-alert></b-col>
       </b-row>
     </div>
-
-    <div class="container mb-4">
-      <div class="row gx-4 gx-lg-5 justify-content-center">
-        <div class="col-md-10 col-lg-8 col-xl-7">
-          <form action="${root}/house/all" id="searchForm" method="post">
-            <input type="hidden" name="currentPage" id="currentPage" />
-            <div class="mb-3 row">
-              <select class="col me-1 mr-4 text-light form-control-lg bg-secondary" id="sido" name="sido">
-                <option value="">시도선택</option>
-              </select>
-              <select class="col me-1 text-light form-control-lg bg-secondary" id="gugun" name="gugun">
-                <option value="">구군선택</option>
-              </select>
-            </div>
-            <!-- 지도 -->
-            <div class="mb-4" id="map" style="height: 500px"></div>
-            <!-- apt preview-->
-
-            <input type="hidden" name="action" value="list" /> <input type="button" class="w-100 btn mb-3" style="background-color: #eee6c4" id="listBtn" value="아파트 정보 얻기" />
-          </form>
-          <div class="row">
-            <!-- <table class="col">
-              <tr>
-                <th>아파트</th>
-                <th>법정동</th>
-                <th>전용면적</th>
-                <th>거래금액</th>
-                <c:forEach var="house" items="${houses}">
-                  <tr>
-                    <td><a href="${root}/house/view?no=${house.no}">${house.aptName}</a></td>
-                    <td>${house.dongName}</td>
-                    <td>${house.area}</td>
-                    <td>${house.dealAmount}</td>
-                  </tr>
-                </c:forEach>
-              </tr>
-
-              <tbody id="aptinfo"></tbody>
-            </table> -->
-          </div>
-          <!-- <%@ include file="/WEB-INF/views/include/paging.jsp" %><br /> -->
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -99,7 +40,8 @@ export default {
   name: "HouseAll",
   data() {
     return {
-      isColor: false,
+      markers: [],
+      infowindow: null,
     };
   },
   props: {
@@ -109,83 +51,88 @@ export default {
     // loginUser: "",
     // isManager: "",
   },
+  watch: {
+    houses() {
+      if (this.houses) {
+        this.markerPositions = [];
+        this.houses.forEach((house) => this.markerPositions.push({ title: house.aptName, latlng: new kakao.maps.LatLng(house.lat, house.lng) }));
+        this.displayMarker(this.markerPositions);
+      }
+    },
+  },
   mounted() {
-    window.kakao && window.kakao.maps ? this.initMap() : this.addScript();
+    if (window.kakao && window.kakao.maps) {
+      this.initMap();
+      if (this.houses) this.displayMarker();
+    } else {
+      const script = document.createElement("script");
+      /* global kakao */
+      script.onload = () => kakao.maps.load(this.initMap);
+      script.src = "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=7f40405e29341c1fa46226d9889e981a&libraries=services";
+      document.head.appendChild(script);
+    }
   },
   methods: {
-    selectHouse() {
-      // console.log("listRow : ", this.house);
-      // this.$store.dispatch("getHouse", this.house);
-      console.log(this.house.no);
-      this.detailHouse(this.house);
-    },
-    colorChange(flag) {
-      this.isColor = flag;
-    },
-
     initMap() {
-      var container = document.getElementById("map");
-      var options = { center: new kakao.maps.LatLng(37.5742806, 126.970598), level: 4 };
-      var map = new kakao.maps.Map(container, options); //마커추가하려면 객체를 아래와 같이 하나 만든다.
-      // house 데이터 받아야함 ******************
-      /*
-      var positions = [
-        <c:forEach items="${houses}" var="house">
-          title: '${house.aptName}', latlng: new kakao.maps.LatLng(${house.lat},${house.lng})
-        </c:forEach>,
-      ];
-      var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+      const container = document.getElementById("map");
+      const options = {
+        center: new kakao.maps.LatLng(33.450701, 126.570667),
+        level: 4,
+      };
+      //지도 객체를 등록합니다.
+      //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
+      this.map = new kakao.maps.Map(container, options);
+    },
+    displayMarker() {
+      if (this.markers.length > 0) {
+        this.markers.forEach((marker) => marker.setMap(null));
+      }
+      this.markers = [];
 
-      var bounds = new kakao.maps.LatLngBounds();
-      for (var i = 0; i < positions.length; i++) {
-        var imageSize = new kakao.maps.Size(24, 35); // 마커 이미지의 이미지 크기
-        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); // 마커 이미지를 생성
-        // 마커를 생성
-        var marker = new kakao.maps.Marker({
-          map: map, // 마커를 표시할 지도
-          position: positions[i].latlng, // 마커를 표시할 위치
-          title: positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-          image: markerImage, // 마커 이미지
+      let i = 0;
+      let imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+      // 마커 이미지의 이미지 크기 입니다
+      var imageSize = new kakao.maps.Size(24, 35);
+      // 마커 이미지를 생성합니다
+      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+      this.houses.forEach((house) => {
+        let coords = new kakao.maps.LatLng(house.lat, house.lng);
+
+        let marker = new kakao.maps.Marker({
+          map: this.map,
+          position: coords,
+          title: house.aptName,
+          image: markerImage,
+          clickable: true,
+        });
+        let infowindow = new kakao.maps.InfoWindow({
+          position: coords,
+          content: '<div style="padding:10px;text-align:center;width:200px">' + house.aptName + "</div>", // 인포윈도우에 표시할 내용
         });
 
-        // 마커에 표시할 인포윈도우를 생성
-        var infowindow = new kakao.maps.InfoWindow({
-          content: positions[i].title, // 인포윈도우에 표시할 내용
+        kakao.maps.event.addListener(marker, "mouseover", this.makeOverListener(this.map, marker, infowindow));
+        kakao.maps.event.addListener(marker, "mouseout", this.makeOutListener(infowindow));
+        kakao.maps.event.addListener(marker, "click", function () {
+          alert(house.aptName + " " + house.aptCode);
         });
-        bounds.extend(positions[i].latlng);
-
-        // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
-        // 이벤트 리스너로는 클로저를 만들어 등록합니다
-        // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
-        kakao.maps.event.addListener(marker, "mouseover", makeOverListener(map, marker, infowindow));
-        kakao.maps.event.addListener(marker, "mouseout", makeOutListener(infowindow));
-      }
-
-      //LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
-      // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
-      <c:if test="${!empty houses}">map.setBounds(bounds);</c:if>;
-
-      // 인포윈도우를 표시하는 클로저를 만드는 함수입니다
-      function makeOverListener(map, marker, infowindow) {
-        return function () {
-          infowindow.open(map, marker);
-        };
-      }
-
-      // 인포윈도우를 닫는 클로저를 만드는 함수입니다
-      function makeOutListener(infowindow) {
-        return function () {
-          infowindow.close();
-        };
-      }
+        i++;
+        this.markers.push(marker);
+        if (i == 1) {
+          this.map.panTo(coords);
+        }
+      });
     },
-    */
+    // 인포윈도우를 표시하는 클로저를 만드는 함수입니다
+    makeOverListener(map, marker, infowindow) {
+      return function () {
+        infowindow.open(map, marker);
+      };
     },
-    addScript() {
-      const script = document.createElement("script");
-      /* global kakao */ script.onload = () => kakao.maps.load(this.initMap);
-      script.src = "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=7f40405e29341c1fa46226d9889e981a";
-      document.head.appendChild(script);
+    // 인포윈도우를 닫는 클로저를 만드는 함수입니다
+    makeOutListener(infowindow) {
+      return function () {
+        infowindow.close();
+      };
     },
   },
 };

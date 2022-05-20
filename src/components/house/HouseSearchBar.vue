@@ -3,14 +3,14 @@
     <b-col class="sm-3">
       <b-form-select v-model="sidoCode" :options="sidos" @change="gugunList">
         <template #first>
-          <b-form-select-option :value="null" disabled>선택하세요</b-form-select-option>
+          <b-form-select-option :value="null" disabled>시도를 선택하세요</b-form-select-option>
         </template>
       </b-form-select>
     </b-col>
     <b-col class="sm-3">
       <b-form-select v-model="gugunCode" :options="guguns" @change="searchApt">
         <template #first>
-          <b-form-select-option :value="null" disabled>선택하세요</b-form-select-option>
+          <b-form-select-option :value="null" disabled>구군을 선택하세요</b-form-select-option>
         </template>
       </b-form-select>
     </b-col>
