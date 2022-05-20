@@ -89,6 +89,11 @@ const routes = [
         component: () => import("@/components/house/HouseAll.vue"),
       },
       {
+        path: "search",
+        name: "HouseSearchBar",
+        component: () => import("@/components/house/HouseSearchBar.vue"),
+      },
+      {
         path: "apt",
         name: "HouseApt",
         //component: () => import("@/components/house/MovieCreate.vue"),

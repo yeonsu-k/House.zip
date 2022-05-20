@@ -1,14 +1,53 @@
 <template>
   <div>
-    <!-- Header -->
-    <b-jumbotron>
-      <div>
-        <h1 class="font-weight-bold display-4">Happy House</h1>
-        <hr />
-        <span style="font-size: 25px">welcome to house</span>
-      </div>
-    </b-jumbotron>
     <!-- Main Content-->
+
+    <!-- <b-container v-if="houses && houses.length != 0" class="bv-example-row mt-3">
+      <b-row v-for="(house, index) in houses" :key="index" class="m-2" @click="selectHouse" @mouseover="colorChange(true)" @mouseout="colorChange(false)" :class="{ 'mouse-over-bgcolor': isColor }">
+        <b-col cols="2" class="text-center align-self-center">
+          <b-img thumbnail src="https://picsum.photos/250/250/?image=58" alt="Image 1"></b-img>
+        </b-col>
+        <b-col cols="5" class="align-self-center"> [{{ index + 1 }}] {{ house.aptName }} </b-col>
+        <b-col cols="5" class="align-self-center"> 정보: {{ house.no }} | {{ house.buildYear }} | {{ house.aptcode }} | {{ house.type }} </b-col>
+      </b-row>
+    </b-container>
+    <b-container v-else class="bv-example-row mt-3">
+      <b-row>
+        <b-col><b-alert show>주택 목록이 없습니다.</b-alert></b-col>
+      </b-row>
+    </b-container> -->
+
+    <div v-if="houses.length">
+      <b-table-simple hover striped responsive class="text-center">
+        <b-thead>
+          <b-tr>
+            <b-th>번호</b-th>
+            <b-th>아파트명</b-th>
+            <b-th>건축년도</b-th>
+            <b-th>아파트코드</b-th>
+            <b-th>매물수</b-th>
+          </b-tr>
+        </b-thead>
+        <b-tbody>
+          <b-tr v-for="(house, index) in houses" :key="index" class="m-2">
+            <b-td>{{ index + 1 }}</b-td>
+            <b-td>{{ house.aptName }}</b-td>
+            <!--  <b-td>
+              <router-link :to="{ name: 'HouseDetail', params: { no: house.no } }">{{ house.aptName }}</router-link> 
+            </b-td>-->
+            <b-td>{{ house.buildYear }}</b-td>
+            <b-td>{{ house.aptCode }}</b-td>
+            <b-td>{{ house.total }}</b-td>
+          </b-tr>
+        </b-tbody>
+      </b-table-simple>
+    </div>
+    <div v-else>
+      <b-row>
+        <b-col><b-alert show>주택 목록이 없습니다.</b-alert></b-col>
+      </b-row>
+    </div>
+
     <div class="container mb-4">
       <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
@@ -29,7 +68,7 @@
             <input type="hidden" name="action" value="list" /> <input type="button" class="w-100 btn mb-3" style="background-color: #eee6c4" id="listBtn" value="아파트 정보 얻기" />
           </form>
           <div class="row">
-            <table class="col">
+            <!-- <table class="col">
               <tr>
                 <th>아파트</th>
                 <th>법정동</th>
@@ -46,7 +85,7 @@
               </tr>
 
               <tbody id="aptinfo"></tbody>
-            </table>
+            </table> -->
           </div>
           <!-- <%@ include file="/WEB-INF/views/include/paging.jsp" %><br /> -->
         </div>
@@ -57,10 +96,33 @@
 
 <script>
 export default {
+  name: "HouseAll",
+  data() {
+    return {
+      isColor: false,
+    };
+  },
+  props: {
+    houses: {
+      type: Array,
+    },
+    // loginUser: "",
+    // isManager: "",
+  },
   mounted() {
     window.kakao && window.kakao.maps ? this.initMap() : this.addScript();
   },
   methods: {
+    selectHouse() {
+      // console.log("listRow : ", this.house);
+      // this.$store.dispatch("getHouse", this.house);
+      console.log(this.house.no);
+      this.detailHouse(this.house);
+    },
+    colorChange(flag) {
+      this.isColor = flag;
+    },
+
     initMap() {
       var container = document.getElementById("map");
       var options = { center: new kakao.maps.LatLng(37.5742806, 126.970598), level: 4 };
@@ -152,5 +214,11 @@ export default {
 .jumbotron > div {
   width: 70%;
   display: inline-block;
+}
+.apt {
+  width: 50px;
+}
+.mouse-over-bgcolor {
+  background-color: lightblue;
 }
 </style>
