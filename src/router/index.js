@@ -94,9 +94,9 @@ const routes = [
         component: () => import("@/components/house/HouseSearchBar.vue"),
       },
       {
-        path: "apt",
-        name: "HouseApt",
-        //component: () => import("@/components/house/MovieCreate.vue"),
+        path: "deallist/:aptCode",
+        name: "HouseDealList",
+        component: () => import("@/components/house/HouseDealList.vue"),
       },
       {
         path: "dong",

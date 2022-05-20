@@ -16,10 +16,9 @@
         <b-tbody>
           <b-tr v-for="(house, index) in houses" :key="index" class="m-2">
             <b-td>{{ index + 1 }}</b-td>
-            <b-td>{{ house.aptName }}</b-td>
-            <!--  <b-td>
-              <router-link :to="{ name: 'HouseDetail', params: { no: house.no } }">{{ house.aptName }}</router-link> 
-            </b-td>-->
+            <b-td>
+              <router-link :to="{ name: 'HouseDealList', params: { house: house } }">{{ house.aptName }}</router-link>
+            </b-td>
             <b-td>{{ house.buildYear }}</b-td>
             <b-td>{{ house.aptCode }}</b-td>
             <b-td>{{ house.total }}</b-td>
@@ -48,6 +47,9 @@ export default {
     houses: {
       type: Array,
     },
+    x: null,
+    y: null,
+    dongCode: null,
     // loginUser: "",
     // isManager: "",
   },
@@ -75,6 +77,7 @@ export default {
   methods: {
     initMap() {
       const container = document.getElementById("map");
+      const latlng = this.x == "" ? new kakao.maps.LatLng(33.450701, 126.570667) : new kakao.maps.LatLng(this.y, this.x);
       const options = {
         center: new kakao.maps.LatLng(33.450701, 126.570667),
         level: 4,

@@ -8,30 +8,76 @@
         <span style="font-size: 25px"><h4>welcome to house</h4></span>
       </div>
     </b-jumbotron>
-    <house-search-bar @search-apt="searchApt"></house-search-bar>
-    <router-view :loginUser="this.loginUser" :isManager="this.isManager" :houses="houses" />
+    <b-form-radio-group v-model="selected" :options="options" class="mb-3" value-field="item" text-field="name" disabled-field="notEnabled" @change="radioChange()"></b-form-radio-group>
+
+    <div v-if="selected == 'A'">
+      <house-search-bar @search-apt="searchApt"></house-search-bar>
+    </div>
+    <div v-else>
+      <house-search-road @search-road="searchRoad" :roadAddress="roadAddress"></house-search-road>
+    </div>
+    <router-view :loginUser="this.loginUser" :isManager="this.isManager" :houses="houses" :x="x" :y="y" :dongCode="dongCode" />
   </div>
 </template>
-
 <script>
 import axios from "axios";
 import HouseSearchBar from "@/components/house/HouseSearchBar.vue";
+import HouseSearchRoad from "@/components/house/HouseSearchRoad.vue";
 export default {
   name: "HouseView",
   components: {
     HouseSearchBar,
+    HouseSearchRoad,
   },
   props: {
     user: null,
   },
   data() {
     return {
+      selected: "B",
+      options: [
+        { item: "A", name: "시도 구군으로 검색" },
+        { item: "B", name: "우편주소로 검색" },
+      ],
       houses: [],
       loginUser: "",
       isManager: "",
+      roadAddress: "",
+      x: "",
+      y: "",
+      dongCode: "",
     };
   },
   methods: {
+    radioChange() {
+      if (this.selected == "A") {
+        this.x = "";
+        this.y = "";
+        this.dongCode = "";
+      }
+    },
+    searchRoad(data) {
+      this.x = data.x;
+      this.y = data.y;
+      this.dongCode = data.dongCode;
+      this.searchDong(this.dongCode);
+    },
+    searchDong(dongCode) {
+      axios
+        .post("http://localhost:8080/happyhouse/house/dong", {
+          dong: dongCode,
+        })
+        .then(({ data }) => {
+          this.houses = data;
+          console.log(this.houses);
+          // this.$router.push("/house");
+        })
+        .catch(({ error }) => {
+          let msg = "조회 중 문제가 발생했습니다.";
+          alert(msg);
+          // this.$router.push("/house");
+        });
+    },
     searchApt(gugunCode) {
       console.log("this.gugunCode " + gugunCode);
       axios
