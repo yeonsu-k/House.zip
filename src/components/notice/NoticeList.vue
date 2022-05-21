@@ -8,7 +8,7 @@
         <b-col cols="8"></b-col>
         <b-col cols="2"><b-form-select v-model="selected" :options="options" size="sm" class="mt-3" @change="sort"></b-form-select></b-col>
         <b-col align-self="end" cols="2">
-          <small class="mb-3 text-right">* 전체 공지사항 수 : {{ noticeCnt }} </small>
+          <small class="mb-3 text-right">* 전체 공지사항 수 : {{ total }} </small>
         </b-col>
       </b-row>
     </div>
@@ -19,7 +19,7 @@
             <b-th>번호</b-th>
             <b-th>제목</b-th>
             <b-th>시간</b-th>
-            <b-th>아이디</b-th>
+            <b-th>작성자</b-th>
             <b-th>조회수</b-th>
           </b-tr>
         </b-thead>
@@ -35,14 +35,19 @@
           </b-tr>
         </b-tbody>
       </b-table-simple>
+      <page-link @update-page="updatePage" />
     </div>
     <div v-else>등록된 공지사항이 없습니다.</div>
   </div>
 </template>
 <script>
 import axios from "axios";
+import PageLink from "@/components/notice/PageLink.vue";
 export default {
   name: "NoticeList",
+  components: {
+    PageLink,
+  },
   props: {
     loginUser: null,
     isManager: null,
@@ -59,40 +64,70 @@ export default {
       notices: {
         type: Array,
       },
+      pageLimit: 10,
+      pageOffet: 0,
+      sortCal: "regtime",
+      sortVal: "desc",
+      no: 10,
+      total: 0,
     };
   },
-  methods: {
-    sort() {
-      let sortCal = "regtime";
-      let sortVal = "desc";
-
-      switch (this.selected) {
-        case "오래된순":
-          sortVal = "asc";
-          break;
-        case "제목순":
-          sortCal = "title";
-          sortVal = "asc";
-          break;
-        case "조회수순":
-          sortCal = "hit";
-          // sortVal = "desc";
-          break;
-      }
-      axios.get("http://localhost:8080/happyhouse/notice/", { params: { sortCal, sortVal } }).then(({ data }) => {
-        this.notices = data;
-      });
-    },
-  },
-  computed: {
-    noticeCnt() {
-      return this.notices.length;
+  watch: {
+    no: function () {
+      this.initComponent();
     },
   },
   created() {
-    axios.get("http://localhost:8080/happyhouse/notice/", { params: { sortCal: "regtime", sortVal: "desc" } }).then(({ data }) => {
-      this.notices = data;
+    axios
+      .get("http://localhost:8080/happyhouse/notice/pagelink", { params: { sortCal: "regtime", sortVal: "desc", limit: this.pageLimit, offset: this.no - this.pageLimit } })
+      .then(({ data }) => {
+        this.notices = data;
+      })
+      .catch(() => {
+        alert("에러가 발생했습니다.");
+      });
+
+    axios.get("http://localhost:8080/happyhouse/notice/pagelink/count").then(({ data }) => {
+      this.total = data;
     });
+  },
+  methods: {
+    updatePage(no) {
+      this.no = no;
+    },
+    initComponent() {
+      axios
+        .get("http://localhost:8080/happyhouse/notice/pagelink", {
+          params: { sortCal: this.sortCal, sortVal: this.sortVal, limit: this.pageLimit, offset: this.no - this.pageLimit },
+        })
+        .then(({ data }) => {
+          this.notices = data;
+        })
+        .catch(() => {
+          alert("에러가 발생했습니다.");
+        });
+    },
+    sort() {
+      switch (this.selected) {
+        case "오래된순":
+          this.sortCal = "regtime";
+          this.sortVal = "asc";
+          break;
+        case "제목순":
+          this.sortCal = "title";
+          this.sortVal = "asc";
+          break;
+        case "조회수순":
+          this.sortCal = "hit";
+          this.sortVal = "desc";
+          break;
+        default:
+          this.sortCal = "regtime";
+          this.sortVal = "desc";
+          break;
+      }
+      this.initComponent();
+    },
   },
 };
 </script>
