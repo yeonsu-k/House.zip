@@ -34,6 +34,7 @@ export default {
           name: user.name,
           email: user.email,
           tel: user.tel,
+          category: user.category,
         })
         .then(({ data }) => {
           let msg = "등록 처리시 문제가 발생했습니다.";
@@ -58,6 +59,7 @@ export default {
           name: user.name,
           email: user.email,
           tel: user.tel,
+          category: user.category,
         })
         .then(({ data }) => {
           let msg = "수정 처리시 문제가 발생했습니다.";
