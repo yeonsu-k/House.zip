@@ -17,7 +17,7 @@
           <b-tr v-for="(house, index) in houses" :key="index" class="m-2">
             <b-td>{{ index + 1 }}</b-td>
             <b-td>
-              <router-link :to="{ name: 'HouseDealList', params: { house: house } }">{{ house.aptName }}</router-link>
+              <router-link :to="{ name: 'HouseDealList', params: { house: house, aptCode: house.aptCode } }">{{ house.aptName }}</router-link>
             </b-td>
             <b-td>{{ house.buildYear }}</b-td>
             <b-td>{{ house.aptCode }}</b-td>

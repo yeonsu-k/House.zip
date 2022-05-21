@@ -34,7 +34,7 @@ export default {
   },
   data() {
     return {
-      selected: "B",
+      selected: "A",
       options: [
         { item: "A", name: "시도 구군으로 검색" },
         { item: "B", name: "우편주소로 검색" },
@@ -69,7 +69,7 @@ export default {
         })
         .then(({ data }) => {
           this.houses = data;
-          console.log(this.houses);
+          // console.log(this.houses);
           // this.$router.push("/house");
         })
         .catch(({ error }) => {
