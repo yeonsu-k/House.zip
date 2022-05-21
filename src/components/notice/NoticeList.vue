@@ -32,7 +32,7 @@
         </b-thead>
         <b-tbody>
           <b-tr v-for="(notice, index) in notices" :key="index">
-            <b-td>{{ index + 1 }}</b-td>
+            <b-td>{{ no - pageLimit + index + 1 }}</b-td>
             <b-td>
               <router-link class="notice-link" :to="{ name: 'NoticeDetail', params: { no: notice.no } }">{{ notice.title }}</router-link>
             </b-td>
