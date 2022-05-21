@@ -36,7 +36,7 @@
             <b-td>
               <router-link class="notice-link" :to="{ name: 'NoticeDetail', params: { no: notice.no } }">{{ notice.title }}</router-link>
             </b-td>
-            <b-td>{{ notice.regtime }}</b-td>
+            <b-td>{{ notice.regtime.substring(0, 10) }}</b-td>
             <b-td>{{ notice.userid }}</b-td>
             <b-td>{{ notice.hit }}</b-td>
           </b-tr>

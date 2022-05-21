@@ -24,7 +24,7 @@
             <b-td>
               <router-link class="qna-link" :to="{ name: 'QnaDetail', params: { no: qna.no } }">{{ qna.title }}</router-link>
             </b-td>
-            <b-td>{{ qna.asktime }}</b-td>
+            <b-td>{{ qna.asktime.substring(0, 10) }}</b-td>
             <b-td>{{ qna.userid }}</b-td>
             <b-td>{{ qna.hit }}</b-td>
             <b-td v-if="qna.masterid">완료</b-td>
