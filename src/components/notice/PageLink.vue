@@ -48,7 +48,7 @@ export default {
     },
 
     initComponent() {
-      axios.get("http://localhost:8080/happyhouse/notice/pagelink/count").then(({ data }) => {
+      axios.get("http://localhost:8080/happyhouse/notice/total").then(({ data }) => {
         this.totalListItemCount = data;
         this.initUI();
       });

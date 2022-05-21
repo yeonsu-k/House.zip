@@ -14,11 +14,18 @@
     </div>
     <div v-if="notices.length">
       <b-table-simple hover striped responsive class="text-center">
+        <colgroup>
+          <col :style="{ width: '10%' }" />
+          <col :style="{ width: '50%' }" />
+          <col :style="{ width: '15%' }" />
+          <col :style="{ width: '15%' }" />
+          <col :style="{ width: '10%' }" />
+        </colgroup>
         <b-thead>
           <b-tr>
             <b-th>번호</b-th>
             <b-th>제목</b-th>
-            <b-th>시간</b-th>
+            <b-th>날짜</b-th>
             <b-th>작성자</b-th>
             <b-th>조회수</b-th>
           </b-tr>
@@ -79,7 +86,7 @@ export default {
   },
   created() {
     axios
-      .get("http://localhost:8080/happyhouse/notice/pagelink", { params: { sortCal: "regtime", sortVal: "desc", limit: this.pageLimit, offset: this.no - this.pageLimit } })
+      .get("http://localhost:8080/happyhouse/notice/", { params: { sortCal: "regtime", sortVal: "desc", limit: this.pageLimit, offset: this.no - this.pageLimit } })
       .then(({ data }) => {
         this.notices = data;
       })
@@ -87,7 +94,7 @@ export default {
         alert("에러가 발생했습니다.");
       });
 
-    axios.get("http://localhost:8080/happyhouse/notice/pagelink/count").then(({ data }) => {
+    axios.get("http://localhost:8080/happyhouse/notice/total").then(({ data }) => {
       this.total = data;
     });
   },
@@ -97,7 +104,7 @@ export default {
     },
     initComponent() {
       axios
-        .get("http://localhost:8080/happyhouse/notice/pagelink", {
+        .get("http://localhost:8080/happyhouse/notice/", {
           params: { sortCal: this.sortCal, sortVal: this.sortVal, limit: this.pageLimit, offset: this.no - this.pageLimit },
         })
         .then(({ data }) => {
