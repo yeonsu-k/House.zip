@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <span style="font-size: 35px">공시사항 목록</span>
+    <span style="font-size: 35px">공지사항 목록</span>
     <b-button v-if="isManager" variant="outline-success" style="float: right; width: auto" to="/notice/regist">글쓰기</b-button>
     <hr />
     <div class="text-right">
