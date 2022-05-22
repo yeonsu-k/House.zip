@@ -30,7 +30,7 @@
 <script>
 import axios from "axios";
 export default {
-  name: "QnAModify",
+  name: "QnaModifyAns",
   data() {
     return {
       qna: {

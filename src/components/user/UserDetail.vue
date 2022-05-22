@@ -4,9 +4,11 @@
     <b-form-group label="아이디" label-for="input-id">
       <b-form-input id="input-id" v-model="user.id" placeholder="Enter id" readonly></b-form-input>
     </b-form-group>
-    <b-form-group label="비밀번호" label-for="input-password">
-      <b-form-input id="input-password" type="password" v-model="user.password" placeholder="Enter password"></b-form-input>
-    </b-form-group>
+    <form>
+      <b-form-group label="비밀번호" label-for="input-password">
+        <b-form-input id="input-password" type="password" v-model="user.password" placeholder="Enter password"></b-form-input>
+      </b-form-group>
+    </form>
     <b-form-group label="이름" label-for="input-name">
       <b-form-input id="input-name" v-model="user.name" placeholder="Enter name"></b-form-input>
     </b-form-group>

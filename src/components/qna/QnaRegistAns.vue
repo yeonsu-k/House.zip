@@ -30,7 +30,7 @@
 <script>
 import axios from "axios";
 export default {
-  name: "QnARegist",
+  name: "QnaRegistAns",
   props: {
     loginUser: null,
   },
