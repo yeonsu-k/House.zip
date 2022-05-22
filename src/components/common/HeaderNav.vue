@@ -3,7 +3,7 @@
     <div>
       <div id="container">
         <b-navbar toggleable="lg">
-          <b-navbar-brand to="/" class="ml-3 h3"> House.zip </b-navbar-brand>
+          <b-navbar-brand to="/" class="ml-3 h3"><img class="d-inline-block align-top" src="@/assets/img/buildings.png" style="width: 30px" /> House.zip </b-navbar-brand>
           <b-nav-toggle target="nav-collapse"></b-nav-toggle>
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav class="ml-auto">
@@ -17,7 +17,7 @@
               <b-nav-item to="/qna" class="mr-3">QnA</b-nav-item>
               <template v-if="getUser">
                 <b-nav-item :to="{ name: 'UserDetail', params: { id: user.id } }"> <b-icon icon="person-circle" class="mr-1" />{{ user.name }}</b-nav-item>
-                <b-link href="#" @click="logout" id="blink" class="align-self-center"> <b-icon icon="box-arrow-right" class="mr-1" /></b-link>
+                <b-link href="#" @click="logout" id="blink"> <b-icon icon="box-arrow-right" class="mr-1 py-2" /></b-link>
               </template>
               <template v-else>
                 <b-nav-item href="/login" class="mr-3" id="blink">LOGIN</b-nav-item>
