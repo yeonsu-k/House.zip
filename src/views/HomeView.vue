@@ -1,32 +1,30 @@
 <template>
   <div class="home">
-    <!-- Header-->
-    <!-- <b-jumbotron>
-      <div>
-        <img class="mb-4" src="@/assets/house_rogo.png" />
-        <h1 class="font-weight-bold display-4">Happy House</h1>
-        <hr />
-        <span style="font-size: 25px"><h4>welcome to house</h4></span>
-      </div>
-    </b-jumbotron> -->
     <div>
-      <b-carousel id="carousel-fade" style="text-shadow: 0px 0px 2px #000" fade indicators interval="3800">
-        <b-carousel-slide caption="First Slide">
-          <img slot="img" class="sliders" src="@/assets/img/slider1.jpg" />
-        </b-carousel-slide>
-        <b-carousel-slide caption="Seconde Slide">
-          <img slot="img" class="sliders" src="@/assets/img/slider2.jpg" />
-        </b-carousel-slide>
-        <b-carousel-slide caption="Third Slide">
-          <img slot="img" class="sliders" src="@/assets/img/slider3.jpg" />
-        </b-carousel-slide>
-      </b-carousel>
+      <b-overlay show opacity="0.2">
+        <b-carousel id="carousel-fade" style="text-shadow: 0px 0px 2px #000" fade indicators :interval="3800">
+          <b-carousel-slide>
+            <img slot="img" class="sliders" src="@/assets/img/slider1.jpg" />
+          </b-carousel-slide>
+          <b-carousel-slide>
+            <img slot="img" class="sliders" src="@/assets/img/slider2.jpg" />
+          </b-carousel-slide>
+          <b-carousel-slide>
+            <img slot="img" class="sliders" src="@/assets/img/slider3.jpg" />
+          </b-carousel-slide>
+        </b-carousel>
+        <template #overlay>
+          <h1 class="sliderfont font-weight-bold text-center text-light">HAPPY HOUSE</h1>
+        </template>
+      </b-overlay>
     </div>
-    <div class="text-center">
-      <img class="mt-5 mb-4" src="@/assets/img/house_rogo.png" />
+    <!-- <header-nav :user="user" @logout="logout"></header-nav> -->
+    <div class="mt-5 mb-4 text-center">
+      <b-button size="lg" style="background-color: antiquewhite">추천 매물 및 부동산 뉴스 보기</b-button>
+      <!-- <img class="mt-5 mb-4" src="@/assets/img/house_rogo.png" />
       <h1 class="font-weight-bold display-4 mb-4">Happy House</h1>
       <hr />
-      <span style="font-size: 25px"><h4>welcome to house</h4></span>
+      <span style="font-size: 25px"><h4>welcome to house</h4></span> -->
     </div>
 
     <b-container class="bv-example-row bv-example-row-flex-cols">
@@ -101,6 +99,10 @@ export default {
 .sliders {
   width: 100%;
   height: 35vw;
+}
+.sliderfont {
+  text-shadow: 3px 2px 2px gray;
+  font-size: 4vw;
 }
 /* .home {
   height: 40vh;
