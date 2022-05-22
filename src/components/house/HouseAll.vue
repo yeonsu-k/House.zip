@@ -103,6 +103,7 @@ export default {
       var imageSize = new kakao.maps.Size(24, 35);
       // 마커 이미지를 생성합니다
       var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+      let f_coords = new kakao.maps.LatLng(33.450701, 126.570667);
       this.houses.forEach((house) => {
         let coords = new kakao.maps.LatLng(house.lat, house.lng);
 
@@ -126,13 +127,15 @@ export default {
         i++;
         this.markers.push(marker);
         if (i == 1) {
-          this.map.panTo(coords);
+          f_coords = coords;
         }
       });
 
       if (this.x !== "") {
         console.log(this.latlng);
-        this.map.setCenter(this.latlng);
+        this.map.panTo(this.latlng);
+      } else {
+        this.map.panTo(f_coords);
       }
     },
     // 인포윈도우를 표시하는 클로저를 만드는 함수입니다
