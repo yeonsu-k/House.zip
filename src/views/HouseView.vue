@@ -85,7 +85,7 @@ export default {
       this.searchDist(this.y, this.x);
     },
     searchDist(lat, lng) {
-      console.log(this.dist);
+      // console.log(this.dist);
       axios
         .post("http://localhost:8080/happyhouse/house/dist", {
           lat: lat,
