@@ -49,14 +49,8 @@
 
     <b-form-group class="mt-2" label="관심사" v-slot="{ ariaDescribedby }">
       <b-form-checkbox-group id="checkbox-group-1" v-model="selected" :options="options" :aria-describedby="ariaDescribedby" name="flavour-1" :checked="options.true"></b-form-checkbox-group>
-      <b-form-checkbox-group v-model="selected" :options="options" :aria-describedby="ariaDescribedby" buttons button-variant="outline-success" name="buttons-2"></b-form-checkbox-group>
       <b-form-text id="input-live-help-name">매물을 볼 때 중요하게 생각하는 시설을 선택해주세요 (다중선택가능)</b-form-text>
     </b-form-group>
-    <div></div>
-    <div>
-      Selected: <strong>{{ selected }}</strong>
-    </div>
-
     <div class="mt-2">
       <b-button variant="outline-success" @click="regist">등록</b-button>
     </div>
