@@ -31,14 +31,16 @@ export default {
           this.dongCode = data.bcode;
           this.roadAddress = data.roadAddress;
           var config = { headers: { Authorization: "KakaoAK 31e557edd0f33fd488f045aced289e23" } };
-          var url = "https://dapi.kakao.com/v2/local/search/address.json?query=" + data.jibunAddress;
+          var url = "https://dapi.kakao.com/v2/local/search/address.json?query=" + data.roadAddress;
           console.log(url);
           axios.get(url, config).then((response) => {
             let documents = JSON.parse(JSON.stringify(response.data)).documents;
             this.x = documents[0].address.x;
             this.y = documents[0].address.y;
+            // console.log("this.x: " + this.x);
+            // console.log("this.y: " + this.y);
+            this.searchRoad();
           });
-          this.searchRoad();
         },
       }).open();
     },

@@ -41,6 +41,7 @@ export default {
     return {
       markers: [],
       infowindow: null,
+      latlng: null,
     };
   },
   props: {
@@ -61,6 +62,9 @@ export default {
         this.displayMarker(this.markerPositions);
       }
     },
+    x() {
+      this.latlng = this.x == "" ? new kakao.maps.LatLng(33.450701, 126.570667) : new kakao.maps.LatLng(this.y, this.x);
+    },
   },
   mounted() {
     if (window.kakao && window.kakao.maps) {
@@ -77,14 +81,17 @@ export default {
   methods: {
     initMap() {
       const container = document.getElementById("map");
-      const latlng = this.x == "" ? new kakao.maps.LatLng(33.450701, 126.570667) : new kakao.maps.LatLng(this.y, this.x);
+      console.log("this.x:  " + this.x);
+      this.latlng = this.x == "" ? new kakao.maps.LatLng(33.450701, 126.570667) : new kakao.maps.LatLng(this.y, this.x);
       const options = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667),
+        center: this.latlng,
         level: 4,
       };
       //지도 객체를 등록합니다.
       //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
       this.map = new kakao.maps.Map(container, options);
+      this.map.setMinLevel(1);
+      this.map.setMaxLevel(7);
     },
     displayMarker() {
       if (this.markers.length > 0) {
@@ -98,6 +105,7 @@ export default {
       var imageSize = new kakao.maps.Size(24, 35);
       // 마커 이미지를 생성합니다
       var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+      let f_coords = new kakao.maps.LatLng(33.450701, 126.570667);
       this.houses.forEach((house) => {
         let coords = new kakao.maps.LatLng(house.lat, house.lng);
 
@@ -121,9 +129,16 @@ export default {
         i++;
         this.markers.push(marker);
         if (i == 1) {
-          this.map.panTo(coords);
+          f_coords = coords;
         }
       });
+
+      if (this.x !== "") {
+        console.log(this.latlng);
+        this.map.panTo(this.latlng);
+      } else {
+        this.map.panTo(f_coords);
+      }
     },
     // 인포윈도우를 표시하는 클로저를 만드는 함수입니다
     makeOverListener(map, marker, infowindow) {
