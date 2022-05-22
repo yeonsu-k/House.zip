@@ -3,7 +3,7 @@
     <b-col sm="8">
       <b-form-input v-model="roadAddress" placeholder="도로명 주소" readonly></b-form-input>
     </b-col>
-    <b-col sm="2">
+    <b-col sm="4">
       <b-button variant="outline-info" @click="execDaum()">찾기</b-button>
     </b-col>
   </b-row>
@@ -45,7 +45,7 @@ export default {
       }).open();
     },
     searchRoad() {
-      let data = { dongCode: this.dongCode, x: this.x, y: this.y };
+      let data = { x: this.x, y: this.y };
       this.$emit("search-road", data);
     },
   },

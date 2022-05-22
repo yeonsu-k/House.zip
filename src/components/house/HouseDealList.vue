@@ -1,50 +1,53 @@
 <template>
   <div>
-    <div>
-      <h2>{{ house.aptName }}</h2>
-    </div>
-    <!-- 지도 -->
-    <div class="mb-4" id="map" style="height: 500px"></div>
-    <div v-if="deals.length">
-      <b-table-simple hover striped responsive class="text-center">
-        <b-thead>
-          <b-tr>
-            <b-th>번호</b-th>
-            <b-th>아파트명</b-th>
-            <b-th>층</b-th>
-            <b-th>면적</b-th>
-            <b-th>거래년도</b-th>
-            <b-th>거래유형</b-th>
-            <b-th>금액(단위:만원)</b-th>
-            <b-th>찜하기</b-th>
-          </b-tr>
-        </b-thead>
-        <b-tbody>
-          <b-tr v-for="(deal, index) in deals" :key="index" class="m-2">
-            <b-td>{{ index + 1 }}</b-td>
-            <b-td>{{ deal.aptName }}</b-td>
-            <b-td>{{ deal.floor }}</b-td>
-            <b-td>{{ deal.area }}</b-td>
-            <b-td>{{ deal.dealYear }}</b-td>
-            <b-td>{{ deal.dealType }}</b-td>
-            <b-td v-if="deal.dealType == '매매'">{{ deal.dealAmount }}</b-td>
-            <b-td v-if="deal.dealType == '전세'">{{ deal.rentMoney }}</b-td>
-            <b-td v-if="deal.dealType == '월세'">{{ deal.rentMoney }} / 월 {{ deal.dealAmount }}</b-td>
-            <b-td>
-              <b-form-checkbox v-model="status" :value="deal.no"> <b-icon v-if="status == deal.no" icon="heart-fill" /> <b-icon v-else icon="heart" /> </b-form-checkbox
-            ></b-td>
-          </b-tr>
-        </b-tbody>
-      </b-table-simple>
-      <div>
-        State: <strong>{{ status }}</strong>
-      </div>
-    </div>
-    <div v-else>
-      <b-row>
-        <b-col><b-alert show>매물이 없습니다.</b-alert></b-col>
-      </b-row>
-    </div>
+    <b-row style="display: flex; width: 100%; height: 100%">
+      <b-col cols="3">
+        <div>
+          <h4>{{ house.aptName }}</h4>
+        </div>
+        <div v-if="deals.length">
+          <b-table-simple hover striped responsive class="text-center">
+            <b-thead>
+              <b-tr>
+                <b-th>층</b-th>
+                <b-th>면적</b-th>
+                <b-th>거래년도</b-th>
+                <b-th>거래유형</b-th>
+                <b-th>금액(단위:만원)</b-th>
+                <b-th>찜하기</b-th>
+              </b-tr>
+            </b-thead>
+            <b-tbody>
+              <b-tr v-for="(deal, index) in deals" :key="index" class="m-2">
+                <b-td>{{ deal.floor }}</b-td>
+                <b-td>{{ deal.area }}</b-td>
+                <b-td>{{ deal.dealYear }}</b-td>
+                <b-td>{{ deal.dealType }}</b-td>
+                <b-td v-if="deal.dealType == '매매'">{{ deal.dealAmount }}</b-td>
+                <b-td v-if="deal.dealType == '전세'">{{ deal.rentMoney }}</b-td>
+                <b-td v-if="deal.dealType == '월세'">{{ deal.rentMoney }} / 월 {{ deal.dealAmount }}</b-td>
+                <b-td>
+                  <b-form-checkbox v-model="status" :value="deal.no"> <b-icon v-if="status == deal.no" icon="heart-fill" /> <b-icon v-else icon="heart" /> </b-form-checkbox
+                ></b-td>
+              </b-tr>
+            </b-tbody>
+          </b-table-simple>
+          <div>
+            State: <strong>{{ status }}</strong>
+          </div>
+        </div>
+        <div v-else>
+          <b-row>
+            <b-col><b-alert show>매물이 없습니다.</b-alert></b-col>
+          </b-row>
+        </div>
+      </b-col>
+      <b-col cols="9">
+        <!-- 지도 -->
+        <div class="mb-4" id="map" style="height: 85vh"></div>
+        <!-- <div id="map" style="display: flex; width: 100%; height: 85vh; padding-left: 0px; padding-right: 0px"></div> -->
+      </b-col>
+    </b-row>
   </div>
 </template>
 
