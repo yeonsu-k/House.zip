@@ -14,7 +14,8 @@
             <b-th>층</b-th>
             <b-th>면적</b-th>
             <b-th>거래년도</b-th>
-            <b-th>실거래가(단위:만원)</b-th>
+            <b-th>거래유형</b-th>
+            <b-th>금액(단위:만원)</b-th>
           </b-tr>
         </b-thead>
         <b-tbody>
@@ -24,7 +25,10 @@
             <b-td>{{ deal.floor }}</b-td>
             <b-td>{{ deal.area }}</b-td>
             <b-td>{{ deal.dealYear }}</b-td>
-            <b-td>{{ deal.dealAmount }}</b-td>
+            <b-td>{{ deal.dealType }}</b-td>
+            <b-td v-if="deal.dealType == '매매'">{{ deal.dealAmount }}</b-td>
+            <b-td v-if="deal.dealType == '전세'">{{ deal.rentMoney }}</b-td>
+            <b-td v-if="deal.dealType == '월세'">{{ deal.rentMoney }} / 월 {{ deal.dealAmount }}</b-td>
           </b-tr>
         </b-tbody>
       </b-table-simple>
