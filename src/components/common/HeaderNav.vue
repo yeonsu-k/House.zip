@@ -1,40 +1,38 @@
 <template>
   <div>
-    <div>
-      <div id="container">
-        <b-navbar toggleable="lg">
-          <b-navbar-brand to="/" class="ml-3 h3"><img class="d-inline-block align-top" src="@/assets/img/buildings.png" style="width: 30px" /> House.zip </b-navbar-brand>
-          <b-nav-toggle target="nav-collapse"></b-nav-toggle>
-          <b-collapse id="nav-collapse" is-nav>
-            <b-navbar-nav class="ml-auto">
-              <b-nav-item to="/intro" class="mr-3">intro</b-nav-item>
-              <b-nav-item to="/house/all" class="mr-3">거래조회</b-nav-item>
-              <b-nav-item to="/notice" class="mr-3">공지사항</b-nav-item>
-              <b-nav-item to="/qna" class="mr-3">QnA</b-nav-item>
+    <b-container>
+      <b-navbar toggleable="lg">
+        <b-navbar-brand to="/" class="h3"><img class="d-inline-block align-top" src="@/assets/img/buildings.png" style="width: 30px" /> House.zip </b-navbar-brand>
+        <b-nav-toggle target="nav-collapse"></b-nav-toggle>
+        <b-collapse id="nav-collapse" is-nav>
+          <b-navbar-nav class="ml-auto" small>
+            <b-nav-item to="/intro" class="mr-3">intro</b-nav-item>
+            <b-nav-item to="/house/all" class="mr-3">거래조회</b-nav-item>
+            <b-nav-item to="/notice" class="mr-3">공지사항</b-nav-item>
+            <b-nav-item to="/qna" class="mr-3">QnA</b-nav-item>
 
-              <template v-if="getUser">
-                <b-nav-item-dropdown class="mr-3">
-                  <template #button-content
-                    ><b-icon icon="person-circle" variant="primary" class="" /> <span class="text-info">{{ user.name }}님</span></template
-                  >
-                  <b-nav-item :to="{ name: 'UserDetail', params: { id: user.id } }" class="mr-3 text-right"> <b-icon icon="person-circle" class="mr-1" />My Page</b-nav-item>
-                  <b-dropdown-divider></b-dropdown-divider>
-                  <b-nav-item href="#" @click="logout" id="blink" class="mr-3 text-right"> <b-icon icon="unlock" class="mr-1" />Logout</b-nav-item>
-                </b-nav-item-dropdown>
-              </template>
-              <template v-else>
-                <b-nav-item-dropdown>
-                  <template #button-content><b-icon icon="person-circle" class="mr-2" />로그인 하세요.</template>
-                  <b-nav-item href="/login" class="mr-3 text-right" id="blink">LOGIN</b-nav-item>
-                  <b-dropdown-divider></b-dropdown-divider>
-                  <b-nav-item href="/user/regist" class="mr-3 text-right" id="blink">JOIN</b-nav-item>
-                </b-nav-item-dropdown>
-              </template>
-            </b-navbar-nav>
-          </b-collapse>
-        </b-navbar>
-      </div>
-    </div>
+            <template v-if="getUser">
+              <b-nav-item-dropdown class="mr-3">
+                <template #button-content
+                  ><b-icon icon="person-circle" variant="primary" class="" /> <span class="text-info">{{ user.name }}님</span></template
+                >
+                <b-nav-item :to="{ name: 'UserDetail', params: { id: user.id } }" class="mr-3 text-right"> <b-icon icon="person-circle" class="mr-1" />My Page</b-nav-item>
+                <b-dropdown-divider></b-dropdown-divider>
+                <b-nav-item href="#" @click="logout" id="blink" class="mr-3 text-right"> <b-icon icon="unlock" class="mr-1" />Logout</b-nav-item>
+              </b-nav-item-dropdown>
+            </template>
+            <template v-else>
+              <b-nav-item-dropdown>
+                <template #button-content><b-icon icon="person-circle" class="mr-2" />로그인 하세요.</template>
+                <b-nav-item href="/login" class="mr-3 text-right" id="blink">LOGIN</b-nav-item>
+                <b-dropdown-divider></b-dropdown-divider>
+                <b-nav-item href="/user/regist" class="mr-3 text-right" id="blink">JOIN</b-nav-item>
+              </b-nav-item-dropdown>
+            </template>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
+    </b-container>
   </div>
 </template>
 <script>

@@ -103,11 +103,6 @@ const routes = [
         name: "HouseDong",
         //component: () => import("@/components/house/MovieCreate.vue"),
       },
-      {
-        path: "detail/:code",
-        name: "MovieDetail",
-        //component: () => import("@/components/house/MovieDetail.vue"),
-      },
     ],
   },
   {

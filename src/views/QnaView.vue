@@ -1,13 +1,5 @@
 <template>
   <div>
-    <!-- Header -->
-    <b-jumbotron>
-      <div class="text-white">
-        <h1 class="font-weight-bold display-4">Q & A</h1>
-        <hr style="background-color: white; height: 2px" />
-        <span style="font-size: 20px"><h6>관리자와 고객 1:1 질의응답</h6></span>
-      </div>
-    </b-jumbotron>
     <router-view
       :loginUser="this.loginUser"
       :isManager="this.isManager"
@@ -129,30 +121,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.jumbotron {
-  height: 40vh;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-}
-.jumbotron::after {
-  width: 100%;
-  height: 100%;
-  content: "";
-  /* background: url("@/assets/img/login-bg.jpg"); */
-  background-position: center;
-  background-size: fill;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  opacity: 0.8;
-}
-
-.jumbotron > div {
-  width: 70%;
-  height: 40vh;
-  display: inline-block;
-}
-</style>
+<style scoped></style>
