@@ -1,9 +1,9 @@
 <template>
   <div>
-    <b-container>
+    <div class="contents px-5">
       <b-navbar toggleable="lg">
-        <b-navbar-brand to="/" class="h3"><img class="d-inline-block align-top" src="@/assets/img/buildings.png" style="width: 30px" /> House.zip </b-navbar-brand>
-        <b-nav-toggle target="nav-collapse"></b-nav-toggle>
+        <b-navbar-brand to="/" class="h3 ml-2"> <img class="d-inline-block align-top" src="@/assets/img/buildings.png" style="width: 30px" /> House.zip </b-navbar-brand>
+        <b-nav-toggle target="nav-collapse"> </b-nav-toggle>
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav class="ml-auto" small>
             <b-nav-item to="/intro" class="mr-3">intro</b-nav-item>
@@ -32,7 +32,7 @@
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
-    </b-container>
+    </div>
   </div>
 </template>
 <script>

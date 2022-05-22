@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <span style="font-size: 35px">QnA 목록</span>
+    <p class="text-center" style="font-size: 35px">QnA 목록</p>
     <b-button v-if="this.loginUser && !this.isManager" variant="outline-warning" style="float: right; width: auto" to="/qna/regist">문의하기</b-button>
     <hr />
     <div class="text-right">

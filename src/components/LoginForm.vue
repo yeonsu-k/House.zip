@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container">
+    <b-container>
       <div class="container px-4 px-lg-5">
         <div class="justify-content-center">
           <h1>Login</h1>
@@ -26,7 +26,7 @@
           </a>
         </div>
       </div>
-    </div>
+    </b-container>
   </div>
 </template>
 <script>

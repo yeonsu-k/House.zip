@@ -77,8 +77,8 @@
                   <b-list-group>
                     <b-list-group-item v-for="(news, index) in newslist" :key="index" :href="news.url" target="_blank" class="flex-column align-items-start">
                       <div class="d-flex w-100 justify-content-between">
-                        <div class="mb-1 font-weight-bold">{{ news.title }}</div>
-                        <small class="text-muted ml-auto">{{ news.time }}</small>
+                        <div class="font-weight-bold">{{ news.title }}</div>
+                        <small class="text-muted">{{ news.time }}</small>
                       </div>
                       <!-- <div class="mb-1 mt-2">
                         {{ news.content }}
