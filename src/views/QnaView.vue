@@ -140,7 +140,7 @@ export default {
   width: 100%;
   height: 100%;
   content: "";
-  background: url("@/assets/login-bg.jpg");
+  background: url("@/assets/img/login-bg.jpg");
   background-position: center;
   background-size: fill;
   position: absolute;

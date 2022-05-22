@@ -38,7 +38,7 @@ export default {};
   width: 100%;
   height: 100%;
   content: "";
-  background: url("@/assets/home-bg.jpg");
+  background: url("@/assets/img/home-bg.jpg");
   background-position: center;
   background-size: fill;
   position: absolute;

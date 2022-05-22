@@ -119,7 +119,7 @@ export default {
   width: 100%;
   height: 100%;
   content: "";
-  background: url("@/assets/mypage-bg.jpg");
+  background: url("@/assets/img/mypage-bg.jpg");
   background-position: center;
   background-size: fill;
   position: absolute;

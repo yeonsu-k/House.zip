@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <!-- Header-->
-
     <!-- <b-jumbotron>
       <div>
         <img class="mb-4" src="@/assets/house_rogo.png" />
@@ -10,8 +9,15 @@
         <span style="font-size: 25px"><h4>welcome to house</h4></span>
       </div>
     </b-jumbotron> -->
+    <div>
+      <b-carousel id="carousel-fade" style="text-shadow: 0px 0px 2px #000" fade indicators img-width="1024" img-height="480">
+        <b-carousel-slide caption="First Slide" img-src="@/assets/home-bg"></b-carousel-slide>
+        <b-carousel-slide caption="Second Slide" img-src="https://picsum.photos/1024/480/?image=12"></b-carousel-slide>
+        <b-carousel-slide caption="Third Slide" img-src="https://picsum.photos/1024/480/?image=22"></b-carousel-slide>
+      </b-carousel>
+    </div>
     <div class="text-center">
-      <img class="mt-5 mb-4" src="@/assets/house_rogo.png" />
+      <img class="mt-5 mb-4" src="@/assets/img/house_rogo.png" />
       <h1 class="font-weight-bold display-4 mb-4">Happy House</h1>
       <hr />
       <span style="font-size: 25px"><h4>welcome to house</h4></span>

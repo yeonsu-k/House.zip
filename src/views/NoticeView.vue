@@ -94,7 +94,7 @@ export default {
   width: 100%;
   height: 100%;
   content: "";
-  background: url("@/assets/notice.jpg");
+  background: url("@/assets/img/notice.jpg");
   background-position: center;
   background-size: fill;
   position: absolute;
