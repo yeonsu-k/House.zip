@@ -39,4 +39,12 @@ export default {
   },
 };
 </script>
-<style></style>
+<style>
+#container {
+  width: 90vw;
+  margin: 0 auto;
+}
+#blink {
+  text-decoration-line: none;
+}
+</style>
