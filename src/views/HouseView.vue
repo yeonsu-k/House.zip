@@ -57,10 +57,30 @@ export default {
       }
     },
     searchRoad(data) {
-      this.x = data.x;
+      this.x = data.x; //lng
       this.y = data.y;
       this.dongCode = data.dongCode;
-      this.searchDong(this.dongCode);
+      // console.log(this.x + " : " + this.y);
+      // this.searchDong(this.dongCode);
+      this.searchDist(this.y, this.x);
+    },
+    searchDist(lat, lng) {
+      axios
+        .post("http://localhost:8080/happyhouse/house/dist", {
+          lat: lat,
+          lng: lng,
+          dist: 1,
+        })
+        .then(({ data }) => {
+          this.houses = data;
+          // console.log(this.houses);
+          // this.$router.push("/house");
+        })
+        .catch(({ error }) => {
+          let msg = "조회 중 문제가 발생했습니다.";
+          alert(msg);
+          // this.$router.push("/house");
+        });
     },
     searchDong(dongCode) {
       axios
@@ -79,6 +99,8 @@ export default {
         });
     },
     searchApt(gugunCode) {
+      this.x = "";
+      this.y = "";
       console.log("this.gugunCode " + gugunCode);
       axios
         .post("http://localhost:8080/happyhouse/house/all", {
