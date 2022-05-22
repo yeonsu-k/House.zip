@@ -16,6 +16,7 @@
             <b-th>거래년도</b-th>
             <b-th>거래유형</b-th>
             <b-th>금액(단위:만원)</b-th>
+            <b-th>찜하기</b-th>
           </b-tr>
         </b-thead>
         <b-tbody>
@@ -29,9 +30,15 @@
             <b-td v-if="deal.dealType == '매매'">{{ deal.dealAmount }}</b-td>
             <b-td v-if="deal.dealType == '전세'">{{ deal.rentMoney }}</b-td>
             <b-td v-if="deal.dealType == '월세'">{{ deal.rentMoney }} / 월 {{ deal.dealAmount }}</b-td>
+            <b-td>
+              <b-form-checkbox v-model="status" :value="deal.no"> <b-icon v-if="status == deal.no" icon="heart-fill" /> <b-icon v-else icon="heart" /> </b-form-checkbox
+            ></b-td>
           </b-tr>
         </b-tbody>
       </b-table-simple>
+      <div>
+        State: <strong>{{ status }}</strong>
+      </div>
     </div>
     <div v-else>
       <b-row>
@@ -52,6 +59,7 @@ export default {
   },
   data() {
     return {
+      status: false,
       house: null,
       deals: [],
     };
