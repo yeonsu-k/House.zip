@@ -3,7 +3,7 @@
     <div>
       <div id="container">
         <b-navbar toggleable="lg">
-          <b-navbar-brand to="/" class="ml-3"><h3>Happy House</h3></b-navbar-brand>
+          <b-navbar-brand to="/" class="ml-3 h3"> House.zip </b-navbar-brand>
           <b-nav-toggle target="nav-collapse"></b-nav-toggle>
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav class="ml-auto">

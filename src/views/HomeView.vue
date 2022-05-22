@@ -10,10 +10,16 @@
       </div>
     </b-jumbotron> -->
     <div>
-      <b-carousel id="carousel-fade" style="text-shadow: 0px 0px 2px #000" fade indicators img-width="1024" img-height="480">
-        <b-carousel-slide caption="First Slide" img-src="@/assets/home-bg"></b-carousel-slide>
-        <b-carousel-slide caption="Second Slide" img-src="https://picsum.photos/1024/480/?image=12"></b-carousel-slide>
-        <b-carousel-slide caption="Third Slide" img-src="https://picsum.photos/1024/480/?image=22"></b-carousel-slide>
+      <b-carousel id="carousel-fade" style="text-shadow: 0px 0px 2px #000" fade indicators interval="3800">
+        <b-carousel-slide caption="First Slide">
+          <img slot="img" class="sliders" src="@/assets/img/slider1.jpg" />
+        </b-carousel-slide>
+        <b-carousel-slide caption="Seconde Slide">
+          <img slot="img" class="sliders" src="@/assets/img/slider2.jpg" />
+        </b-carousel-slide>
+        <b-carousel-slide caption="Third Slide">
+          <img slot="img" class="sliders" src="@/assets/img/slider3.jpg" />
+        </b-carousel-slide>
       </b-carousel>
     </div>
     <div class="text-center">
@@ -92,6 +98,10 @@ export default {
 </script>
 
 <style scoped>
+.sliders {
+  width: 100%;
+  height: 35vw;
+}
 /* .home {
   height: 40vh;
   width: 100%;

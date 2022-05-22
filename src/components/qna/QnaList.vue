@@ -158,7 +158,7 @@ export default {
 
 <style scoped>
 .jumbotron {
-  background-image: url("@/assets/img/login-bg.jpg");
+  /* background-image: url("@/assets/img/login-bg.jpg"); */
   background-position: center;
   background-size: fill;
   height: 40vh;
