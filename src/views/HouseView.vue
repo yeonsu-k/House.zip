@@ -1,22 +1,19 @@
 <template>
   <div>
-    <!-- Header-->
-    <b-jumbotron>
-      <div>
-        <h1 class="font-weight-bold display-4">Happy House</h1>
-        <hr />
-        <span style="font-size: 25px"><h4>welcome to house</h4></span>
-      </div>
-    </b-jumbotron>
-    <b-form-radio-group v-model="selected" :options="options" class="mb-3" value-field="item" text-field="name" disabled-field="notEnabled" @change="radioChange()"></b-form-radio-group>
-
-    <div v-if="selected == 'A'">
-      <house-search-bar @search-apt="searchApt"></house-search-bar>
-    </div>
-    <div v-else>
-      <house-search-road @search-road="searchRoad" :roadAddress="roadAddress"></house-search-road>
-    </div>
-    <router-view :loginUser="this.loginUser" :isManager="this.isManager" :houses="houses" :x="x" :y="y" :dongCode="dongCode" />
+    <!-- <b-container> -->
+    <b-row>
+      <b-col cols="3">
+        <b-form-radio-group v-model="selected" :options="options" value-field="item" text-field="name" disabled-field="notEnabled" @change="radioChange()"></b-form-radio-group>
+        <div v-if="selected == 'A'">
+          <house-search-bar @search-apt="searchApt"></house-search-bar>
+        </div>
+        <div v-else>
+          <house-search-road @search-road="searchRoad" :roadAddress="roadAddress"></house-search-road>
+        </div>
+      </b-col>
+      <b-col cols="9"> </b-col>
+    </b-row>
+    <router-view @update_lv="updateLv" @search-road="searchRoad" :loginUser="this.loginUser" :isManager="this.isManager" :houses="houses" :x="x" :y="y" />
   </div>
 </template>
 <script>
@@ -45,31 +42,55 @@ export default {
       roadAddress: "",
       x: "",
       y: "",
-      dongCode: "",
+      dist: 1,
     };
   },
   methods: {
+    updateLv(lv) {
+      // console.log("update-" + lv);
+      switch (lv) {
+        case 1:
+          this.dist = 0.4;
+          break;
+        case 2:
+          this.dist = 0.6;
+          break;
+        case 3:
+          this.dist = 1;
+          break;
+        case 4:
+          this.dist = 1.8;
+          break;
+        case 5:
+          this.dist = 2.8;
+          break;
+        default:
+          this.dist = 4.5;
+          break;
+      }
+    },
     radioChange() {
       if (this.selected == "A") {
         this.x = "";
         this.y = "";
-        this.dongCode = "";
       }
     },
     searchRoad(data) {
+      // console.log("update-" + data);
       this.x = data.x; //lng
       this.y = data.y;
-      this.dongCode = data.dongCode;
+      // this.dongCode = data.dongCode;
       // console.log(this.x + " : " + this.y);
       // this.searchDong(this.dongCode);
       this.searchDist(this.y, this.x);
     },
     searchDist(lat, lng) {
+      console.log(this.dist);
       axios
         .post("http://localhost:8080/happyhouse/house/dist", {
           lat: lat,
           lng: lng,
-          dist: 1,
+          dist: this.dist,
         })
         .then(({ data }) => {
           this.houses = data;
@@ -108,7 +129,7 @@ export default {
         })
         .then(({ data }) => {
           this.houses = data;
-          console.log(this.houses);
+          // console.log(this.houses);
           // this.$router.push("/house");
         })
         .catch(({ error }) => {
@@ -130,28 +151,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.jumbotron {
-  height: 40vh;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-}
-.jumbotron::after {
-  width: 100%;
-  height: 100%;
-  content: "";
-  /* background: url("@/assets/img/mypage-bg.jpg"); */
-  background-position: center;
-  background-size: fill;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  opacity: 0.65;
-}
-.jumbotron > div {
-  width: 70%;
-  display: inline-block;
-}
-</style>
+<style scoped></style>

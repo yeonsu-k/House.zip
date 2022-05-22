@@ -2,7 +2,7 @@
   <div id="app">
     <header-nav :user="user" @logout="logout"></header-nav>
     <router-view :user="user" @logout="logout" @login="login"></router-view>
-    <footer-view></footer-view>
+    <footer-view v-if="$route.name != 'house' && $route.name != 'HouseAll'"></footer-view>
   </div>
 </template>
 
@@ -39,12 +39,4 @@ export default {
   },
 };
 </script>
-<style>
-#container {
-  width: 90vw;
-  margin: 0 auto;
-}
-#blink {
-  text-decoration-line: none;
-}
-</style>
+<style></style>
