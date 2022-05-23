@@ -12,21 +12,21 @@
             <b-nav-item to="/qna" class="mr-3">QnA</b-nav-item>
 
             <template v-if="getUser">
-              <b-nav-item-dropdown class="mr-3">
-                <template #button-content
-                  ><b-icon icon="person-circle" variant="primary" class="" /> <span class="text-info">{{ user.name }}님</span></template
+              <b-nav-item-dropdown right>
+                <template #button-content>
+                  <b-icon icon="person-circle" variant="primary" /> <span class="text-info">{{ user.name }}님</span></template
                 >
-                <b-nav-item :to="{ name: 'UserDetail', params: { id: user.id } }" class="mr-3 text-right"> <b-icon icon="person-circle" class="mr-1" />My Page</b-nav-item>
+                <b-nav-item :to="{ name: 'UserDetail', params: { id: user.id } }" class="mr-3 text-right"> <b-icon icon="person-lines-fill" class="mr-1" />MyPage</b-nav-item>
                 <b-dropdown-divider></b-dropdown-divider>
-                <b-nav-item href="#" @click="logout" id="blink" class="mr-3 text-right"> <b-icon icon="unlock" class="mr-1" />Logout</b-nav-item>
+                <b-nav-item href="#" @click="logout" id="blink" class="mr-3 text-right"> <b-icon icon="box-arrow-left" class="mr-1" />Logout</b-nav-item>
               </b-nav-item-dropdown>
             </template>
             <template v-else>
-              <b-nav-item-dropdown>
-                <template #button-content><b-icon icon="person-circle" class="mr-2" />로그인 하세요.</template>
-                <b-nav-item href="/login" class="mr-3 text-right" id="blink">LOGIN</b-nav-item>
+              <b-nav-item-dropdown right>
+                <template #button-content> <b-icon icon="person-circle" class="mr-1" />로그인 하세요.</template>
+                <b-nav-item href="/login" class="mr-3 text-right" id="blink"><b-icon icon="box-arrow-in-right" class="mr-2" />LOGIN</b-nav-item>
                 <b-dropdown-divider></b-dropdown-divider>
-                <b-nav-item href="/user/regist" class="mr-3 text-right" id="blink">JOIN</b-nav-item>
+                <b-nav-item href="/user/regist" class="mr-3 text-right" id="blink"><b-icon icon="pencil" class="mr-1" />JOIN</b-nav-item>
               </b-nav-item-dropdown>
             </template>
           </b-navbar-nav>

@@ -16,7 +16,8 @@
             </div>
           </form>
           <!-- Login Button-->
-          <button class="btn mb-3" style="background-color: #ece6cc; width: 100%" id="loginBtn" @click="login">로그인</button>
+          <!-- 버튼색 추천 :  #ece6cc , #637DB0 , #48608a , #506e80 -->
+          <button class="btn mb-3" style="background-color: #ece6cc; width: 100%" @click="login">로그인</button>
           <div class="text-right">
             <b-link to="${root}/user/findpwd">
               <h6 style="color: #ffbf00">비밀번호 찾기</h6>
