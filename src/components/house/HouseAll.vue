@@ -8,8 +8,8 @@
               <b-tr>
                 <b-th>번호</b-th>
                 <b-th>건물명</b-th>
+                <b-th>건물타입</b-th>
                 <b-th>건축년도</b-th>
-
                 <b-th>매물수</b-th>
               </b-tr>
             </b-thead>
@@ -19,6 +19,7 @@
                 <b-td>
                   <router-link :to="{ name: 'HouseDealList', params: { house: house, aptCode: house.aptCode } }">{{ house.aptName }}</router-link>
                 </b-td>
+                <b-td>{{ house.infoType }}</b-td>
                 <b-td>{{ house.buildYear }}</b-td>
 
                 <b-td>{{ house.total }}</b-td>
