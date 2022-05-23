@@ -58,7 +58,7 @@ export default {
       markers: [],
       infowindow: null,
       latlng: null,
-      lv: 4,
+      lv: 3,
     };
   },
   props: {
@@ -112,8 +112,8 @@ export default {
       //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
       this.map = new kakao.maps.Map(container, options);
       this.map.setMinLevel(1);
-      this.map.setMaxLevel(6);
-      kakao.maps.event.addListener(this.map, "idle", this.getInfo);
+      this.map.setMaxLevel(3);
+      kakao.maps.event.addListener(this.map, "tilesloaded", this.getInfo);
     },
     getInfo() {
       // 지도의 중심좌표를 얻어옵니다

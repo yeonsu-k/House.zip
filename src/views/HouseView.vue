@@ -60,17 +60,8 @@ export default {
         case 2:
           this.dist = 0.28;
           break;
-        case 3:
-          this.dist = 0.55;
-          break;
-        case 4:
-          this.dist = 1.1;
-          break;
-        case 5:
-          this.dist = 2.2;
-          break;
         default:
-          this.dist = 4.0;
+          this.dist = 0.55;
           break;
       }
       // console.log("update-" + data);
