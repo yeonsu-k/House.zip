@@ -30,7 +30,8 @@
             <h4>추천매물 / 관심매물</h4>
             <b-card-group deck>
               <b-card>
-                <img class="card-img img-fluid mb-5" src="@/assets/img/test1.jpg" />
+                <!-- <img class="card-img img-fluid mb-5" src="@/assets/img/test1.jpg" /> -->
+                <img class="card-img img-fluid mb-5" style="height: 18vw" src="@/assets/img/test1.jpg" />
                 <h4>연립다세대</h4>
                 <b-card-text
                   ><br />
@@ -100,10 +101,10 @@
               <b-card-group deck>
                 <b-card header="공지사항">
                   <b-list-group>
-                    <b-list-group-item v-for="(news, index) in newslist" :key="index" :href="news.url" target="_blank" class="flex-column align-items-start">
+                    <b-list-group-item v-for="(notice, index) in notices" :key="index" :to="{ name: 'NoticeDetail', params: { no: notice.no } }" target="_blank" class="flex-column align-items-start">
                       <div class="d-flex w-100 justify-content-between">
-                        <div class="mb-1 font-weight-bold"><b-icon icon="caret-right-fill" class="mr-1"></b-icon>{{ news.title }}</div>
-                        <small class="text-muted ml-auto px-1">{{ news.time }}</small>
+                        <div class="mb-1 font-weight-bold"><b-icon icon="caret-right-fill" class="mr-1"></b-icon>{{ notice.title }}</div>
+                        <small class="text-muted ml-auto px-1">{{ notice.regtime }}</small>
                       </div>
                     </b-list-group-item>
                   </b-list-group>
@@ -147,6 +148,9 @@ export default {
       newslist: {
         type: Array,
       },
+      notices: {
+        type: Array,
+      },
       //     loginUser: "",
       //     isManager: "",
     };
@@ -155,6 +159,14 @@ export default {
     axios.get("http://localhost:8080/happyhouse/crawling/").then(({ data }) => {
       this.newslist = data;
     });
+    axios
+      .get("http://localhost:8080/happyhouse/notice/", { params: { sortCal: "regtime", sortVal: "desc", limit: 5, offset: 0 } })
+      .then(({ data }) => {
+        this.notices = data;
+      })
+      .catch(() => {
+        alert("에러가 발생했습니다.");
+      });
     // if (this.user) {
     //   this.loginUser = this.user.id;
     //   this.isManager = this.user.manager;

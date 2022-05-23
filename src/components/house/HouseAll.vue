@@ -1,15 +1,15 @@
 <template>
-  <div>
+  <div style="height: 85vh">
     <b-row style="display: flex; width: 100%; height: 100%">
       <b-col cols="3">
         <div v-if="houses.length">
-          <b-table-simple hover striped responsive class="text-center">
+          <b-table-simple sticky-header no-border-collapse hover striped class="text-center">
             <b-thead>
               <b-tr>
                 <b-th>번호</b-th>
-                <b-th>아파트명</b-th>
+                <b-th>건물명</b-th>
                 <b-th>건축년도</b-th>
-                <b-th>아파트코드</b-th>
+
                 <b-th>매물수</b-th>
               </b-tr>
             </b-thead>
@@ -20,7 +20,7 @@
                   <router-link :to="{ name: 'HouseDealList', params: { house: house, aptCode: house.aptCode } }">{{ house.aptName }}</router-link>
                 </b-td>
                 <b-td>{{ house.buildYear }}</b-td>
-                <b-td>{{ house.aptCode }}</b-td>
+
                 <b-td>{{ house.total }}</b-td>
               </b-tr>
             </b-tbody>
@@ -37,7 +37,7 @@
         <p id="result"></p>
         <!-- <div id="map" style="display: flex; width: 100%; height: 85vh; padding-left: 0px; padding-right: 0px"></div> -->
         <div class="map_wrap">
-          <div class="mb-4" id="map" style="height: 85vh; position: relative; overflow: hidden"></div>
+          <div class="mb-4" id="map" style="height: 100%; position: relative; overflow: hidden"></div>
           <!-- 지도 확대, 축소 컨트롤 div 입니다 -->
           <!-- <div class="custom_zoomcontrol radius_border">
             <span @click="zoomIn()"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대" /></span>
@@ -81,9 +81,10 @@ export default {
     x() {
       this.latlng = this.x == "" ? new kakao.maps.LatLng(33.450701, 126.570667) : new kakao.maps.LatLng(this.y, this.x);
     },
-    lv() {
-      this.$emit("update_lv", this.lv);
-    },
+    // lv() {
+    //   // this.$emit("update_lv", this.lv);
+    //   this.getInfo();
+    // },
   },
   mounted() {
     if (window.kakao && window.kakao.maps) {
@@ -117,7 +118,7 @@ export default {
       // 지도의 중심좌표를 얻어옵니다
       var latlng = this.map.getCenter();
       this.lv = this.map.getLevel();
-      let data = { x: latlng.getLng(), y: latlng.getLat() };
+      let data = { lv: this.map.getLevel(), x: latlng.getLng(), y: latlng.getLat() };
       // console.log(data);
       this.$emit("search-road", data);
     },
@@ -138,9 +139,22 @@ export default {
       this.markers = [];
 
       let i = 0;
-      let imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+      let imageSrc = "http://drive.google.com/uc?export=view&id=1fTg0Xop_1pBwKNxGnEPSr2jZwu3h61Yt";
+      // let imageSrc = "http://drive.google.com/uc?export=view&id=1XfXxlgJua7Y3BzxI4ugGGFBfJcPMOXmT";
+      // let imageSrc = "http://drive.google.com/uc?export=view&id=1Sp240hE8weIJ6l4X2sBkORkn3ntWzrhs";
+      // let imageSrc = "http://drive.google.com/uc?export=view&id=1BJm09kQRgh6PgiiOtP5eAoyHMF9vneOu";
+
+      //민트
+      //http://drive.google.com/uc?export=view&id=1fTg0Xop_1pBwKNxGnEPSr2jZwu3h61Yt
+      //노랑
+      //http://drive.google.com/uc?export=view&id=1XfXxlgJua7Y3BzxI4ugGGFBfJcPMOXmT
+      //연두
+      //http://drive.google.com/uc?export=view&id=1Sp240hE8weIJ6l4X2sBkORkn3ntWzrhs
+      //보라
+      //http://drive.google.com/uc?export=view&id=1BJm09kQRgh6PgiiOtP5eAoyHMF9vneOu
+
       // 마커 이미지의 이미지 크기 입니다
-      var imageSize = new kakao.maps.Size(24, 35);
+      var imageSize = new kakao.maps.Size(40, 40);
       // 마커 이미지를 생성합니다
       var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
       let f_coords = new kakao.maps.LatLng(33.450701, 126.570667);

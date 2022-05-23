@@ -12,8 +12,8 @@
         <b-col cols="2">
           <b-button variant="outline-info" @click="execDaum()">검색</b-button>
         </b-col> -->
-        <b-col cols="8"></b-col>
-        <b-col cols="2"><b-form-checkbox id="checkbox-1" v-model="status" name="checkbox-1"> 답변완료 글만 보기 </b-form-checkbox> </b-col>
+        <b-col cols="7"></b-col>
+        <b-col cols="3"><b-form-checkbox id="checkbox-1" v-model="status" name="checkbox-1"> 답변완료 글만 보기 </b-form-checkbox> </b-col>
         <b-col align-self="end" cols="2">
           <small class="mb-3 text-right">* 목록 수 : {{ total }} </small>
         </b-col>

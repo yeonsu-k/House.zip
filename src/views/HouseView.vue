@@ -13,7 +13,7 @@
       </b-col>
       <b-col cols="9"> </b-col>
     </b-row>
-    <router-view @update_lv="updateLv" @search-road="searchRoad" :loginUser="this.loginUser" :isManager="this.isManager" :houses="houses" :x="x" :y="y" />
+    <router-view @search-road="searchRoad" :loginUser="this.loginUser" :isManager="this.isManager" :houses="houses" :x="x" :y="y" />
   </div>
 </template>
 <script>
@@ -46,29 +46,6 @@ export default {
     };
   },
   methods: {
-    updateLv(lv) {
-      // console.log("update-" + lv);
-      switch (lv) {
-        case 1:
-          this.dist = 0.4;
-          break;
-        case 2:
-          this.dist = 0.6;
-          break;
-        case 3:
-          this.dist = 1;
-          break;
-        case 4:
-          this.dist = 1.8;
-          break;
-        case 5:
-          this.dist = 2.8;
-          break;
-        default:
-          this.dist = 4.5;
-          break;
-      }
-    },
     radioChange() {
       if (this.selected == "A") {
         this.x = "";
@@ -76,6 +53,26 @@ export default {
       }
     },
     searchRoad(data) {
+      switch (data.lv) {
+        case 1:
+          this.dist = 0.17;
+          break;
+        case 2:
+          this.dist = 0.28;
+          break;
+        case 3:
+          this.dist = 0.55;
+          break;
+        case 4:
+          this.dist = 1.1;
+          break;
+        case 5:
+          this.dist = 2.2;
+          break;
+        default:
+          this.dist = 4.0;
+          break;
+      }
       // console.log("update-" + data);
       this.x = data.x; //lng
       this.y = data.y;
