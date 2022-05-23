@@ -94,7 +94,7 @@
                     <b-th>면적</b-th>
                     <b-th>거래년도</b-th>
                     <b-th>거래유형</b-th>
-                    <b-th>금액(단위:만원)</b-th>
+                    <b-th>금액</b-th>
                     <b-th>찜하기</b-th>
                   </b-tr>
                 </b-thead>
@@ -104,9 +104,9 @@
                     <b-td>{{ deal.area }}</b-td>
                     <b-td>{{ deal.dealYear }}</b-td>
                     <b-td>{{ deal.dealType }}</b-td>
-                    <b-td v-if="deal.dealType == '매매'">{{ deal.dealAmount }}</b-td>
-                    <b-td v-if="deal.dealType == '전세'">{{ deal.rentMoney }}</b-td>
-                    <b-td v-if="deal.dealType == '월세'">{{ deal.rentMoney }} / 월 {{ deal.dealAmount }}</b-td>
+                    <b-td v-if="deal.dealType == '매매'">{{ replaceMoney(deal.dealAmount) }}</b-td>
+                    <b-td v-if="deal.dealType == '전세'">{{ replaceMoney(deal.rentMoney) }}</b-td>
+                    <b-td v-if="deal.dealType == '월세'">{{ replaceMoney(deal.rentMoney) }} / 월 {{ deal.dealAmount }}</b-td>
                     <b-td>
                       <b-button variant="outline-danger" @click="interestCheck(deal.no)" style="border: none; outline: none">
                         <!-- <b-icon icon="heart" /> -->
@@ -233,6 +233,14 @@ export default {
   },
   mounted() {},
   methods: {
+    replaceMoney(money) {
+      let lm = parseInt(money / 10000) + "";
+      let rm = (money % 10000) + "";
+
+      if (lm != "0" && rm != "0") return lm + "억 " + rm + "만원";
+      else if (lm != "0") return lm + "억";
+      else return rm + "만원";
+    },
     // filterByCategory(category) {
     //   this.filterItem = this.datacollection.datasets
     //     .map((s, i) => {
