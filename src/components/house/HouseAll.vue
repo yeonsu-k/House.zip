@@ -143,7 +143,7 @@ export default {
       let i = 0;
       let imageSrc_apt = "http://drive.google.com/uc?export=view&id=1fTg0Xop_1pBwKNxGnEPSr2jZwu3h61Yt";
       let imageSrc_op = "http://drive.google.com/uc?export=view&id=1BJm09kQRgh6PgiiOtP5eAoyHMF9vneOu";
-      let imageSrc_bil = "http://drive.google.com/uc?export=view&id=1Sp240hE8weIJ6l4X2sBkORkn3ntWzrhs";
+      let imageSrc_bil = "http://drive.google.com/uc?export=view&id=1XfXxlgJua7Y3BzxI4ugGGFBfJcPMOXmT";
       // let imageSrc = "http://drive.google.com/uc?export=view&id=1XfXxlgJua7Y3BzxI4ugGGFBfJcPMOXmT";
       // let imageSrc = "http://drive.google.com/uc?export=view&id=1Sp240hE8weIJ6l4X2sBkORkn3ntWzrhs";
       // let imageSrc = "http://drive.google.com/uc?export=view&id=1BJm09kQRgh6PgiiOtP5eAoyHMF9vneOu";
@@ -167,11 +167,7 @@ export default {
       this.houses.forEach((house) => {
         let coords = new kakao.maps.LatLng(house.lat, house.lng);
 
-        console.log(house.infoType === "오피스텔");
-        if (house.infoType == "오피스텔") console.log(house.aptName);
-        else console.log("NOP: [" + house.infoType + "]");
-
-        let markerImage = house.infoType == "아파트" ? markerImage_apt : house.infoType == "오피스텔" ? markerImage_op : markerImage_bil;
+        let markerImage = house.infoType.trim() == "아파트" ? markerImage_apt : house.infoType.trim() == "오피스텔" ? markerImage_op : markerImage_bil;
         let marker = new kakao.maps.Marker({
           map: this.map,
           position: coords,
