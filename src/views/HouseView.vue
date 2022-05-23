@@ -3,9 +3,9 @@
     <!-- <b-container> -->
     <b-row>
       <b-col cols="3">
-        <b-form-radio-group v-model="selected" :options="options" value-field="item" text-field="name" disabled-field="notEnabled" @change="radioChange()"></b-form-radio-group>
+        <b-form-radio-group class="ml-3" v-model="selected" :options="options" value-field="item" text-field="name" disabled-field="notEnabled" @change="radioChange()"></b-form-radio-group>
         <div v-if="selected == 'A'">
-          <house-search-bar @search-apt="searchApt"></house-search-bar>
+          <house-search-bar class="ml-3 mr-2" @search-apt="searchApt"></house-search-bar>
         </div>
         <div v-else>
           <house-search-road @search-road="searchRoad" :roadAddress="roadAddress"></house-search-road>

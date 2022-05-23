@@ -27,14 +27,13 @@
                 <b-td v-if="deal.dealType == '전세'">{{ deal.rentMoney }}</b-td>
                 <b-td v-if="deal.dealType == '월세'">{{ deal.rentMoney }} / 월 {{ deal.dealAmount }}</b-td>
                 <b-td>
-                  <b-form-checkbox v-model="status" :value="deal.no"> <b-icon v-if="status == deal.no" icon="heart-fill" /> <b-icon v-else icon="heart" /> </b-form-checkbox
-                ></b-td>
+                  <b-button variant="outline-danger" @click="interestCheck(deal.no)" style="border: none; outline: none">
+                    <b-icon v-if="status == deal.no" icon="heart-fill" /> <b-icon v-else icon="heart" />
+                  </b-button>
+                </b-td>
               </b-tr>
             </b-tbody>
           </b-table-simple>
-          <div>
-            State: <strong>{{ status }}</strong>
-          </div>
         </div>
         <div v-else>
           <b-row>
@@ -96,6 +95,9 @@ export default {
     }
   },
   methods: {
+    interestCheck(no) {
+      console.log(no);
+    },
     initMap() {
       const container = document.getElementById("map");
       const latlng = new kakao.maps.LatLng(this.house.lat, this.house.lng);
