@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="contents px-5">
-      <b-navbar toggleable="lg">
+    <div class="contents">
+      <b-navbar toggleable="lg" class="px-5">
         <b-navbar-brand to="/" class="h3 ml-2"> <img class="d-inline-block align-top" src="@/assets/img/buildings.png" style="width: 30px" /> House.zip </b-navbar-brand>
         <b-nav-toggle target="nav-collapse"> </b-nav-toggle>
         <b-collapse id="nav-collapse" is-nav>

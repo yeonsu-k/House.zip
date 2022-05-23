@@ -27,30 +27,69 @@
       <b-row style="width: 90vw; margin: 0 auto">
         <b-col>
           <div class="px-2">
-            <h4>제목</h4>
+            <h4>추천매물 / 관심매물</h4>
             <b-card-group deck>
-              <b-card title="Title" img-src="https://placekitten.com/g/300/450" img-alt="Image" img-top>
-                <b-card-text> This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer. </b-card-text>
+              <b-card>
+                <img class="card-img img-fluid mb-5" src="@/assets/img/test1.jpg" />
+                <h4>연립다세대</h4>
+                <b-card-text
+                  ><br />
+                  <p>주변 매물보다 2%저렴한 편!</p>
+                  <br /><small> 가까운 지하철역이 5분거리 내에 있어요!</small>
+                </b-card-text>
                 <template #footer>
                   <small class="text-muted">Last updated 3 mins ago</small>
                 </template>
               </b-card>
 
-              <b-card title="Title" img-src="https://placekitten.com/g/300/460" img-alt="Image" img-top>
+              <b-card>
+                <img class="card-img img-fluid mb-5" style="height: 18vw" src="@/assets/img/test3.jpg" />
+                <b-card-text>
+                  <h4>아파트</h4>
+                  <br />
+                  <p>신호부부가 많이 살은 곳!</p>
+                  <br /><small
+                    ><br />
+                    주변 마트 3분거리!</small
+                  >
+                </b-card-text>
+                <template #footer>
+                  <small class="text-muted">Last updated 3 mins ago</small>
+                </template>
+              </b-card>
+
+              <b-card>
+                <img class="card-img img-fluid mb-5" style="height: 18vw" src="@/assets/img/test2.jpg" />
+
+                <h4>오피스텔</h4>
+                <b-card-text
+                  ><br />
+                  <p>신축 건물이예요!</p>
+                  <br /><small
+                    ><br />
+                    역세권 11분! 강남역까지 차로 30분 거리</small
+                  >
+                </b-card-text>
+
+                <template #footer>
+                  <small class="text-muted">Last updated 3 mins ago</small>
+                </template>
+              </b-card>
+              <!-- <b-card title="Title" img-src="https://placekitten.com/g/300/460" img-alt="Image" img-top>
                 <b-card-text> This card has supporting text below as a natural lead-in to additional content. </b-card-text>
                 <template #footer>
                   <small class="text-muted">Last updated 3 mins ago</small>
                 </template>
-              </b-card>
+              </b-card> -->
 
-              <b-card title="Title" img-src="https://placekitten.com/g/300/440" img-alt="Image" img-top>
+              <!-- <b-card title="Title" img-src="https://placekitten.com/g/300/440" img-alt="Image" img-top>
                 <b-card-text>
                   This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.
                 </b-card-text>
                 <template #footer>
                   <small class="text-muted">Last updated 3 mins ago</small>
                 </template>
-              </b-card>
+              </b-card> -->
             </b-card-group>
           </div>
           <!--고양이 끝-->
