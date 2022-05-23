@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div id="main">
     <b-container>
-      <div class="container px-4 px-lg-5">
-        <div class="justify-content-center">
+      <b-row class="container row" align-h="center" style="height: 78vh">
+        <b-col md="6" class="shadow py-5 px-5" id="user_col">
           <h1>Login</h1>
           <hr />
           <form>
@@ -16,16 +16,14 @@
             </div>
           </form>
           <!-- Login Button-->
-          <div class="d-grid">
-            <button class="btn" style="background-color: #ece6cc; width: 100%" id="loginBtn" @click="login">로그인</button>
+          <button class="btn mb-3" style="background-color: #ece6cc; width: 100%" id="loginBtn" @click="login">로그인</button>
+          <div class="text-right">
+            <b-link to="${root}/user/findpwd">
+              <h6 style="color: #ffbf00">비밀번호 찾기</h6>
+            </b-link>
           </div>
-        </div>
-        <div class="mt-1 text-end">
-          <a href="${root}/user/findpwd">
-            <h6 style="color: #ffbf00">비밀번호 찾기</h6>
-          </a>
-        </div>
-      </div>
+        </b-col>
+      </b-row>
     </b-container>
   </div>
 </template>
@@ -50,4 +48,27 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+#main {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+}
+#main::after {
+  width: 100%;
+  height: 100%;
+  content: "";
+  background: url("@/assets/img/slider3.jpg");
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  opacity: 0.5;
+}
+#user_col {
+  border-radius: 80px 40px;
+  background-color: white;
+  align-self: center;
+}
+</style>
