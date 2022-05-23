@@ -3,7 +3,8 @@
     <b-row style="display: flex; width: 100%; height: 100%">
       <b-col cols="3">
         <div v-if="houses.length">
-          <b-table-simple sticky-header no-border-collapse hover striped class="text-center">
+          <b-table-simple no-border-collapse hover striped class="text-center">
+            <!-- sticky-header -->
             <b-thead>
               <b-tr>
                 <b-th>번호</b-th>
@@ -140,7 +141,9 @@ export default {
       this.markers = [];
 
       let i = 0;
-      let imageSrc = "http://drive.google.com/uc?export=view&id=1fTg0Xop_1pBwKNxGnEPSr2jZwu3h61Yt";
+      let imageSrc_apt = "http://drive.google.com/uc?export=view&id=1fTg0Xop_1pBwKNxGnEPSr2jZwu3h61Yt";
+      let imageSrc_op = "http://drive.google.com/uc?export=view&id=1BJm09kQRgh6PgiiOtP5eAoyHMF9vneOu";
+      let imageSrc_bil = "http://drive.google.com/uc?export=view&id=1Sp240hE8weIJ6l4X2sBkORkn3ntWzrhs";
       // let imageSrc = "http://drive.google.com/uc?export=view&id=1XfXxlgJua7Y3BzxI4ugGGFBfJcPMOXmT";
       // let imageSrc = "http://drive.google.com/uc?export=view&id=1Sp240hE8weIJ6l4X2sBkORkn3ntWzrhs";
       // let imageSrc = "http://drive.google.com/uc?export=view&id=1BJm09kQRgh6PgiiOtP5eAoyHMF9vneOu";
@@ -157,11 +160,18 @@ export default {
       // 마커 이미지의 이미지 크기 입니다
       var imageSize = new kakao.maps.Size(40, 40);
       // 마커 이미지를 생성합니다
-      var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+      var markerImage_apt = new kakao.maps.MarkerImage(imageSrc_apt, imageSize);
+      var markerImage_op = new kakao.maps.MarkerImage(imageSrc_op, imageSize);
+      var markerImage_bil = new kakao.maps.MarkerImage(imageSrc_bil, imageSize);
       let f_coords = new kakao.maps.LatLng(33.450701, 126.570667);
       this.houses.forEach((house) => {
         let coords = new kakao.maps.LatLng(house.lat, house.lng);
 
+        console.log(house.infoType === "오피스텔");
+        if (house.infoType == "오피스텔") console.log(house.aptName);
+        else console.log("NOP: [" + house.infoType + "]");
+
+        let markerImage = house.infoType == "아파트" ? markerImage_apt : house.infoType == "오피스텔" ? markerImage_op : markerImage_bil;
         let marker = new kakao.maps.Marker({
           map: this.map,
           position: coords,
