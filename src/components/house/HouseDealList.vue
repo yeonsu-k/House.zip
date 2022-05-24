@@ -139,30 +139,16 @@
         <div class="map_wrap">
           <div id="map" style="width: 100%; height: 85vh; position: relative; overflow: hidden"></div>
           <ul id="category">
-            <li id="BK9" data-order="0">
-              <span class="category_bg bank"></span>
-              은행
-            </li>
-            <li id="MT1" data-order="1">
-              <span class="category_bg mart"></span>
-              마트
-            </li>
-            <li id="PM9" data-order="2">
-              <span class="category_bg pharmacy"></span>
-              약국
-            </li>
-            <li id="OL7" data-order="3">
-              <span class="category_bg oil"></span>
-              주유소
-            </li>
-            <li id="CE7" data-order="4">
-              <span class="category_bg cafe"></span>
-              카페
-            </li>
-            <li id="CS2" data-order="5">
-              <span class="category_bg store"></span>
-              편의점
-            </li>
+            <li id="SW8" data-order="0">지하철역</li>
+            <li id="HP8" data-order="1">병원</li>
+            <li id="PM9" data-order="2">약국</li>
+            <li id="MT1" data-order="3">마트</li>
+            <li id="PS3" data-order="4">유치원</li>
+            <li id="SC4" data-order="5">학교</li>
+            <li id="AC5" data-order="6">학원</li>
+            <li id="CT1" data-order="7">문화</li>
+            <li id="FD6" data-order="8">식당</li>
+            <li id="CE7" data-order="9">카페</li>
           </ul>
         </div>
         <!-- <div class="mb-4" id="map" style="height: 85vh"></div> -->
@@ -493,14 +479,14 @@ export default {
       }
     },
     addMarker(position, order) {
-      var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png", // 마커 이미지 url, 스프라이트 이미지를 씁니다
+      var imageSrc = "http://drive.google.com/uc?export=view&id=1xwzPqdS-XrKzFhhRwSxTzfXGrcNmVeVg", // 마커 이미지 url, 스프라이트 이미지를 씁니다
         imageSize = new kakao.maps.Size(27, 28), // 마커 이미지의 크기
         imgOptions = {
           spriteSize: new kakao.maps.Size(72, 208), // 스프라이트 이미지의 크기
           spriteOrigin: new kakao.maps.Point(46, order * 36), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
           offset: new kakao.maps.Point(11, 28), // 마커 좌표에 일치시킬 이미지 내에서의 좌표
         },
-        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
+        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
         marker = new kakao.maps.Marker({
           position: position, // 마커의 위치
           image: markerImage,
@@ -597,11 +583,11 @@ export default {
         // kakao.maps.event.addListener(marker, "click", function () {
         //     this.displayPlaceInfo(place);
         //   });
-        (function (marker, place) {
-          kakao.maps.event.addListener(marker, "click", function () {
-            this.displayPlaceInfo(place);
-          });
-        })(marker, places[i]);
+        // (function (marker, place) {
+        //   kakao.maps.event.addListener(marker, "click", function () {
+        //     this.displayPlaceInfo(place);
+        //   });
+        // })(marker, places[i]);
       }
     },
     displayMarker() {
@@ -718,30 +704,6 @@ export default {
   margin: 0 auto 3px;
   width: 27px;
   height: 28px;
-}
-#category li .category_bg {
-  background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_category.png) no-repeat;
-}
-#category li .bank {
-  background-position: -10px 0;
-}
-#category li .mart {
-  background-position: -10px -36px;
-}
-#category li .pharmacy {
-  background-position: -10px -72px;
-}
-#category li .oil {
-  background-position: -10px -108px;
-}
-#category li .cafe {
-  background-position: -10px -144px;
-}
-#category li .store {
-  background-position: -10px -180px;
-}
-#category li.on .category_bg {
-  background-position-x: -46px;
 }
 .placeinfo_wrap {
   position: absolute;
