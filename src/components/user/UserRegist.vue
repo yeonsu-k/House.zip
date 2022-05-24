@@ -8,13 +8,17 @@
           <div role="group" class="mt-2">
             <label for="input-id">아이디</label>
             <b-form-input id="input-id" size="sm" v-model="id" :state="idState" placeholder="Enter at least 4 letters" trim></b-form-input>
+            <b-form-invalid-feedback id="input-live-feedback-password"> Enter at least 4 letters </b-form-invalid-feedback>
           </div>
           <form>
             <div role="group" class="mt-2">
               <label for="input-password">비밀번호</label>
               <b-form-input id="input-password" type="password" v-model="password" :state="passwordState" size="sm" placeholder="Enter your password" trim autocomplete="on"></b-form-input>
-              <!-- <b-form-invalid-feedback id="input-live-feedback-password"> Enter at least 4 letters </b-form-invalid-feedback>
-              <b-form-text id="input-live-help-password">Your password.</b-form-text> -->
+              <b-form-invalid-feedback id="input-live-feedback-password"> Enter at least 4 letters </b-form-invalid-feedback>
+            </div>
+            <div role="group" class="mt-2">
+              <b-form-input id="input-pwdcheck" type="password" v-model="pwdcheck" :state="pwdCheckState" size="sm" placeholder="one more password" trim autocomplete="on"></b-form-input>
+              <b-form-invalid-feedback id="input-live-feedback-password-check"> Don't match password </b-form-invalid-feedback>
             </div>
           </form>
           <div role="group" class="mt-2">
@@ -50,6 +54,7 @@ export default {
     return {
       id: "",
       password: "",
+      pwdcheck: "",
       name: "",
       email: "",
       tel: "",
@@ -74,7 +79,7 @@ export default {
   },
   methods: {
     regist() {
-      if (this.id === "" || this.password === "" || this.name === "" || this.email === "" || this.tel === "") {
+      if (this.id === "" || this.password === "" || this.pwdcheck === "" || this.name === "" || this.email === "" || this.tel === "") {
         alert("모든 내용을 입력해주세요");
         return;
       }
@@ -104,6 +109,9 @@ export default {
     },
     passwordState() {
       return this.password.length >= 4 ? true : false;
+    },
+    pwdCheckState() {
+      return this.pwdcheck.trim() != "" && this.pwdcheck === this.password ? true : false;
     },
     nameState() {
       return this.name.length >= 2 ? true : false;
