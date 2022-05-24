@@ -79,10 +79,11 @@
         <b-col>
           <b-row>
             <b-col>
-              <b-card-group deck>
+              <b-card-group deck v-if="notices">
                 <b-card header="공지사항">
                   <b-list-group>
-                    <b-list-group-item v-for="(notice, index) in notices" :key="index" :to="{ name: 'NoticeDetail', params: { no: notice.no } }" target="_blank" class="flex-column align-items-start">
+                    <!-- :to="{ name: 'NoticeDetail', params: { no: notice.no } }" -->
+                    <b-list-group-item v-for="(notice, index) in notices" :key="index" href="javascript:void(0);" @click="goNoticeD(notice.no)" class="flex-column align-items-start">
                       <div class="d-flex w-100 justify-content-between">
                         <div class="mb-1 font-weight-bold"><b-icon icon="caret-right-fill" class="mr-1"></b-icon>{{ notice.title }}</div>
                         <small class="text-muted ml-auto px-1">{{ notice.regtime }}</small>
@@ -155,6 +156,13 @@ export default {
     //   this.loginUser = null;
     //   this.isManager = null;
     // }
+  },
+  methods: {
+    goNoticeD(no) {
+      if (no) {
+        this.$router.push({ name: "NoticeDetail", params: { no: no } });
+      }
+    },
   },
 };
 </script>
