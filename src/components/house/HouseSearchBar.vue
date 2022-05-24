@@ -1,13 +1,13 @@
 <template>
-  <b-row class="mt-4 mb-4 text-center">
-    <b-col class="sm-3">
+  <b-row class="mx-2 my-3 text-center">
+    <b-col>
       <b-form-select v-model="sidoCode" :options="sidos" @change="gugunList">
         <template #first>
           <b-form-select-option :value="null" disabled>시도를 선택하세요</b-form-select-option>
         </template>
       </b-form-select>
     </b-col>
-    <b-col class="sm-3">
+    <b-col>
       <b-form-select v-model="gugunCode" :options="guguns" @change="searchApt">
         <template #first>
           <b-form-select-option :value="null" disabled>구군을 선택하세요</b-form-select-option>

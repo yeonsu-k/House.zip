@@ -158,12 +158,13 @@ export default {
 
 <style scoped>
 #head {
-  background-color: #ece6cc;
+  background-color: #48608a;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 25vh;
+  color: lightcyan;
 }
 /* 버튼색 추천 :  #ece6cc , #637DB0 , #48608a , #506e80 */
 #head p {

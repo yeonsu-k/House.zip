@@ -1,72 +1,71 @@
 <template>
-  <div style="height: 85vh">
-    <b-row>
-      <b-col cols="3">
-        <b-form-radio-group class="ml-3" v-model="selected" :options="options" value-field="item" text-field="name" disabled-field="notEnabled" @change="radioChange()"></b-form-radio-group>
-        <div v-if="selected == 'A'">
-          <house-search-bar class="ml-3 mr-2" @search-apt="searchApt"></house-search-bar>
-        </div>
-        <div v-else>
-          <house-search-road @search-road="searchRoad" :roadAddress="roadAddress"></house-search-road>
-        </div>
-      </b-col>
-      <b-col cols="9"> </b-col>
-    </b-row>
-    <b-row style="display: flex; width: 100%; height: 100%">
-      <b-col cols="3">
-        <div v-if="houses.length">
-          <b-table-simple no-border-collapse hover striped class="text-center">
-            <!-- sticky-header -->
-            <b-thead>
-              <b-tr>
-                <b-th>번호</b-th>
-                <b-th>건물명</b-th>
-                <b-th>건물타입</b-th>
-                <b-th>건축년도</b-th>
-                <b-th>매물수</b-th>
-              </b-tr>
-            </b-thead>
-            <b-tbody>
-              <b-tr v-for="(house, index) in houses" :key="index" class="m-2">
-                <b-td>{{ index + 1 }}</b-td>
-                <b-td>
-                  <router-link :to="{ name: 'HouseDealList', params: { house: house, aptCode: house.aptCode } }">{{ house.aptName }}</router-link>
-                </b-td>
-                <b-td>{{ house.infoType }}</b-td>
-                <b-td>{{ house.buildYear }}</b-td>
-
-                <b-td>{{ house.total }}</b-td>
-              </b-tr>
-            </b-tbody>
-          </b-table-simple>
-        </div>
-        <div v-else>
-          <b-row>
-            <b-col><b-alert show>주택 목록이 없습니다.</b-alert></b-col>
-          </b-row>
-        </div>
-      </b-col>
-      <b-col cols="9">
-        <!-- 지도 -->
-        <p id="result"></p>
-        <!-- <div id="map" style="display: flex; width: 100%; height: 85vh; padding-left: 0px; padding-right: 0px"></div> -->
-        <div class="map_wrap">
-          <div class="mb-4" id="map" style="height: 100%; height: 85vh; position: relative; overflow: hidden"></div>
-          <ul id="category">
-            <li id="SW8" data-order="0">지하철역</li>
-            <li id="HP8" data-order="1">병원</li>
-            <li id="PM9" data-order="2">약국</li>
-            <li id="MT1" data-order="3">마트</li>
-            <li id="PS3" data-order="4">유치원</li>
-            <li id="SC4" data-order="5">학교</li>
-            <li id="AC5" data-order="6">학원</li>
-            <li id="CT1" data-order="7">문화</li>
-            <li id="FD6" data-order="8">식당</li>
-            <li id="CE7" data-order="9">카페</li>
-          </ul>
-        </div>
-      </b-col>
-    </b-row>
+  <div>
+    <b-container fluid>
+      <b-row>
+        <b-col md="4">
+          <b-form-radio-group class="text-center" v-model="selected" :options="options" value-field="item" text-field="name" disabled-field="notEnabled" @change="radioChange()"></b-form-radio-group>
+          <house-search-bar v-if="selected == 'A'" @search-apt="searchApt"></house-search-bar>
+          <house-search-road v-else @search-road="searchRoad" :roadAddress="roadAddress"></house-search-road>
+        </b-col>
+        <b-col>
+          <b-col>카테고리</b-col>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col md="4" id="infoView">
+          <div v-if="houses.length">
+            <b-table-simple small hover striped class="text-center">
+              <!-- sticky-header -->
+              <b-thead>
+                <b-tr>
+                  <b-th>번호</b-th>
+                  <b-th>건물명</b-th>
+                  <b-th>건물타입</b-th>
+                  <b-th>건축년도</b-th>
+                  <b-th>매물수</b-th>
+                </b-tr>
+              </b-thead>
+              <b-tbody>
+                <b-tr v-for="(house, index) in houses" :key="index">
+                  <b-td>{{ index + 1 }}</b-td>
+                  <b-td>
+                    <router-link :to="{ name: 'HouseDealList', params: { house: house, aptCode: house.aptCode } }">{{ house.aptName }}</router-link>
+                  </b-td>
+                  <b-td>{{ house.infoType }}</b-td>
+                  <b-td>{{ house.buildYear }}</b-td>
+                  <b-td>{{ house.total }}</b-td>
+                </b-tr>
+              </b-tbody>
+            </b-table-simple>
+          </div>
+          <div v-else>
+            <b-row>
+              <b-col><b-alert show>주택 목록이 없습니다.</b-alert></b-col>
+            </b-row>
+          </div>
+        </b-col>
+        <b-col>
+          <!-- 지도 -->
+          <!-- <p id="result"></p> -->
+          <!-- <div id="map" style="display: flex; width: 100%; height: 85vh; padding-left: 0px; padding-right: 0px"></div> -->
+          <div class="map_wrap">
+            <div id="map" style="max-width: 63vw; min-height: 78vh; relative; overflow: hidden"></div>
+            <ul id="category">
+              <li id="SW8" data-order="0">지하철역</li>
+              <li id="HP8" data-order="1">병원</li>
+              <li id="PM9" data-order="2">약국</li>
+              <li id="MT1" data-order="3">마트</li>
+              <li id="PS3" data-order="4">유치원</li>
+              <li id="SC4" data-order="5">학교</li>
+              <li id="AC5" data-order="6">학원</li>
+              <li id="CT1" data-order="7">문화</li>
+              <li id="FD6" data-order="8">식당</li>
+              <li id="CE7" data-order="9">카페</li>
+            </ul>
+          </div>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 <script>
@@ -477,6 +476,15 @@ export default {
 </script>
 
 <style scoped>
+#infoView {
+  height: 78vh;
+  overflow: auto;
+  background-color: white;
+  align-self: center;
+}
+#infoView::-webkit-scrollbar {
+  display: none;
+}
 html,
 body {
   width: 100%;
