@@ -1,15 +1,6 @@
 <template>
   <div>
-    <router-view
-      :loginUser="this.loginUser"
-      :isManager="this.isManager"
-      @create-qna="createQna"
-      @update-qna="updateQna"
-      @delete-qna="deleteQna"
-      @create-qna-ans="createQnaAns"
-      @update-qna-ans="updateQnaAns"
-    />
-    <!-- <router-view @create-qna="createQna" @update-qna="updateQna" @delete-qna="deleteQna" @create-qna-ans="createQnaAns" @update-qna-ans="updateQnaAns" /> -->
+    <router-view :loginId="loginId" @create-qna="createQna" @update-qna="updateQna" @delete-qna="deleteQna" @create-qna-ans="createQnaAns" @update-qna-ans="updateQnaAns" />
   </div>
 </template>
 
@@ -18,13 +9,7 @@ import axios from "axios";
 export default {
   name: "QnaView",
   props: {
-    user: null,
-  },
-  data() {
-    return {
-      loginUser: "",
-      isManager: "",
-    };
+    loginId: null,
   },
   methods: {
     createQna(qna) {
@@ -46,6 +31,10 @@ export default {
           }
           alert(msg);
           this.$router.push({ name: "QnaView" });
+        })
+        .catch(({ error }) => {
+          alert("처리 중 문제가 생겼습니다. 다시 로그인 해주세요");
+          this.$emit("logout");
         });
     },
     updateQna(qna) {
@@ -62,17 +51,27 @@ export default {
           }
           alert(msg);
           this.$router.push("/qna");
+        })
+        .catch(({ error }) => {
+          alert("처리 중 문제가 생겼습니다. 다시 로그인 해주세요");
+          this.$emit("logout");
         });
     },
     deleteQna(qna) {
-      axios.delete("http://localhost:8080/happyhouse/qna/" + qna.no).then(({ data }) => {
-        let msg = "삭제 처리시 문제가 발생했습니다.";
-        if (data == "success") {
-          msg = "삭제가 완료되었습니다.";
-        }
-        alert(msg);
-        this.$router.push({ name: "QnaView" });
-      });
+      axios
+        .delete("http://localhost:8080/happyhouse/qna/" + qna.no)
+        .then(({ data }) => {
+          let msg = "삭제 처리시 문제가 발생했습니다.";
+          if (data == "success") {
+            msg = "삭제가 완료되었습니다.";
+          }
+          alert(msg);
+          this.$router.push({ name: "QnaView" });
+        })
+        .catch(({ error }) => {
+          alert("처리 중 문제가 생겼습니다. 다시 로그인 해주세요");
+          this.$emit("logout");
+        });
     },
     createQnaAns(qna) {
       axios
@@ -89,6 +88,10 @@ export default {
           }
           alert(msg);
           this.$router.push("/qna");
+        })
+        .catch(({ error }) => {
+          alert("처리 중 문제가 생겼습니다. 다시 로그인 해주세요");
+          this.$emit("logout");
         });
     },
     updateQnaAns(qna) {
@@ -106,17 +109,12 @@ export default {
           }
           alert(msg);
           this.$router.push("/qna");
+        })
+        .catch(({ error }) => {
+          alert("처리 중 문제가 생겼습니다. 다시 로그인 해주세요");
+          this.$emit("logout");
         });
     },
-  },
-  created() {
-    if (this.user) {
-      this.loginUser = this.user.id;
-      this.isManager = this.user.manager;
-    } else {
-      this.loginUser = null;
-      this.isManager = null;
-    }
   },
 };
 </script>

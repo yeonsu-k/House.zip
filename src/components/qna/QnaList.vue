@@ -12,7 +12,7 @@
           <b-col md="4">
             <b-form-checkbox id="checkbox-1" v-model="status" name="checkbox-1"> 답변완료 글만 보기 </b-form-checkbox>
           </b-col>
-          <b-button v-if="loginUser && !this.isManager" id="bbtn" class="btn-sm mr-4" variant="outline-light" to="/qna/regist">문의하기</b-button>
+          <b-button v-if="this.loginUser && !this.isManager" id="bbtn" class="btn-sm mr-4" variant="outline-light" :to="{ name: 'QnaRegist' }">문의하기</b-button>
         </b-row>
       </div>
       <div class="mb-5">
@@ -66,8 +66,7 @@ export default {
     PageLink,
   },
   props: {
-    loginUser: null,
-    isManager: null,
+    loginId: null,
   },
   data() {
     return {
@@ -79,6 +78,7 @@ export default {
       pageLimit: 10,
       pageOffet: 0,
       total: 0,
+      isManager: false,
     };
   },
   methods: {
@@ -152,6 +152,7 @@ export default {
   created() {
     this.initTotal();
     this.initComponent();
+    this.isManager = JSON.parse(localStorage.getItem("isManager"));
   },
 };
 </script>

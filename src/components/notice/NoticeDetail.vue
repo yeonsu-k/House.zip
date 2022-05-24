@@ -46,8 +46,7 @@ import axios from "axios";
 export default {
   name: "NoticeDetail",
   props: {
-    loginUser: null,
-    isManager: null,
+    loginId: null,
   },
   data() {
     return {
@@ -59,6 +58,7 @@ export default {
         userid: "",
         hit: "",
       },
+      isManager: false,
     };
   },
   methods: {
@@ -67,11 +67,12 @@ export default {
     },
   },
   created() {
-    if (!this.loginUser) {
+    if (!this.loginId) {
       alert("로그인이 필요합니다.");
       this.$router.push("/login");
       return;
     }
+    this.isManager = JSON.parse(localStorage.getItem("isManager"));
     axios.get("http://localhost:8080/happyhouse/notice/" + this.$route.params.no).then(({ data }) => {
       this.notice = data;
     });

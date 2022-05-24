@@ -88,8 +88,7 @@ import axios from "axios";
 export default {
   name: "QnaDetail",
   props: {
-    loginUser: null,
-    isManager: null,
+    loginId: null,
   },
   data() {
     return {
@@ -104,6 +103,7 @@ export default {
         masterid: "",
         hit: "",
       },
+      isManager: false,
     };
   },
   methods: {
@@ -112,11 +112,12 @@ export default {
     },
   },
   created() {
-    if (!this.loginUser) {
+    if (!this.loginId) {
       alert("로그인이 필요합니다.");
       this.$router.push("/login");
       return;
     }
+    this.isManager = JSON.parse(localStorage.getItem("isManager"));
     axios.get("http://localhost:8080/happyhouse/qna/" + this.$route.params.no).then(({ data }) => {
       this.qna = data;
     });

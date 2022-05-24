@@ -4,64 +4,67 @@
       <b-row>
         <b-col md="4">
           <b-form-radio-group class="text-center" v-model="selected" :options="options" value-field="item" text-field="name" disabled-field="notEnabled" @change="radioChange()"></b-form-radio-group>
-          <house-search-bar v-if="selected == 'A'" @search-apt="searchApt"></house-search-bar>
+        </b-col>
+        <b-col md="4">
+          <house-search-bar v-if="selected == 'A'" :loginId="loginId" @search-apt="searchApt"></house-search-bar>
           <house-search-road v-else @search-road="searchRoad" :roadAddress="roadAddress"></house-search-road>
         </b-col>
-        <b-col>
+        <!-- <b-col>
           <b-col>카테고리</b-col>
-        </b-col>
+        </b-col> -->
       </b-row>
       <b-row>
-        <b-col md="4" id="infoView">
-          <div v-if="houses.length">
-            <b-table-simple small hover striped class="text-center">
-              <!-- sticky-header -->
-              <b-thead>
-                <b-tr>
-                  <b-th>번호</b-th>
-                  <b-th>건물명</b-th>
-                  <b-th>건물타입</b-th>
-                  <b-th>건축년도</b-th>
-                  <b-th>매물수</b-th>
-                </b-tr>
-              </b-thead>
-              <b-tbody>
-                <b-tr v-for="(house, index) in houses" :key="index">
-                  <b-td>{{ index + 1 }}</b-td>
-                  <b-td>
-                    <router-link :to="{ name: 'HouseDealList', params: { house: house, aptCode: house.aptCode } }">{{ house.aptName }}</router-link>
-                  </b-td>
-                  <b-td>{{ house.infoType }}</b-td>
-                  <b-td>{{ house.buildYear }}</b-td>
-                  <b-td>{{ house.total }}</b-td>
-                </b-tr>
-              </b-tbody>
-            </b-table-simple>
-          </div>
-          <div v-else>
-            <b-row>
-              <b-col><b-alert show>주택 목록이 없습니다.</b-alert></b-col>
-            </b-row>
-          </div>
-        </b-col>
         <b-col>
           <!-- 지도 -->
           <!-- <p id="result"></p> -->
           <!-- <div id="map" style="display: flex; width: 100%; height: 85vh; padding-left: 0px; padding-right: 0px"></div> -->
           <div class="map_wrap">
-            <div id="map" style="max-width: 63vw; min-height: 78vh; relative; overflow: hidden"></div>
+            <div id="map" style="max-width: 100vw; min-height: 78vh; relative; overflow: hidden"></div>
+            <div id="table">
+              <div v-if="houses.length">
+                <b-table-simple small hover striped class="text-center">
+                  <!-- sticky-header -->
+                  <b-thead>
+                    <b-tr>
+                      <b-th>번호</b-th>
+                      <b-th>건물명</b-th>
+                      <b-th>건물타입</b-th>
+                      <b-th>건축년도</b-th>
+                      <b-th>매물수</b-th>
+                    </b-tr>
+                  </b-thead>
+                  <b-tbody>
+                    <b-tr v-for="(house, index) in houses" :key="index">
+                      <b-td>{{ index + 1 }}</b-td>
+                      <b-td>
+                        <router-link :to="{ name: 'HouseDealList', params: { house: house, aptCode: house.aptCode } }">{{ house.aptName }}</router-link>
+                      </b-td>
+                      <b-td>{{ house.infoType }}</b-td>
+                      <b-td>{{ house.buildYear }}</b-td>
+                      <b-td>{{ house.total }}</b-td>
+                    </b-tr>
+                  </b-tbody>
+                </b-table-simple>
+              </div>
+              <div v-else>
+                <b-row>
+                  <b-col><b-alert show>주택 목록이 없습니다.</b-alert></b-col>
+                </b-row>
+              </div>
+            </div>
             <ul id="category">
-              <li id="SW8" data-order="0">지하철역</li>
-              <li id="HP8" data-order="1">병원</li>
-              <li id="PM9" data-order="2">약국</li>
-              <li id="MT1" data-order="3">마트</li>
-              <li id="PS3" data-order="4">유치원</li>
-              <li id="SC4" data-order="5">학교</li>
-              <li id="AC5" data-order="6">학원</li>
-              <li id="CT1" data-order="7">문화</li>
-              <li id="FD6" data-order="8">식당</li>
-              <li id="CE7" data-order="9">카페</li>
+              <li id="SW8" data-order="0" style="display: none">지하철역</li>
+              <li id="HP8" data-order="1" style="display: none">병원</li>
+              <li id="PM9" data-order="2" style="display: none">약국</li>
+              <li id="MT1" data-order="3" style="display: none">마트</li>
+              <li id="PS3" data-order="4" style="display: none">유치원</li>
+              <li id="SC4" data-order="5" style="display: none">학교</li>
+              <li id="AC5" data-order="6" style="display: none">학원</li>
+              <li id="CT1" data-order="7" style="display: none">문화</li>
+              <li id="FD6" data-order="8" style="display: none">식당</li>
+              <li id="CE7" data-order="9" style="display: none">카페</li>
             </ul>
+            <button id="custom_m">필터</button>
           </div>
         </b-col>
       </b-row>
@@ -80,6 +83,7 @@ export default {
   },
   data() {
     return {
+      user: null,
       markers: [],
       infowindow: null,
       latlng: null,
@@ -104,8 +108,18 @@ export default {
     };
   },
   props: {
-    // loginUser: "",
-    // isManager: "",
+    loginId: null,
+  },
+  created() {
+    if (this.loginId) {
+      axios.get("http://localhost:8080/happyhouse/user/" + this.loginId).then(({ data }) => {
+        this.user = data;
+        const cate = document.getElementById("category");
+        this.user.category.split(",").forEach((element) => {
+          cate.children[parseInt(element)].style.display = "block";
+        });
+      });
+    }
   },
   mounted() {
     if (window.kakao && window.kakao.maps) {
@@ -133,8 +147,8 @@ export default {
           break;
       }
       // console.log("update-" + data);
-      this.x = data.x; //lng
-      this.y = data.y;
+      if (data.x) this.x = data.x; //lng
+      if (data.y) this.y = data.y;
 
       this.latlng = new kakao.maps.LatLng(this.y, this.x);
 
@@ -146,6 +160,7 @@ export default {
     },
     searchDist(lat, lng) {
       // console.log(this.dist);
+
       axios
         .post("http://localhost:8080/happyhouse/house/dist", {
           lat: lat,
@@ -168,23 +183,31 @@ export default {
         });
     },
     searchApt(gugunCode) {
+      if (!this.map) {
+        this.gugunCode = gugunCode;
+        return;
+      }
       this.x = "";
       this.y = "";
       this.latlng = new kakao.maps.LatLng(33.450701, 126.570667);
-      console.log("this.gugunCode " + gugunCode);
+
       axios
         .post("http://localhost:8080/happyhouse/house/all", {
           gugun: gugunCode,
         })
         .then(({ data }) => {
-          this.houses = data;
-          if (this.houses) {
+          // console.log(data);
+          if (data && data.length) {
+            // this.houses = data;
+
+            this.houses = [];
+            this.houses.push(data[0]);
+            // this.houses = data;
             this.markerPositions = [];
-            this.houses.forEach((house) => this.markerPositions.push({ title: house.aptName, latlng: new kakao.maps.LatLng(house.lat, house.lng) }));
+            this.markerPositions.push({ title: this.houses[0].aptName, latlng: new kakao.maps.LatLng(this.houses[0].lat, this.houses[0].lng) });
+            // this.houses.forEach((house) => this.markerPositions.push({ title: house.aptName, latlng: new kakao.maps.LatLng(house.lat, house.lng) }));
             this.displayMarker(this.markerPositions);
           }
-          // console.log(this.houses);
-          // this.$router.push("/house");
         })
         .catch(({ error }) => {
           let msg = "조회 중 문제가 발생했습니다.";
@@ -244,10 +267,15 @@ export default {
       this.lv = this.map.getLevel();
       let data = { lv: this.map.getLevel(), x: latlng.getLng(), y: latlng.getLat() };
 
-      this.searchRoad(data);
-      // this.$emit("search-road", data);
+      if (this.gugunCode != "") {
+        this.searchApt(this.gugunCode);
+        this.gugunCode = "";
+      } else {
+        this.searchRoad(data);
+      }
     },
     // 엘리먼트에 이벤트 핸들러를 등록하는 함수입니다
+
     addEventHandle(target, type, callback) {
       if (target.addEventListener) {
         target.addEventListener(type, callback);
@@ -516,6 +544,42 @@ body {
 }
 .mouse-over-bgcolor {
   background-color: lightblue;
+}
+#table {
+  position: absolute;
+  top: 50px;
+  left: 10px;
+  border-radius: 5px;
+  border: 1px solid #909090;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+  background: #fff;
+  overflow: hidden;
+  z-index: 2;
+  float: left;
+  list-style: none;
+  width: 450px;
+  border-right: 1px solid #acacac;
+  padding: 6px 0;
+  text-align: center;
+  cursor: pointer;
+}
+#custom_m {
+  position: absolute;
+  top: 10px;
+  right: 40px;
+  border-radius: 5px;
+  border: 1px solid #909090;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+  background: #fff;
+  overflow: hidden;
+  z-index: 2;
+  float: left;
+  list-style: none;
+  width: 50px;
+  border-right: 1px solid #acacac;
+  padding: 6px 0;
+  text-align: center;
+  cursor: pointer;
 }
 #category {
   position: absolute;

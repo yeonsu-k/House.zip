@@ -27,11 +27,23 @@ export default {
       sidos: [],
       guguns: [],
       houses: [],
+      checkGugun: null,
     };
+  },
+  props: {
+    loginId: null,
   },
   created() {
     this.clearSido();
     this.getSido();
+
+    if (this.loginId) {
+      axios.get("http://localhost:8080/happyhouse/user/inter/" + this.loginId).then(({ data }) => {
+        this.sidoCode = data.interestSidoCode;
+        this.checkGugun = data.interestGugunCode;
+        this.gugunList();
+      });
+    }
   },
   methods: {
     getSido() {
@@ -43,6 +55,11 @@ export default {
       if (this.sidoCode) {
         axios.get("http://localhost:8080/happyhouse/house/list/gugun/" + this.sidoCode).then(({ data }) => {
           this.guguns = data.map((category) => ({ value: category.gugunCode, text: category.gugunName }));
+          if (this.checkGugun) {
+            this.gugunCode = this.checkGugun;
+            this.checkGugun = null;
+            this.searchApt();
+          }
         });
       }
     },

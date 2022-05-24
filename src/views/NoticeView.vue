@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-view :loginUser="loginUser" :isManager="isManager" @create-notice="createNotice" @update-notice="updateNotice" @delete-notice="deleteNotice" />
+    <router-view :loginId="loginId" @create-notice="createNotice" @update-notice="updateNotice" @delete-notice="deleteNotice" />
   </div>
 </template>
 
@@ -9,13 +9,7 @@ import axios from "axios";
 export default {
   name: "NoticeView",
   props: {
-    user: null,
-  },
-  data() {
-    return {
-      loginUser: "",
-      isManager: "",
-    };
+    loginId: null,
   },
   methods: {
     createNotice(notice) {
@@ -64,15 +58,6 @@ export default {
         this.$router.push("/notice");
       });
     },
-  },
-  created() {
-    if (this.user) {
-      this.loginUser = this.user.id;
-      this.isManager = this.user.manager;
-    } else {
-      this.loginUser = null;
-      this.isManager = null;
-    }
   },
 };
 </script>

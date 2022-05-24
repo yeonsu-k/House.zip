@@ -26,7 +26,7 @@
 export default {
   name: "NoticeRegist",
   props: {
-    loginUser: null,
+    loginId: null,
   },
   data() {
     return {
@@ -46,7 +46,7 @@ export default {
         title: this.title,
         content: this.content,
         regtime: "",
-        userid: this.loginUser,
+        userid: this.loginId,
       };
 
       this.$emit("create-notice", notice);

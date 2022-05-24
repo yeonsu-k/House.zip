@@ -12,7 +12,7 @@
           <b-col md="2">
             <b-form-select v-model="selected" :options="options" size="sm" class="mt-3" @change="sort"> </b-form-select>
           </b-col>
-          <b-button v-if="isManager" id="bbtn" class="btn mr-4" variant="outline-light" to="/notice/regist">글쓰기</b-button>
+          <b-button v-if="this.isManager" id="bbtn" class="btn mr-4" variant="outline-light" to="/notice/regist">글쓰기</b-button>
         </b-row>
       </div>
       <div class="mb-5">
@@ -62,8 +62,7 @@ export default {
     PageLink,
   },
   props: {
-    loginUser: null,
-    isManager: null,
+    loginId: null,
   },
   data() {
     return {
@@ -83,6 +82,7 @@ export default {
       sortVal: "desc",
       no: 10,
       total: 0,
+      isManager: false,
     };
   },
   watch: {
@@ -103,6 +103,7 @@ export default {
     axios.get("http://localhost:8080/happyhouse/notice/total").then(({ data }) => {
       this.total = data;
     });
+    this.isManager = JSON.parse(localStorage.getItem("isManager"));
   },
   methods: {
     updatePage(no) {

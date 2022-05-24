@@ -19,10 +19,21 @@
       <b-form-input id="input-tel" v-model="user.tel" placeholder="Enter tel"></b-form-input>
     </b-form-group>
 
-    <!-- <b-form-group class="mt-2" label="관심사" v-slot="{ ariaDescribedby }"> -->
-    <!-- <b-form-checkbox-group id="checkbox-group-1" v-model="selected" :options="options" :aria-describedby="ariaDescribedby" name="flavour-1" :checked="options.true"></b-form-checkbox-group>
-      <b-form-checkbox-group v-model="selected" :options="options" :aria-describedby="ariaDescribedby" buttons button-variant="outline-success" name="buttons-2"></b-form-checkbox-group>
-      <b-form-checkbox id="학교" checked="true" v-model="selected" value="학교">학교</b-form-checkbox> -->
+    <div role="group" class="mt-2">
+      <label for="input-tel">관심지역</label>
+      <b-row class="ml-2 mr-2 mb-2 my-1 text-center">
+        <b-col class="sm-3">
+          <b-form-select size="sm" v-model="sidoCode" :options="sidos" @change="gugunList">
+            <b-form-select-option :value="null" disabled>시도를 선택하세요</b-form-select-option>
+          </b-form-select>
+        </b-col>
+        <b-col class="sm-3">
+          <b-form-select size="sm" v-model="gugunCode" :options="guguns">
+            <b-form-select-option :value="null" disabled>구군을 선택하세요</b-form-select-option>
+          </b-form-select>
+        </b-col>
+      </b-row>
+    </div>
     <div>관심사</div>
     <div id="input-cate" class="mt-2">
       <span class="mr-3" v-for="(option, index) in options" :key="index">
@@ -31,10 +42,6 @@
       </span>
     </div>
     <b-form-text id="input-live-help-name">매물을 볼 때 중요하게 생각하는 시설을 선택해주세요 (다중선택가능)</b-form-text>
-    <!-- </b-form-group> -->
-    <!-- <div>
-      Selected: <strong>{{ selected }}</strong>
-    </div> -->
     <b-button variant="outline-success" class="btn" @click="updateUser">수정</b-button>
     <b-button v-if="!isManager" variant="outline-success" class="btn" @click="deleteUser">삭제</b-button>
   </div>
@@ -44,8 +51,7 @@ import axios from "axios";
 export default {
   name: "UserDetail",
   props: {
-    loginUser: null,
-    isManager: null,
+    loginId: null,
   },
   data() {
     return {
@@ -57,23 +63,51 @@ export default {
         tel: "",
         category: "",
       },
-      // selected: [], // Must be an array reference!
+      selected: [], // Must be an array reference!
       options: [
-        { text: "학교", value: "학교", checked: false },
-        { text: "학원", value: "학원", checked: false },
-        { text: "의료", value: "의료", checked: false },
-        { text: "편의점", value: "편의점", checked: false },
-        { text: "지하철", value: "지하철", checked: false },
-        { text: "유치원/어린이집", value: "유치원/어린이집", checked: false },
+        { text: "지하철역", value: "0", checked: false },
+        { text: "병원", value: "1", checked: false },
+        { text: "약국", value: "2", checked: false },
+        { text: "마트", value: "3", checked: false },
+        { text: "유치원/어린이집", value: "4", checked: false },
+        { text: "학교", value: "5", checked: false },
+        { text: "학원", value: "6", checked: false },
+        { text: "문화", value: "7", checked: false },
+        { text: "식당", value: "8", checked: false },
+        { text: "카페", value: "9", checked: false },
       ],
+      sidoCode: null,
+      gugunCode: null,
+      sidos: [],
+      guguns: [],
     };
   },
-  computed: {
-    checkedNames() {
-      return this.names.filter((item) => item.checked).map((name) => name.name);
-    },
-  },
   methods: {
+    isManager() {
+      return localStorage.getItem("isManager");
+    },
+    getSido() {
+      axios.get("http://localhost:8080/happyhouse/house/list/sido").then(({ data }) => {
+        this.sidos = data.map((category) => ({ value: category.sidoCode, text: category.sidoName }));
+      });
+    },
+    getGugun() {
+      if (this.sidoCode) {
+        axios.get("http://localhost:8080/happyhouse/house/list/gugun/" + this.sidoCode).then(({ data }) => {
+          this.guguns = data.map((category) => ({ value: category.gugunCode, text: category.gugunName }));
+        });
+      }
+    },
+    clearSido() {
+      this.sidos = [];
+    },
+    gugunList() {
+      console.log(this.sidoCode);
+      this.guguns = [];
+      this.gugunCode = null;
+      // if (this.sidoCode) this.getGugun(this.sidoCode);
+      if (this.sidoCode) this.getGugun();
+    },
     updateUser() {
       let category = "";
       this.options.forEach((option) => {
@@ -83,6 +117,8 @@ export default {
       });
       if (category == "") this.user.category = "";
       else this.user.category = category.substr(0, category.length - 1);
+      this.user.interestSidoCode = this.sidoCode;
+      this.user.interestGugunCode = this.gugunCode;
 
       this.$emit("update-user", this.user);
     },
@@ -91,17 +127,35 @@ export default {
     },
   },
   created() {
-    axios.get("http://localhost:8080/happyhouse/user/" + this.loginUser).then(({ data }) => {
-      this.user = data;
-      this.user.category.split(",").forEach((element) => {
-        this.options.forEach((option) => {
-          if (option.text == element) {
-            option.checked = true;
-            return false;
+    this.clearSido();
+    this.getSido();
+    // let loginId = localStorage.getItem("loginId");
+    console.log(localStorage.getItem("jwt"));
+    if (this.$route.params.id) {
+      axios
+        .get("http://localhost:8080/happyhouse/user/" + this.$route.params.id, {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json; charset = utf-8",
+            Authorization: "Bearer " + localStorage.getItem("jwt"),
+          },
+        })
+        .then(({ data }) => {
+          this.user = data;
+          this.user.category.split(",").forEach((element) => {
+            this.options[parseInt(element)].checked = true;
+          });
+          if (this.user.interestSidoCode) {
+            this.sidoCode = this.user.interestSidoCode;
+            this.getGugun();
+            this.gugunCode = this.user.interestGugunCode;
           }
+        })
+        .catch(({ error }) => {
+          alert("조회 중 문제가 생겼습니다. 다시 로그인 해주세요");
+          this.$emit("logout");
         });
-      });
-    });
+    }
   },
 };
 </script>

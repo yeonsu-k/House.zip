@@ -34,6 +34,21 @@
             <label for="input-tel">전화번호</label>
             <b-form-input id="input-tel" size="sm" v-model="tel" placeholder="Enter your phone number" trim></b-form-input>
           </div>
+          <div role="group" class="mt-2">
+            <label for="input-tel">관심지역</label>
+            <b-row class="ml-2 mr-2 mb-2 my-1 text-center">
+              <b-col class="sm-3">
+                <b-form-select size="sm" v-model="sidoCode" :options="sidos" @change="gugunList">
+                  <b-form-select-option :value="null" disabled>시도를 선택하세요</b-form-select-option>
+                </b-form-select>
+              </b-col>
+              <b-col class="sm-3">
+                <b-form-select size="sm" v-model="gugunCode" :options="guguns">
+                  <b-form-select-option :value="null" disabled>구군을 선택하세요</b-form-select-option>
+                </b-form-select>
+              </b-col>
+            </b-row>
+          </div>
           <b-form-group class="mt-2" label="관심사" v-slot="{ ariaDescribedby }">
             <b-form-checkbox-group id="checkbox-group-1" v-model="selected" :options="options" :aria-describedby="ariaDescribedby" name="flavour-1" :checked="options.true"></b-form-checkbox-group>
             <b-form-text id="input-live-help-name">매물을 볼 때 중요하게 생각하는 시설을 선택해주세요 (다중선택가능)</b-form-text>
@@ -48,8 +63,12 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "UserRegist",
+  props: {
+    loginId: null,
+  },
   data() {
     return {
       id: "",
@@ -60,22 +79,26 @@ export default {
       tel: "",
       selected: [], // Must be an array reference!
       options: [
-        { text: "학교", value: "학교" },
-        { text: "학원", value: "학원" },
-        { text: "의료", value: "의료" },
-        { text: "편의점", value: "편의점" },
-        { text: "지하철", value: "지하철" },
-        { text: "유치원/어린이집", value: "유치원/어린이집" },
+        { text: "지하철역", value: "0" },
+        { text: "병원", value: "1" },
+        { text: "약국", value: "2" },
+        { text: "마트", value: "3" },
+        { text: "유치원/어린이집", value: "4" },
+        { text: "학교", value: "5" },
+        { text: "학원", value: "6" },
+        { text: "문화", value: "7" },
+        { text: "식당", value: "8" },
+        { text: "카페", value: "9" },
       ],
+      sidoCode: null,
+      gugunCode: null,
+      sidos: [],
+      guguns: [],
     };
   },
-  watch: {
-    options() {
-      console.log(this.options);
-    },
-    selected() {
-      console.log(this.selected);
-    },
+  created() {
+    this.clearSido();
+    this.getSido();
   },
   methods: {
     regist() {
@@ -98,9 +121,33 @@ export default {
         email: this.email,
         tel: this.tel,
         category: category,
+        interestSidoCode: this.sidoCode,
+        interestGugunCode: this.gugunCode,
       };
       // alert(category);
       this.$emit("create-user", user);
+    },
+    getSido() {
+      axios.get("http://localhost:8080/happyhouse/house/list/sido").then(({ data }) => {
+        this.sidos = data.map((category) => ({ value: category.sidoCode, text: category.sidoName }));
+      });
+    },
+    getGugun() {
+      if (this.sidoCode) {
+        axios.get("http://localhost:8080/happyhouse/house/list/gugun/" + this.sidoCode).then(({ data }) => {
+          this.guguns = data.map((category) => ({ value: category.gugunCode, text: category.gugunName }));
+        });
+      }
+    },
+    clearSido() {
+      this.sidos = [];
+    },
+    gugunList() {
+      console.log(this.sidoCode);
+      this.guguns = [];
+      this.gugunCode = null;
+      // if (this.sidoCode) this.getGugun(this.sidoCode);
+      if (this.sidoCode) this.getGugun();
     },
   },
   computed: {
