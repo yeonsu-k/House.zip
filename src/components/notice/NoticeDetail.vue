@@ -6,14 +6,17 @@
     <div class="container my-4">
       <hr />
       <div class="mx-5">
-        <b-row class="h5">
-          <b-col>{{ notice.title }}</b-col>
+        <b-row class="mb-3 h5">
+          <b-col style="font-weight: bold">{{ notice.title }}</b-col>
         </b-row>
-        <b-row align-h="start">
-          <b-col cols="4">
+        <b-row>
+          <b-col>
             <span>작성일 &nbsp; {{ notice.regtime }}</span>
           </b-col>
-          <b-col cols="4">
+          <b-col class="text-center">
+            <span>작성자 &nbsp; {{ notice.userid }}</span>
+          </b-col>
+          <b-col class="text-right">
             <span>조회수 &nbsp; {{ notice.hit }}</span>
           </b-col>
         </b-row>

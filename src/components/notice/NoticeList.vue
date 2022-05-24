@@ -21,9 +21,9 @@
             <colgroup>
               <col :style="{ width: '10%' }" />
               <col :style="{ width: '50%' }" />
-              <col :style="{ width: '15%' }" />
+              <col :style="{ width: '20' }" />
               <!-- <col :style="{ width: '15%' }" /> -->
-              <col :style="{ width: '10%' }" />
+              <col :style="{ width: '15%' }" />
             </colgroup>
             <b-thead head-variant="light">
               <b-tr>

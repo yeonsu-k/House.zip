@@ -1,53 +1,70 @@
 <template>
-  <div class="container">
-    <span style="font-size: 35px">질문 상세</span>
-    <hr />
-    <b-table-simple class="mt-2 table-bordered text-center" style="min-height: 400px">
-      <b-thead class="table-secondary">
-        <b-tr>
-          <b-th width="auto">제목</b-th>
-          <b-th style="width: 50ch">{{ qna.title }}</b-th>
-          <b-th width="auto">작성시간</b-th>
-          <b-th>{{ qna.asktime }}</b-th>
-          <b-th width="auto">작성자</b-th>
-          <b-th>{{ qna.userid }}</b-th>
-          <b-th width="auto">조회수</b-th>
-          <b-th>{{ qna.hit }}</b-th>
-        </b-tr>
-      </b-thead>
-      <b-tbody>
-        <b-tr>
-          <b-td colspan="8" style="text-align: left">{{ qna.content }}</b-td>
-        </b-tr>
-      </b-tbody>
-    </b-table-simple>
-    <hr style="border-top: 2px dashed #bbb" />
-    <div v-if="qna.masterid">
-      <span style="font-size: 35px" class="mb-3">QnA 답변</span>
-      <b-table-simple class="mt-2 table-bordered text-center" style="min-height: 400px">
-        <b-thead class="table-secondary">
-          <b-tr>
-            <b-th width="auto">관리자</b-th>
-            <b-th style="width: 50wh">{{ qna.masterid }}</b-th>
-            <b-th width="auto">답변시간</b-th>
-            <b-th>{{ qna.anstime }}</b-th>
-          </b-tr>
-        </b-thead>
-        <b-tbody>
-          <b-tr>
-            <b-td colspan="6" style="text-align: left">{{ qna.anscontent }}</b-td>
-          </b-tr>
-        </b-tbody>
-      </b-table-simple>
-      <b-button v-if="this.isManager" variant="outline-warning" style="width: 99%" class="btn" :to="{ name: 'QnaModifyAns' }">답변수정</b-button>
+  <div>
+    <div id="head">
+      <p class="text-center h1">Q & A</p>
     </div>
-    <div v-else>
-      <b-button v-if="this.loginUser == qna.userid" style="width: 99%" variant="outline-success" class="btn" :to="{ name: 'QnaModify' }">질문수정</b-button>
+    <div class="container my-4">
       <hr />
-      <h6 align="center">아직 답변이 달리지 않았습니다.</h6>
-      <b-button v-if="this.isManager" variant="outline-warning  " style="width: 99%" class="btn" :to="{ name: 'QnaRegistAns' }">답변작성</b-button>
+      <div class="mx-5">
+        <b-row class="mb-3 h5">
+          <b-col style="font-weight: bold">{{ qna.title }}</b-col>
+        </b-row>
+        <b-row>
+          <b-col>
+            <span>작성일 &nbsp; {{ qna.asktime }}</span>
+          </b-col>
+          <b-col class="text-center">
+            <span>작성자 &nbsp; {{ qna.userid }}</span>
+          </b-col>
+          <b-col class="text-right">
+            <span>조회수 &nbsp; {{ qna.hit }}</span>
+          </b-col>
+        </b-row>
+      </div>
+      <hr />
+      <div class="mx-4 mt-2" style="min-height: 35vh">
+        <b-row class="ml-3">
+          <b-col> {{ qna.content }} </b-col>
+        </b-row>
+      </div>
+      <hr />
+      <b-row>
+        <b-col v-if="this.loginUser == qna.userid">
+          <button style="background-color: #ece6cc" class="btn w-100" :to="{ name: 'QnaModify' }">질문수정</button>
+        </b-col>
+        <b-col v-if="this.loginUser == qna.userid || this.isManager">
+          <button style="background-color: #ece6cc" class="btn w-100" @click="deleteQna">질문삭제</button>
+        </b-col>
+      </b-row>
+
+      <hr style="border-top: 2px dashed #bbb" />
+      <!-- <span class="h5 ml-5">Q&A 답변</span> -->
+      <div v-if="qna.masterid">
+        <hr />
+        <b-row class="mx-4">
+          <b-col>
+            <span>관리자 &nbsp; {{ qna.masterid }}</span>
+          </b-col>
+          <b-col class="text-center">
+            <span>답변시간 &nbsp; {{ qna.anstime }}</span>
+          </b-col>
+          <b-col class="text-right"> </b-col>
+        </b-row>
+        <hr />
+        <div class="mx-4 mt-2" style="min-height: 35vh">
+          <b-row class="ml-3">
+            <b-col>{{ qna.anscontent }} </b-col>
+          </b-row>
+        </div>
+        <hr />
+        <b-button v-if="this.isManager" style="background-color: #48608a" class="btn w-100" :to="{ name: 'QnaModifyAns' }">답변수정</b-button>
+      </div>
+      <div v-else>
+        <hr />
+        <h6 align="center">아직 답변이 달리지 않았습니다.</h6>
+        <b-button v-if="this.isManager" style="background-color: #48608a" class="btn w-100 mt-2" :to="{ name: 'QnaRegistAns' }">답변작성</b-button>
+      </div>
     </div>
-    <b-button v-if="this.loginUser == qna.userid || this.isManager" variant="outline-success " style="width: 99%" class="btn" @click="deleteQna">질문삭제</b-button>
   </div>
 </template>
 <script>
@@ -90,3 +107,22 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+#head {
+  background-color: #ece6cc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 25vh;
+}
+/* 버튼색 추천 :  #ece6cc , #637DB0 , #48608a , #506e80 */
+#head p {
+  font-weight: bold;
+}
+
+#bbtn {
+  color: white;
+}
+</style>

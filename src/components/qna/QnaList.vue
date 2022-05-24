@@ -20,8 +20,8 @@
           <b-table-simple hover class="qna-list text-center">
             <colgroup>
               <col :style="{ width: '10%' }" />
-              <col :style="{ width: '40%' }" />
-              <col :style="{ width: '10%' }" />
+              <col :style="{ width: '38%' }" />
+              <col :style="{ width: '12%' }" />
               <col :style="{ width: '10%' }" />
               <col :style="{ width: '10%' }" />
               <col :style="{ width: '10%' }" />
@@ -45,7 +45,7 @@
                 <b-td>{{ qna.asktime.substring(0, 10) }}</b-td>
                 <b-td>{{ qna.userid }}</b-td>
                 <b-td>{{ qna.hit }}</b-td>
-                <b-td v-if="qna.masterid" style="color: forestgreen; font-weight: bold">완료</b-td>
+                <b-td v-if="qna.masterid" style="color: darkred; font-weight: bold">완료</b-td>
                 <b-td v-else>대기</b-td>
               </b-tr>
             </b-tbody>
