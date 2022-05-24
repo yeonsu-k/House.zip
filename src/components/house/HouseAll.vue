@@ -1,5 +1,17 @@
 <template>
   <div style="height: 85vh">
+    <b-row>
+      <b-col cols="3">
+        <b-form-radio-group class="ml-3" v-model="selected" :options="options" value-field="item" text-field="name" disabled-field="notEnabled" @change="radioChange()"></b-form-radio-group>
+        <div v-if="selected == 'A'">
+          <house-search-bar class="ml-3 mr-2" @search-apt="searchApt"></house-search-bar>
+        </div>
+        <div v-else>
+          <house-search-road @search-road="searchRoad" :roadAddress="roadAddress"></house-search-road>
+        </div>
+      </b-col>
+      <b-col cols="9"> </b-col>
+    </b-row>
     <b-row style="display: flex; width: 100%; height: 100%">
       <b-col cols="3">
         <div v-if="houses.length">
@@ -50,39 +62,56 @@
     </b-row>
   </div>
 </template>
-
 <script>
+import axios from "axios";
+import HouseSearchBar from "@/components/house/HouseSearchBar.vue";
+import HouseSearchRoad from "@/components/house/HouseSearchRoad.vue";
 export default {
   name: "HouseAll",
+  components: {
+    HouseSearchBar,
+    HouseSearchRoad,
+  },
   data() {
     return {
       markers: [],
       infowindow: null,
       latlng: null,
       lv: 3,
+      selected: "A",
+      options: [
+        { item: "A", name: "시도 구군으로 검색" },
+        { item: "B", name: "우편주소로 검색" },
+      ],
+      // houses: [],
+      roadAddress: "",
+      x: "",
+      y: "",
+      dist: 0.55,
+      houses: [],
     };
   },
   props: {
-    houses: {
-      type: Array,
-    },
-    x: null,
-    y: null,
-    dongCode: null,
+    // houses: {
+    //   type: Array,
+    // },
+    // x: null,
+    // y: null,
+    // dongCode: null,
     // loginUser: "",
     // isManager: "",
   },
   watch: {
-    houses() {
-      if (this.houses) {
-        this.markerPositions = [];
-        this.houses.forEach((house) => this.markerPositions.push({ title: house.aptName, latlng: new kakao.maps.LatLng(house.lat, house.lng) }));
-        this.displayMarker(this.markerPositions);
-      }
-    },
-    x() {
-      this.latlng = this.x == "" ? new kakao.maps.LatLng(33.450701, 126.570667) : new kakao.maps.LatLng(this.y, this.x);
-    },
+    // houses() {
+    //   // if (this.houses) {
+    //   //   this.markerPositions = [];
+    //   //   this.houses.forEach((house) => this.markerPositions.push({ title: house.aptName, latlng: new kakao.maps.LatLng(house.lat, house.lng) }));
+    //   //   this.displayMarker(this.markerPositions);
+    //   // }
+    // },
+    // x() {
+    //   this.latlng = this.x == "" ? new kakao.maps.LatLng(33.450701, 126.570667) : new kakao.maps.LatLng(this.y, this.x);
+    // },
     // lv() {
     //   // this.$emit("update_lv", this.lv);
     //   this.getInfo();
@@ -101,6 +130,85 @@ export default {
     }
   },
   methods: {
+    searchRoad(data) {
+      switch (data.lv) {
+        case 1:
+          this.dist = 0.17;
+          break;
+        case 2:
+          this.dist = 0.28;
+          break;
+        default:
+          this.dist = 0.55;
+          break;
+      }
+      // console.log("update-" + data);
+      this.x = data.x; //lng
+      this.y = data.y;
+
+      this.latlng = new kakao.maps.LatLng(this.y, this.x);
+
+      // this.dongCode = data.dongCode;
+      // console.log(this.x + " : " + this.y);
+      // this.searchDong(this.dongCode);
+
+      this.searchDist(this.y, this.x);
+    },
+    searchDist(lat, lng) {
+      // console.log(this.dist);
+      axios
+        .post("http://localhost:8080/happyhouse/house/dist", {
+          lat: lat,
+          lng: lng,
+          dist: this.dist,
+        })
+        .then(({ data }) => {
+          this.houses = data;
+          if (this.houses) {
+            this.markerPositions = [];
+            this.houses.forEach((house) => this.markerPositions.push({ title: house.aptName, latlng: new kakao.maps.LatLng(house.lat, house.lng) }));
+            this.displayMarker(this.markerPositions);
+          }
+          // this.$router.push("/house");
+        })
+        .catch(({ error }) => {
+          let msg = "조회 중 문제가 발생했습니다.";
+          alert(msg);
+          // this.$router.push("/house");
+        });
+    },
+    searchApt(gugunCode) {
+      this.x = "";
+      this.y = "";
+      this.latlng = new kakao.maps.LatLng(33.450701, 126.570667);
+      console.log("this.gugunCode " + gugunCode);
+      axios
+        .post("http://localhost:8080/happyhouse/house/all", {
+          gugun: gugunCode,
+        })
+        .then(({ data }) => {
+          this.houses = data;
+          if (this.houses) {
+            this.markerPositions = [];
+            this.houses.forEach((house) => this.markerPositions.push({ title: house.aptName, latlng: new kakao.maps.LatLng(house.lat, house.lng) }));
+            this.displayMarker(this.markerPositions);
+          }
+          // console.log(this.houses);
+          // this.$router.push("/house");
+        })
+        .catch(({ error }) => {
+          let msg = "조회 중 문제가 발생했습니다.";
+          alert(msg);
+          // this.$router.push("/house");
+        });
+    },
+    radioChange() {
+      if (this.selected == "A") {
+        this.x = "";
+        this.y = "";
+        this.latlng = new kakao.maps.LatLng(33.450701, 126.570667);
+      }
+    },
     initMap() {
       const container = document.getElementById("map");
       // console.log("this.x:  " + this.x);
@@ -121,8 +229,9 @@ export default {
       var latlng = this.map.getCenter();
       this.lv = this.map.getLevel();
       let data = { lv: this.map.getLevel(), x: latlng.getLng(), y: latlng.getLat() };
-      // console.log(data);
-      this.$emit("search-road", data);
+
+      this.searchRoad(data);
+      // this.$emit("search-road", data);
     },
     // 지도 확대, 축소 컨트롤에서 확대 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
     // zoomIn() {

@@ -22,6 +22,14 @@
             <div class="mb-1">
               <b-button @click="showMsgBoxTwo">거주자 평점등록</b-button>
             </div>
+            <div>비회원에게 보일 문구</div>
+            <div>거주자 평점 및 리뷰는 회원 전용입니다! 로그인해주세요!</div>
+            <div></div>
+            <br />
+            <br />
+            <div>평점을 작성하지 않은 회원에게 보일 문구(리뷰들 중 최신 리뷰 1개만 보여줌)</div>
+            <div>더 많은 리뷰를 보려면 살고 있는 집의 거주자 평점을 작성해주세요!</div>
+            <div>거주자 평점을 한번 이상 작성하면 해피하우스의 모든 건물 리뷰를 확인할수있습니다!</div>
 
             <b-modal ref="my-modal" id="modal-prevent-closing" title="Submit Your Name" @show="resetModal" @hidden="resetModal" @ok="handleOk" v-show="showModal" v-on:close="showModal = false">
               <form ref="form" @submit.stop.prevent="handleSubmit">
@@ -211,7 +219,7 @@ export default {
         aptCode: this.$route.params.aptCode,
       })
       .then(({ data }) => {
-        console.log(data);
+        // console.log(data);
         this.deals = data;
         // if (this.loginUser) {
         //   axios
@@ -234,13 +242,14 @@ export default {
 
         if (window.kakao && window.kakao.maps) {
           this.initMap();
-          this.displayMarker();
+          // this.displayMarker();
         } else {
           const script = document.createElement("script");
           /* global kakao */
           script.onload = () => kakao.maps.load(this.initMap);
           script.src = "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=7f40405e29341c1fa46226d9889e981a&libraries=services";
           document.head.appendChild(script);
+          // this.displayMarker();
         }
         this.fillData();
         this.filterItem = this.datacollection.datasets.map((_s, i) => i);
@@ -266,18 +275,18 @@ export default {
       }));
     },
   },
-  mounted() {
-    // if (window.kakao && window.kakao.maps) {
-    //   this.initMap();
-    //   if (this.houses) this.displayMarker();
-    // } else {
-    //   const script = document.createElement("script");
-    //   /* global kakao */
-    //   script.onload = () => kakao.maps.load(this.initMap);
-    //   script.src = "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=7f40405e29341c1fa46226d9889e981a&libraries=services";
-    //   document.head.appendChild(script);
-    // }
-  },
+  // mounted() {
+  // if (window.kakao && window.kakao.maps) {
+  //   this.initMap();
+  //   if (this.houses) this.displayMarker();
+  // } else {
+  //   const script = document.createElement("script");
+  //   /* global kakao */
+  //   script.onload = () => kakao.maps.load(this.initMap);
+  //   script.src = "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=7f40405e29341c1fa46226d9889e981a&libraries=services";
+  //   document.head.appendChild(script);
+  // }
+  // },
   methods: {
     //지도 객체를 등록합니다.
     //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
@@ -411,7 +420,7 @@ export default {
       const latlng = new kakao.maps.LatLng(this.deals[0].lat, this.deals[0].lng);
       const options = {
         center: latlng,
-        level: 1,
+        level: 2,
       };
 
       this.placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 });
@@ -421,6 +430,8 @@ export default {
       //지도 객체를 등록합니다.
       //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
       this.map = new kakao.maps.Map(container, options);
+      this.map.setMinLevel(1);
+      this.map.setMaxLevel(3);
 
       this.ps = new kakao.maps.services.Places(this.map);
 
@@ -447,6 +458,7 @@ export default {
       roadviewClient.getNearestPanoId(latlng, 50, function (panoId) {
         roadview.setPanoId(panoId, latlng); //panoId와 중심좌표를 통해 로드뷰 실행
       });
+      this.displayMarker();
     },
     // 엘리먼트에 이벤트 핸들러를 등록하는 함수입니다
     addEventHandle(target, type, callback) {
@@ -539,9 +551,9 @@ export default {
       }
     },
     onClickCategory(event) {
-      console.log(event.target);
-      var id = event.target.id,
-        className = event.target.className;
+      // console.log(event.currentTarget);
+      var id = event.currentTarget.id,
+        className = event.currentTarget.className;
 
       this.placeOverlay.setMap(null);
 
@@ -551,11 +563,13 @@ export default {
         this.removeMarker();
       } else {
         this.currCategory = id;
-        this.changeCategoryClass(this);
+        this.changeCategoryClass(event);
         this.searchPlaces();
       }
     },
     changeCategoryClass(el) {
+      // console.log("el");
+      // console.log(el);
       var category = document.getElementById("category"),
         children = category.children,
         i;
@@ -573,12 +587,16 @@ export default {
       // 이 순서는 스프라이트 이미지에서의 위치를 계산하는데 사용됩니다
       var order = document.getElementById(this.currCategory).getAttribute("data-order");
 
+      console.log("검색 된 건물 수: " + places.length);
       for (var i = 0; i < places.length; i++) {
         // 마커를 생성하고 지도에 표시합니다
         var marker = this.addMarker(new kakao.maps.LatLng(places[i].y, places[i].x), order);
 
         // 마커와 검색결과 항목을 클릭 했을 때
         // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
+        // kakao.maps.event.addListener(marker, "click", function () {
+        //     this.displayPlaceInfo(place);
+        //   });
         (function (marker, place) {
           kakao.maps.event.addListener(marker, "click", function () {
             this.displayPlaceInfo(place);
@@ -590,6 +608,7 @@ export default {
       // if (this.markers.length > 0) {
       //   this.markers.forEach((marker) => marker.setMap(null));
       // }
+
       this.markers = [];
 
       let i = 0;
@@ -615,7 +634,7 @@ export default {
         position: coords,
         content: '<div style="padding:10px;text-align:center;width:200px">' + this.deals[0].aptName + "</div>", // 인포윈도우에 표시할 내용
       });
-
+      console.log("");
       // kakao.maps.event.addListener(marker, "mouseover", this.makeOverListener(this.map, marker, infowindow));
       // kakao.maps.event.addListener(marker, "mouseout", this.makeOutListener(infowindow));
       // kakao.maps.event.addListener(marker, "click", function () {
