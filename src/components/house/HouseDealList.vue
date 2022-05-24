@@ -139,16 +139,16 @@
         <div class="map_wrap">
           <div id="map" style="width: 100%; height: 85vh; position: relative; overflow: hidden"></div>
           <ul id="category">
-            <li id="SW8" data-order="0">지하철역</li>
-            <li id="HP8" data-order="1">병원</li>
-            <li id="PM9" data-order="2">약국</li>
-            <li id="MT1" data-order="3">마트</li>
-            <li id="PS3" data-order="4">유치원</li>
-            <li id="SC4" data-order="5">학교</li>
-            <li id="AC5" data-order="6">학원</li>
-            <li id="CT1" data-order="7">문화</li>
-            <li id="FD6" data-order="8">식당</li>
-            <li id="CE7" data-order="9">카페</li>
+            <li id="SW8" data-order="0" style="display: none">지하철역</li>
+            <li id="HP8" data-order="1" style="display: none">병원</li>
+            <li id="PM9" data-order="2" style="display: none">약국</li>
+            <li id="MT1" data-order="3" style="display: none">마트</li>
+            <li id="PS3" data-order="4" style="display: none">유치원</li>
+            <li id="SC4" data-order="5" style="display: none">학교</li>
+            <li id="AC5" data-order="6" style="display: none">학원</li>
+            <li id="CT1" data-order="7" style="display: none">문화</li>
+            <li id="FD6" data-order="8" style="display: none">식당</li>
+            <li id="CE7" data-order="9" style="display: none">카페</li>
           </ul>
         </div>
         <!-- <div class="mb-4" id="map" style="height: 85vh"></div> -->
@@ -166,9 +166,7 @@ export default {
     BarChart,
   },
   props: {
-    loginUser: null,
-    isManager: null,
-    // dongCode: null,
+    loginId: null,
   },
   data() {
     return {
@@ -193,38 +191,21 @@ export default {
     };
   },
   created() {
-    // if (!this.loginUser) {
-    //   alert("로그인이 필요합니다.");
-    //   this.$router.push("/login");
-    //   return;
-    // }
-    // console.log("ac: " + this.$route.params.aptCode);
-    // this.house = this.$route.params.house;
+    if (this.loginUser) {
+      axios.get("http://localhost:8080/happyhouse/user/" + this.loginUser).then(({ data }) => {
+        this.user = data;
+        const cate = document.getElementById("category");
+        this.user.category.split(",").forEach((element) => {
+          cate.children[parseInt(element)].style.display = "block";
+        });
+      });
+    }
     axios
       .post("http://localhost:8080/happyhouse/house/apt/", {
         aptCode: this.$route.params.aptCode,
       })
       .then(({ data }) => {
-        // console.log(data);
         this.deals = data;
-        // if (this.loginUser) {
-        //   axios
-        //     .post("http://localhost:8080/happyhouse/house/interest", {
-        //       userid: this.loginUser,
-        //       aptCode: this.$route.params.house.aptCode,
-        //     })
-        //     .then(({ data }) => {
-        //       console.log(data);
-        //       this.interest = data;
-        //       for (let i = 0; i < this.deals.length; i++) {
-        //         for (let i = 0; i < this.interest.length; i++) {
-        //           if (this.deals[i].no == this.interest.no) {
-        //           }
-        //           this.deals[i].$set(this.deal[i], "interest", "true");
-        //         }
-        //       }
-        //     });
-        // }
 
         if (window.kakao && window.kakao.maps) {
           this.initMap();
@@ -441,7 +422,7 @@ export default {
       const roadview = new kakao.maps.Roadview(roadviewContainer); //로드뷰 객체
       const roadviewClient = new kakao.maps.RoadviewClient(); //좌표로부터 로드뷰 파노ID를 가져올 로드뷰 helper객체
 
-      roadviewClient.getNearestPanoId(latlng, 50, function (panoId) {
+      roadviewClient.getNearestPanoId(latlng, 150, function (panoId) {
         roadview.setPanoId(panoId, latlng); //panoId와 중심좌표를 통해 로드뷰 실행
       });
       this.displayMarker();
@@ -549,7 +530,7 @@ export default {
         this.removeMarker();
       } else {
         this.currCategory = id;
-        this.changeCategoryClass(event);
+        this.changeCategoryClass(event.currentTarget);
         this.searchPlaces();
       }
     },

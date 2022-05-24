@@ -29,11 +29,11 @@
           </b-row>
         </div>
         <b-row class="text-right" align-h="end">
-          <b-col cols="2" v-if="this.loginUser == qna.userid">
-            <button style="background-color: #ece6cc" class="btn" :to="{ name: 'QnaModify' }">질문수정</button>
+          <b-col cols="2" v-if="this.loginId == qna.userid">
+            <b-button style="background-color: #ece6cc" class="btn" :to="{ name: 'QnaModify' }">질문수정</b-button>
           </b-col>
-          <b-col cols="2" v-if="this.loginUser == qna.userid || this.isManager">
-            <button style="background-color: #ece6cc" class="btn" @click="deleteQna">질문삭제</button>
+          <b-col cols="2" v-if="this.loginId == qna.userid || this.isManager">
+            <b-button style="background-color: #ece6cc" class="btn" @click="deleteQna">질문삭제</b-button>
           </b-col>
         </b-row>
       </div>
@@ -76,8 +76,7 @@ import axios from "axios";
 export default {
   name: "QnaDetail",
   props: {
-    loginUser: null,
-    isManager: null,
+    loginId: null,
   },
   data() {
     return {
@@ -92,6 +91,7 @@ export default {
         masterid: "",
         hit: "",
       },
+      isManager: false,
     };
   },
   methods: {
@@ -100,11 +100,12 @@ export default {
     },
   },
   created() {
-    if (!this.loginUser) {
+    if (!this.loginId) {
       alert("로그인이 필요합니다.");
       this.$router.push("/login");
       return;
     }
+    this.isManager = JSON.parse(localStorage.getItem("isManager"));
     axios.get("http://localhost:8080/happyhouse/qna/" + this.$route.params.no).then(({ data }) => {
       this.qna = data;
     });

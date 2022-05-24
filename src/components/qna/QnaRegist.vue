@@ -17,9 +17,9 @@
 </template>
 <script>
 export default {
-  name: "QnARegist",
+  name: "QnaRegist",
   props: {
-    loginUser: null,
+    loginId: null,
   },
   data() {
     return {
@@ -48,7 +48,7 @@ export default {
         title: this.qna.title,
         content: this.qna.content,
         asktime: "",
-        userid: this.loginUser,
+        userid: this.loginId,
         anscontent: "",
         anstime: "",
         masterid: "",

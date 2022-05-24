@@ -4,7 +4,7 @@
       <b-row>
         <b-col md="4">
           <b-form-radio-group class="text-center" v-model="selected" :options="options" value-field="item" text-field="name" disabled-field="notEnabled" @change="radioChange()"></b-form-radio-group>
-          <house-search-bar v-if="selected == 'A'" @search-apt="searchApt"></house-search-bar>
+          <house-search-bar v-if="selected == 'A'" :loginId="loginId" @search-apt="searchApt"></house-search-bar>
           <house-search-road v-else @search-road="searchRoad" :roadAddress="roadAddress"></house-search-road>
         </b-col>
         <b-col>
@@ -51,16 +51,16 @@
           <div class="map_wrap">
             <div id="map" style="max-width: 63vw; min-height: 78vh; relative; overflow: hidden"></div>
             <ul id="category">
-              <li id="SW8" data-order="0">지하철역</li>
-              <li id="HP8" data-order="1">병원</li>
-              <li id="PM9" data-order="2">약국</li>
-              <li id="MT1" data-order="3">마트</li>
-              <li id="PS3" data-order="4">유치원</li>
-              <li id="SC4" data-order="5">학교</li>
-              <li id="AC5" data-order="6">학원</li>
-              <li id="CT1" data-order="7">문화</li>
-              <li id="FD6" data-order="8">식당</li>
-              <li id="CE7" data-order="9">카페</li>
+              <li id="SW8" data-order="0" style="display: none">지하철역</li>
+              <li id="HP8" data-order="1" style="display: none">병원</li>
+              <li id="PM9" data-order="2" style="display: none">약국</li>
+              <li id="MT1" data-order="3" style="display: none">마트</li>
+              <li id="PS3" data-order="4" style="display: none">유치원</li>
+              <li id="SC4" data-order="5" style="display: none">학교</li>
+              <li id="AC5" data-order="6" style="display: none">학원</li>
+              <li id="CT1" data-order="7" style="display: none">문화</li>
+              <li id="FD6" data-order="8" style="display: none">식당</li>
+              <li id="CE7" data-order="9" style="display: none">카페</li>
             </ul>
           </div>
         </b-col>
@@ -80,6 +80,7 @@ export default {
   },
   data() {
     return {
+      user: null,
       markers: [],
       infowindow: null,
       latlng: null,
@@ -104,8 +105,18 @@ export default {
     };
   },
   props: {
-    // loginUser: "",
-    // isManager: "",
+    loginId: null,
+  },
+  created() {
+    if (this.loginId) {
+      axios.get("http://localhost:8080/happyhouse/user/" + this.loginId).then(({ data }) => {
+        this.user = data;
+        const cate = document.getElementById("category");
+        this.user.category.split(",").forEach((element) => {
+          cate.children[parseInt(element)].style.display = "block";
+        });
+      });
+    }
   },
   mounted() {
     if (window.kakao && window.kakao.maps) {
@@ -146,6 +157,7 @@ export default {
     },
     searchDist(lat, lng) {
       // console.log(this.dist);
+
       axios
         .post("http://localhost:8080/happyhouse/house/dist", {
           lat: lat,
@@ -168,10 +180,14 @@ export default {
         });
     },
     searchApt(gugunCode) {
+      if (!this.map) {
+        this.gugunCode = gugunCode;
+        return;
+      }
       this.x = "";
       this.y = "";
       this.latlng = new kakao.maps.LatLng(33.450701, 126.570667);
-      console.log("this.gugunCode " + gugunCode);
+
       axios
         .post("http://localhost:8080/happyhouse/house/all", {
           gugun: gugunCode,
@@ -183,8 +199,6 @@ export default {
             this.houses.forEach((house) => this.markerPositions.push({ title: house.aptName, latlng: new kakao.maps.LatLng(house.lat, house.lng) }));
             this.displayMarker(this.markerPositions);
           }
-          // console.log(this.houses);
-          // this.$router.push("/house");
         })
         .catch(({ error }) => {
           let msg = "조회 중 문제가 발생했습니다.";
@@ -244,10 +258,15 @@ export default {
       this.lv = this.map.getLevel();
       let data = { lv: this.map.getLevel(), x: latlng.getLng(), y: latlng.getLat() };
 
-      this.searchRoad(data);
-      // this.$emit("search-road", data);
+      if (this.gugunCode != "") {
+        this.searchApt(this.gugunCode);
+        this.gugunCode = "";
+      } else {
+        this.searchRoad(data);
+      }
     },
     // 엘리먼트에 이벤트 핸들러를 등록하는 함수입니다
+
     addEventHandle(target, type, callback) {
       if (target.addEventListener) {
         target.addEventListener(type, callback);

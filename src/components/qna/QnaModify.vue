@@ -15,6 +15,9 @@
 import axios from "axios";
 export default {
   name: "QnaModify",
+  props: {
+    loginId: null,
+  },
   data() {
     return {
       qna: {

@@ -17,9 +17,9 @@
             <template v-if="getUser">
               <b-nav-item-dropdown right>
                 <template #button-content>
-                  <b-icon icon="person-circle" variant="primary" /> <span class="text-info">{{ user.name }}님</span></template
+                  <b-icon icon="person-circle" variant="primary" /> <span class="text-info">{{ loginName }}님</span></template
                 >
-                <b-nav-item :to="{ name: 'UserDetail', params: { id: user.id } }" class="mr-3 text-right"> <b-icon icon="person-lines-fill" class="mr-1" />MyPage</b-nav-item>
+                <b-nav-item :to="{ name: 'UserDetail', params: { id: loginId } }" class="mr-3 text-right"> <b-icon icon="person-lines-fill" class="mr-1" />MyPage</b-nav-item>
                 <b-dropdown-divider></b-dropdown-divider>
                 <b-nav-item href="#" @click="logout" id="blink" class="mr-3 text-right"> <b-icon icon="box-arrow-left" class="mr-1" />Logout</b-nav-item>
               </b-nav-item-dropdown>
@@ -43,7 +43,8 @@ export default {
   name: "HeaderNav",
 
   props: {
-    user: null,
+    loginId: null,
+    loginName: null,
   },
   methods: {
     logout() {
@@ -52,7 +53,7 @@ export default {
   },
   computed: {
     getUser() {
-      if (this.user) {
+      if (this.loginId) {
         return true;
       } else {
         return false;
