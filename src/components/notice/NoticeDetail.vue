@@ -1,39 +1,44 @@
 <template>
-  <div class="container">
-    <span style="font-size: 35px">상세보기</span>
-    <hr />
-    <!-- <b-container class="bv-example-row mb-3">
-      <b-row align-v class="border" cols="2">
-        <b-col class="col"> {{ notice.content }} </b-col>
-        <b-col class="col text-right"
-          ><small> {{ notice.regtime }} </small></b-col
-        >
-      </b-row>
-    </b-container> -->
+  <div>
+    <div id="head">
+      <p class="text-center h1">Notice</p>
+    </div>
 
-    <b-table-simple class="mt-2 table-bordered text-center" style="min-height: 400px">
-      <b-thead class="table-secondary">
-        <b-tr>
-          <b-th width="auto">제목</b-th>
-          <b-th style="width: 50ch">{{ notice.title }}</b-th>
-          <b-th width="auto">날짜</b-th>
-          <b-th>{{ notice.regtime }}</b-th>
-          <b-th width="auto">작성자</b-th>
-          <b-th>{{ notice.userid }}</b-th>
-          <b-th width="auto">조회수</b-th>
-          <b-th>{{ notice.hit }}</b-th>
-        </b-tr>
-      </b-thead>
-      <b-tbody>
-        <b-tr>
-          <!-- <b-td style="vertical-align: middle">내용</b-td> -->
-          <b-td colspan="8" style="text-align: left">{{ notice.content }}</b-td>
-        </b-tr>
-      </b-tbody>
-    </b-table-simple>
-    <div v-if="isManager && loginUser === notice.userid" class="text-center">
-      <b-button variant="outline-success" class="btn" style="width: 48%" :to="{ name: 'NoticeModify', params: { no: notice.no } }">수정</b-button>
-      <b-button variant="outline-success" class="btn" style="width: 48%" @click="deleteNotice">삭제</b-button>
+    <div class="container mt-4">
+      <hr />
+      <div>
+        <b-row class="ml-3 h5">
+          <b-col>{{ notice.title }}</b-col></b-row
+        >
+        <b-row class="ml-3">
+          <b-col>작성일</b-col>
+          <b-col>조회수</b-col>
+        </b-row>
+      </div>
+      <b-table-simple class="mt-2 table-bordered text-center" style="min-height: 400px">
+        <b-thead class="table-secondary">
+          <b-tr>
+            <b-th width="auto">제목</b-th>
+            <b-th style="width: 50ch">{{ notice.title }}</b-th>
+            <b-th width="auto">날짜</b-th>
+            <b-th>{{ notice.regtime }}</b-th>
+            <b-th width="auto">작성자</b-th>
+            <b-th>{{ notice.userid }}</b-th>
+            <b-th width="auto">조회수</b-th>
+            <b-th>{{ notice.hit }}</b-th>
+          </b-tr>
+        </b-thead>
+        <b-tbody>
+          <b-tr>
+            <!-- <b-td style="vertical-align: middle">내용</b-td> -->
+            <b-td colspan="8" style="text-align: left">{{ notice.content }}</b-td>
+          </b-tr>
+        </b-tbody>
+      </b-table-simple>
+      <div v-if="isManager && loginUser === notice.userid" class="text-center">
+        <b-button variant="outline-success" class="btn" style="width: 48%" :to="{ name: 'NoticeModify', params: { no: notice.no } }">수정</b-button>
+        <b-button variant="outline-success" class="btn" style="width: 48%" @click="deleteNotice">삭제</b-button>
+      </div>
     </div>
   </div>
 </template>
