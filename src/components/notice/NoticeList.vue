@@ -1,50 +1,54 @@
 <template>
-  <div class="container">
-    <p class="text-center" style="font-size: 35px">공지사항 목록</p>
-    <b-button v-if="isManager" variant="outline-success" style="float: right; width: auto" to="/notice/regist">글쓰기</b-button>
-    <hr />
-    <div class="text-right">
-      <b-row>
-        <b-col cols="8"></b-col>
-        <b-col cols="2"><b-form-select v-model="selected" :options="options" size="sm" class="mt-3" @change="sort"></b-form-select></b-col>
-        <b-col align-self="end" cols="2">
-          <small class="mb-3 text-right">* 전체 공지사항 수 : {{ total }} </small>
-        </b-col>
-      </b-row>
+  <div>
+    <div id="head">
+      <p class="text-center h1">Notice</p>
     </div>
-    <div v-if="notices.length">
-      <b-table-simple hover striped responsive class="text-center">
-        <colgroup>
-          <col :style="{ width: '10%' }" />
-          <col :style="{ width: '50%' }" />
-          <col :style="{ width: '15%' }" />
-          <col :style="{ width: '15%' }" />
-          <col :style="{ width: '10%' }" />
-        </colgroup>
-        <b-thead>
-          <b-tr>
-            <b-th>번호</b-th>
-            <b-th>제목</b-th>
-            <b-th>날짜</b-th>
-            <b-th>작성자</b-th>
-            <b-th>조회수</b-th>
-          </b-tr>
-        </b-thead>
-        <b-tbody>
-          <b-tr v-for="(notice, index) in notices" :key="index">
-            <b-td>{{ no - pageLimit + index + 1 }}</b-td>
-            <b-td>
-              <router-link class="notice-link" :to="{ name: 'NoticeDetail', params: { no: notice.no } }">{{ notice.title }}</router-link>
-            </b-td>
-            <b-td>{{ notice.regtime.substring(0, 10) }}</b-td>
-            <b-td>{{ notice.userid }}</b-td>
-            <b-td>{{ notice.hit }}</b-td>
-          </b-tr>
-        </b-tbody>
-      </b-table-simple>
-      <page-link @update-page="updatePage" />
-    </div>
-    <div v-else>등록된 공지사항이 없습니다.</div>
+    <b-container>
+      <div class="text-right mt-5">
+        <b-row align-h="between" align-v="end" class="mb-2">
+          <b-col class="text-left">
+            <small>* 전체 공지사항 수 : {{ total }} </small>
+          </b-col>
+          <b-col md="2"> <b-form-select v-model="selected" :options="options" size="sm" class="mt-3" @change="sort"> </b-form-select></b-col>
+          <button v-if="isManager" class="btn mr-4" style="float: right; background-color: #ece6cc" to="/notice/regist">글쓰기</button>
+        </b-row>
+      </div>
+      <div class="mb-5">
+        <div v-if="notices.length">
+          <b-table-simple hover class="text-center">
+            <colgroup>
+              <col :style="{ width: '10%' }" />
+              <col :style="{ width: '50%' }" />
+              <col :style="{ width: '15%' }" />
+              <!-- <col :style="{ width: '15%' }" /> -->
+              <col :style="{ width: '10%' }" />
+            </colgroup>
+            <b-thead head-variant="light">
+              <b-tr>
+                <b-th>#</b-th>
+                <b-th>Title</b-th>
+                <b-th>Date</b-th>
+                <!-- <b-th>작성자</b-th> -->
+                <b-th>View</b-th>
+              </b-tr>
+            </b-thead>
+            <b-tbody>
+              <b-tr v-for="(notice, index) in notices" :key="index">
+                <b-td>{{ no - pageLimit + index + 1 }}</b-td>
+                <b-td>
+                  <router-link class="notice-link" :to="{ name: 'NoticeDetail', params: { no: notice.no } }">{{ notice.title }}</router-link>
+                </b-td>
+                <b-td>{{ notice.regtime.substring(0, 10) }}</b-td>
+                <!-- <b-td>{{ notice.userid }}</b-td> -->
+                <b-td>{{ notice.hit }}</b-td>
+              </b-tr>
+            </b-tbody>
+          </b-table-simple>
+          <page-link @update-page="updatePage" />
+        </div>
+        <div v-else>등록된 공지사항이 없습니다.</div>
+      </div>
+    </b-container>
   </div>
 </template>
 <script>
@@ -138,3 +142,19 @@ export default {
   },
 };
 </script>
+
+<style>
+#head {
+  background-color: #48608a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 25vh;
+  color: lightcyan;
+}
+/* 버튼색 추천 :  #ece6cc , #637DB0 , #48608a , #506e80 */
+#head p {
+  font-weight: bold;
+}
+</style>
