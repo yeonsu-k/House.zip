@@ -25,17 +25,19 @@
         <hr />
         <div class="mx-4 mt-2" style="min-height: 35vh">
           <b-row class="ml-3">
-            <b-col> {{ qna.content }} </b-col>
+            <b-col>
+              <pre>{{ qna.content }}</pre>
+            </b-col>
           </b-row>
         </div>
-        <b-row class="text-right" align-h="end">
-          <b-col cols="2" v-if="this.loginUser == qna.userid">
-            <button style="background-color: #ece6cc" class="btn" :to="{ name: 'QnaModify' }">질문수정</button>
-          </b-col>
-          <b-col cols="2" v-if="this.loginUser == qna.userid || this.isManager">
-            <button style="background-color: #ece6cc" class="btn" @click="deleteQna">질문삭제</button>
-          </b-col>
-        </b-row>
+        <hr />
+
+        <div class="text-center">
+          <b-row class="text-center" align-h="end">
+            <b-button v-if="this.loginUser == qna.userid" id="bbtn" class="btn px-3 mr-2" variant="outline-light" :to="{ name: 'QnaModify' }">질문수정</b-button>
+            <button v-if="this.loginUser == qna.userid || this.isManager" class="btn px-3 mr-4" style="background-color: #ece6cc" @click="deleteQna">질문삭제</button>
+          </b-row>
+        </div>
       </div>
       <hr />
 
@@ -56,16 +58,26 @@
           <hr />
           <div class="mx-4 mt-2" style="min-height: 35vh">
             <b-row class="ml-3">
-              <b-col>{{ qna.anscontent }} </b-col>
+              <b-col>
+                <pre>{{ qna.anscontent }}</pre>
+              </b-col>
             </b-row>
           </div>
           <hr />
-          <b-button v-if="this.isManager" style="background-color: #48608a" class="btn w-100" :to="{ name: 'QnaModifyAns' }">답변수정</b-button>
+          <b-row v-if="this.isManager" class="text-right" align-h="end">
+            <b-col cols="auto">
+              <b-button style="background-color: #48608a" class="btn" :to="{ name: 'QnaModifyAns' }">답변수정</b-button>
+            </b-col>
+          </b-row>
         </div>
         <div v-else>
           <hr />
-          <h6 align="center">아직 답변이 달리지 않았습니다.</h6>
-          <b-button v-if="this.isManager" style="background-color: #48608a" class="btn w-100 mt-2" :to="{ name: 'QnaRegistAns' }">답변작성</b-button>
+          <h6 align="center">등록된 답변이 없습니다.</h6>
+          <b-row v-if="this.isManager" class="text-right" align-h="end">
+            <b-col cols="auto">
+              <b-button style="background-color: #48608a" class="btn mt-2" :to="{ name: 'QnaRegistAns' }">답변작성</b-button>
+            </b-col>
+          </b-row>
         </div>
       </div>
     </div>
@@ -119,7 +131,7 @@ export default {
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 25vh;
+  height: 20vh;
   color: lightcyan;
 }
 /* 버튼색 추천 :  #ece6cc , #637DB0 , #48608a , #506e80 */
@@ -128,16 +140,7 @@ export default {
 }
 
 #bbtn {
-  color: white;
-}
-
-#user_col {
-  border-radius: 40px;
-  overflow: auto;
-  background-color: white;
-  align-self: center;
-}
-#user_col::-webkit-scrollbar {
-  display: none;
+  color: black;
+  background-color: #ece6cc;
 }
 </style>

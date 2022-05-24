@@ -4,39 +4,39 @@
       <p class="text-center h1">Notice</p>
     </div>
     <div class="container my-4">
-      <hr />
-      <div class="mx-5">
-        <b-row class="mb-3 h5">
-          <b-col style="font-weight: bold">{{ notice.title }}</b-col>
-        </b-row>
-        <b-row>
-          <b-col>
-            <span>작성일 &nbsp; {{ notice.regtime }}</span>
-          </b-col>
-          <b-col class="text-center">
-            <span>작성자 &nbsp; {{ notice.userid }}</span>
-          </b-col>
-          <b-col class="text-right">
-            <span>조회수 &nbsp; {{ notice.hit }}</span>
-          </b-col>
-        </b-row>
-      </div>
-      <hr />
-      <div class="mx-4 mt-2" style="min-height: 35vh">
-        <b-row class="ml-3">
-          <b-col> {{ notice.content }} </b-col>
-        </b-row>
-      </div>
-      <hr />
-      <div v-if="isManager && loginUser === notice.userid" class="text-center">
-        <b-row>
-          <b-col>
-            <button id="bbtn" class="btn w-100" style="background-color: #48608a" :to="{ name: 'NoticeModify', params: { no: notice.no } }">수정</button>
-          </b-col>
-          <b-col>
-            <button id="bbtn" class="btn w-100" style="background-color: #48608a" @click="deleteNotice">삭제</button>
-          </b-col>
-        </b-row>
+      <div class="shadow py-3 px-5" id="user_col">
+        <hr />
+        <div class="mx-5">
+          <b-row class="mb-3 h5">
+            <b-col style="font-weight: bold">{{ notice.title }}</b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <span>작성일 &nbsp; {{ notice.regtime }}</span>
+            </b-col>
+            <b-col class="text-center">
+              <span>작성자 &nbsp; {{ notice.userid }}</span>
+            </b-col>
+            <b-col class="text-right">
+              <span>조회수 &nbsp; {{ notice.hit }}</span>
+            </b-col>
+          </b-row>
+        </div>
+        <hr />
+        <div class="mx-4 mt-2" style="min-height: 35vh">
+          <b-row class="ml-3">
+            <b-col>
+              <pre>{{ notice.content }}</pre>
+            </b-col>
+          </b-row>
+        </div>
+        <hr />
+        <div v-if="isManager && loginUser === notice.userid" class="text-center">
+          <b-row class="text-center" align-h="end">
+            <b-button class="btn px-3 mr-2" id="bbtn" variant="outline-light" :to="{ name: 'NoticeModify', params: { no: notice.no } }">수정</b-button>
+            <button class="btn px-3 mr-4" style="background-color: #ece6cc" @click="deleteNotice">삭제</button>
+          </b-row>
+        </div>
       </div>
     </div>
   </div>
@@ -95,6 +95,7 @@ export default {
 }
 
 #bbtn {
-  color: white;
+  color: black;
+  background-color: #ece6cc;
 }
 </style>

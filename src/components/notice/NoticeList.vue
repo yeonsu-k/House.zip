@@ -12,7 +12,7 @@
           <b-col md="2">
             <b-form-select v-model="selected" :options="options" size="sm" class="mt-3" @change="sort"> </b-form-select>
           </b-col>
-          <button v-if="isManager" class="btn mr-4" style="float: right; background-color: #ece6cc" to="/notice/regist">글쓰기</button>
+          <b-button v-if="isManager" id="bbtn" class="btn mr-4" variant="outline-light" to="/notice/regist">글쓰기</b-button>
         </b-row>
       </div>
       <div class="mb-5">
@@ -161,6 +161,8 @@ export default {
 }
 
 #bbtn {
-  color: white;
+  float: right;
+  color: black;
+  background-color: #ece6cc;
 }
 </style>

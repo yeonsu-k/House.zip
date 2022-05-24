@@ -12,7 +12,7 @@
           <b-col md="4">
             <b-form-checkbox id="checkbox-1" v-model="status" name="checkbox-1"> 답변완료 글만 보기 </b-form-checkbox>
           </b-col>
-          <button v-if="this.loginUser && !this.isManager" class="btn mr-4 btn-sm" style="float: right; color: white; background-color: #48608a" to="/qna/regist">문의하기</button>
+          <b-button v-if="loginUser && !this.isManager" id="bbtn" class="btn-sm mr-4" variant="outline-light" to="/qna/regist">문의하기</b-button>
         </b-row>
       </div>
       <div class="mb-5">
@@ -172,6 +172,8 @@ export default {
 }
 
 #bbtn {
-  color: white;
+  float: right;
+  color: black;
+  background-color: #ece6cc;
 }
 </style>

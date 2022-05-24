@@ -1,17 +1,24 @@
 <template>
-  <div class="container">
-    <span style="font-size: 35px">QnA 질문 작성</span>
-    <hr />
-    <div role="group" class="mt-2">
-      <label for="input-title">제목</label>
-      <b-form-input id="input-title" v-model="qna.title" placeholder="Enter title" trim></b-form-input>
+  <div>
+    <div id="head">
+      <p class="text-center h1">Q & A</p>
     </div>
-    <div role="group" class="mt-2">
-      <label for="input-content">내용</label>
-      <b-form-textarea id="input-content" v-model="qna.content" placeholder="Enter content" rows="8"></b-form-textarea>
-    </div>
-    <div style="text-align: center">
-      <b-button style="width: 99%" variant="" @click="regist">등록</b-button>
+    <div class="container my-4">
+      <div class="shadow py-3 px-5 col-md-10 mx-auto" id="user_col">
+        <div role="group" class="mt-3 mb-2">
+          <div>
+            <label for="input-title" style="font-weight: bold">제목</label>
+            <b-form-input id="input-title" v-model="qna.title" placeholder="Enter title" trim></b-form-input>
+          </div>
+          <div role="group" class="my-3">
+            <label for="input-content" style="font-weight: bold">내용</label>
+            <b-form-textarea id="input-content" v-model="qna.content" placeholder="Enter content" rows="8"></b-form-textarea>
+          </div>
+          <div class="text-center">
+            <b-button id="bbtn" style="background-color: #ece6cc" variant="outline-light" class="btn w-25" @click="regist">등록</b-button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -59,3 +66,24 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+#head {
+  background-color: #48608a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 25vh;
+  color: lightcyan;
+}
+/* 버튼색 추천 :  #ece6cc , #637DB0 , #48608a , #506e80 */
+#head p {
+  font-weight: bold;
+}
+
+#bbtn {
+  color: black;
+  background-color: #ece6cc;
+}
+</style>

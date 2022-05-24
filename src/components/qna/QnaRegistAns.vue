@@ -1,30 +1,58 @@
 <template>
-  <div class="container">
-    <span style="font-size: 35px">QnA 답변 작성</span>
-    <hr />
-    <b-table-simple class="mt-2 table-bordered text-center" style="min-height: 400px">
-      <b-thead class="table-secondary">
-        <b-tr>
-          <b-th width="auto">제목</b-th>
-          <b-th style="width: 50ch">{{ qna.title }}</b-th>
-          <b-th width="auto">작성시간</b-th>
-          <b-th>{{ qna.asktime }}</b-th>
-          <b-th width="auto">작성자</b-th>
-          <b-th>{{ qna.userid }}</b-th>
-        </b-tr>
-      </b-thead>
-      <b-tbody>
-        <b-tr>
-          <b-td colspan="6" style="text-align: left">{{ qna.content }}</b-td>
-        </b-tr>
-      </b-tbody>
-    </b-table-simple>
-    <hr style="border-top: 2px dashed #bbb" />
-    <span style="font-size: 35px">QnA 답변 작성</span>
-    <b-form-group class="mt-3" label-for="input-anscontent">
-      <b-form-textarea id="input-anscontent" v-model="qna.anscontent" placeholder="Enter content" rows="6"></b-form-textarea>
-    </b-form-group>
-    <b-button style="width: 99%" variant="outline-success" @click="regist">등록</b-button>
+  <div>
+    <div id="head">
+      <p class="text-center h1">Q & A</p>
+    </div>
+    <div class="container my-4">
+      <div class="shadow py-3 px-5" id="user_col">
+        <hr />
+        <div class="mx-5">
+          <b-row class="mb-3 h5">
+            <b-col style="font-weight: bold">{{ qna.title }}</b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <span>작성일 &nbsp; {{ qna.asktime }}</span>
+            </b-col>
+            <b-col class="text-center">
+              <span>작성자 &nbsp; {{ qna.userid }}</span>
+            </b-col>
+            <b-col class="text-right">
+              <span>조회수 &nbsp; {{ qna.hit }}</span>
+            </b-col>
+          </b-row>
+        </div>
+        <hr />
+        <div class="mx-4 mt-2">
+          <b-row class="ml-3">
+            <b-col>
+              <pre>{{ qna.content }}</pre>
+            </b-col>
+          </b-row>
+        </div>
+        <hr />
+        <b-row class="text-right" align-h="end">
+          <b-col cols="auto">
+            <button v-if="this.loginUser == qna.userid" style="background-color: #ece6cc" class="btn" :to="{ name: 'QnaModify' }">질문수정</button>
+          </b-col>
+          <b-col cols="auto" v-if="this.loginUser == qna.userid || this.isManager">
+            <button style="background-color: #ece6cc" class="btn" @click="deleteQna">질문삭제</button>
+          </b-col>
+        </b-row>
+      </div>
+      <hr style="border-top: 2px dashed #bbb" />
+      <div class="shadow py-3 px-5 mx-auto" id="user_col">
+        <div role="group" class="mt-3 mb-2">
+          <div role="group" class="my-3">
+            <label for="input-content" style="font-weight: bold" class="mb-2">답변 작성</label>
+            <b-form-textarea id="input-anscontent" v-model="qna.anscontent" placeholder="Enter content" rows="6"></b-form-textarea>
+          </div>
+          <div class="text-center">
+            <b-button id="bbtn" variant="outline-light" class="btn w-25" @click="regist">등록</b-button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -68,3 +96,24 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+#head {
+  background-color: #48608a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 20vh;
+  color: lightcyan;
+}
+/* 버튼색 추천 :  #ece6cc , #637DB0 , #48608a , #506e80 */
+#head p {
+  font-weight: bold;
+}
+
+#bbtn {
+  color: black;
+  background-color: #ece6cc;
+}
+</style>
