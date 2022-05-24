@@ -4,12 +4,14 @@
       <b-row>
         <b-col md="4">
           <b-form-radio-group class="text-center" v-model="selected" :options="options" value-field="item" text-field="name" disabled-field="notEnabled" @change="radioChange()"></b-form-radio-group>
+        </b-col>
+        <b-col md="4">
           <house-search-bar v-if="selected == 'A'" :loginId="loginId" @search-apt="searchApt"></house-search-bar>
           <house-search-road v-else @search-road="searchRoad" :roadAddress="roadAddress"></house-search-road>
         </b-col>
-        <b-col>
+        <!-- <b-col>
           <b-col>카테고리</b-col>
-        </b-col>
+        </b-col> -->
       </b-row>
       <b-row>
         <b-col>
