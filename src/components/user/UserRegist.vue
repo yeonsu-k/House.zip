@@ -1,47 +1,25 @@
 <template>
   <div id="main">
     <b-container>
-      <b-row class="container row" align-h="center" style="height: 78vh">
-        <div class="col shadow p-5" id="user_col">
+      <b-row class="container" align-h="center" style="height: 78vh">
+        <b-col md="10" class="shadow py-5 px-5" id="user_col">
           <h2>회원 가입</h2>
           <hr />
           <div role="group" class="mt-2">
             <label for="input-id">아이디</label>
-            <b-form-input id="input-id" size="sm" v-model="id" :state="idState" aria-describedby="input-live-help-id input-live-feedback-id" placeholder="Enter at least 4 letters" trim></b-form-input>
-            <!-- <b-form-invalid-feedback id="input-live-feedback-id"> Enter at least 4 letters </b-form-invalid-feedback> -->
-            <!-- <b-form-text id="input-live-help-id">Your unique id.</b-form-text> -->
+            <b-form-input id="input-id" size="sm" v-model="id" :state="idState" placeholder="Enter at least 4 letters" trim></b-form-input>
           </div>
           <form>
             <div role="group" class="mt-2">
               <label for="input-password">비밀번호</label>
-              <b-form-input
-                id="input-password"
-                type="password"
-                v-model="password"
-                :state="passwordState"
-                size="sm"
-                aria-describedby="input-live-help-password input-live-feedback-password"
-                placeholder="Enter your password"
-                trim
-                autocomplete="on"
-              ></b-form-input>
+              <b-form-input id="input-password" type="password" v-model="password" :state="passwordState" size="sm" placeholder="Enter your password" trim autocomplete="on"></b-form-input>
               <!-- <b-form-invalid-feedback id="input-live-feedback-password"> Enter at least 4 letters </b-form-invalid-feedback>
               <b-form-text id="input-live-help-password">Your password.</b-form-text> -->
             </div>
           </form>
           <div role="group" class="mt-2">
             <label for="input-name">이름</label>
-            <b-form-input
-              id="input-name"
-              size="sm"
-              v-model="name"
-              :state="nameState"
-              aria-describedby="input-live-help-name input-live-feedback-name"
-              placeholder="Enter your name"
-              trim
-            ></b-form-input>
-            <!-- <b-form-invalid-feedback id="input-live-feedback-id"> Enter at least 2 letters </b-form-invalid-feedback>
-            <b-form-text id="input-live-help-name">Your full name.</b-form-text> -->
+            <b-form-input id="input-name" size="sm" v-model="name" :state="nameState" placeholder="Enter your name" trim></b-form-input>
           </div>
 
           <div role="group" class="mt-2">
@@ -58,9 +36,9 @@
           </b-form-group>
           <div class="mt-2">
             <!-- 버튼색 추천 :  #ece6cc , #48608a , #637DB0 , #57788c -->
-            <button class="btn text-light" style="background-color: #57788c; width: 100%" @click="regist">등록</button>
+            <button class="btn" style="background-color: #ece6cc; width: 100%" @click="regist">등록</button>
           </div>
-        </div>
+        </b-col>
       </b-row>
     </b-container>
   </div>
@@ -147,6 +125,7 @@ export default {
   content: "";
   background: url("@/assets/img/slider1.jpg");
   position: absolute;
+  background-size: cover;
   top: 0;
   left: 0;
   z-index: -1;

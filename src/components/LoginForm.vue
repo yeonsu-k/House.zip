@@ -62,6 +62,7 @@ export default {
   content: "";
   background: url("@/assets/img/slider3.jpg");
   position: absolute;
+  background-size: cover;
   top: 0;
   left: 0;
   z-index: -1;
