@@ -17,7 +17,7 @@ export default {
       roadAddress: "",
       x: "",
       y: "",
-      dongCode: "",
+      // dongCode: "",
       result: "",
     };
   },
@@ -28,7 +28,7 @@ export default {
           // console.log(data); //법정동코드
           console.log(data.bcode); //법정동코드
           console.log(data.roadAddress); //도로명주소
-          this.dongCode = data.bcode;
+          // this.dongCode = data.bcode;
           this.roadAddress = data.roadAddress;
           var config = { headers: { Authorization: "KakaoAK 31e557edd0f33fd488f045aced289e23" } };
           var url = "https://dapi.kakao.com/v2/local/search/address.json?query=" + data.roadAddress;
