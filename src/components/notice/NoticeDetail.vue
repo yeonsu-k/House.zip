@@ -3,41 +3,37 @@
     <div id="head">
       <p class="text-center h1">Notice</p>
     </div>
-
-    <div class="container mt-4">
+    <div class="container my-4">
       <hr />
-      <div>
-        <b-row class="ml-3 h5">
-          <b-col>{{ notice.title }}</b-col></b-row
-        >
-        <b-row class="ml-3">
-          <b-col>작성일</b-col>
-          <b-col>조회수</b-col>
+      <div class="mx-5">
+        <b-row class="h5">
+          <b-col>{{ notice.title }}</b-col>
+        </b-row>
+        <b-row align-h="start">
+          <b-col cols="4">
+            <span>작성일 &nbsp; {{ notice.regtime }}</span>
+          </b-col>
+          <b-col cols="4">
+            <span>조회수 &nbsp; {{ notice.hit }}</span>
+          </b-col>
         </b-row>
       </div>
-      <b-table-simple class="mt-2 table-bordered text-center" style="min-height: 400px">
-        <b-thead class="table-secondary">
-          <b-tr>
-            <b-th width="auto">제목</b-th>
-            <b-th style="width: 50ch">{{ notice.title }}</b-th>
-            <b-th width="auto">날짜</b-th>
-            <b-th>{{ notice.regtime }}</b-th>
-            <b-th width="auto">작성자</b-th>
-            <b-th>{{ notice.userid }}</b-th>
-            <b-th width="auto">조회수</b-th>
-            <b-th>{{ notice.hit }}</b-th>
-          </b-tr>
-        </b-thead>
-        <b-tbody>
-          <b-tr>
-            <!-- <b-td style="vertical-align: middle">내용</b-td> -->
-            <b-td colspan="8" style="text-align: left">{{ notice.content }}</b-td>
-          </b-tr>
-        </b-tbody>
-      </b-table-simple>
+      <hr />
+      <div class="mx-4 mt-2" style="min-height: 35vh">
+        <b-row class="ml-3">
+          <b-col> {{ notice.content }} </b-col>
+        </b-row>
+      </div>
+      <hr />
       <div v-if="isManager && loginUser === notice.userid" class="text-center">
-        <b-button variant="outline-success" class="btn" style="width: 48%" :to="{ name: 'NoticeModify', params: { no: notice.no } }">수정</b-button>
-        <b-button variant="outline-success" class="btn" style="width: 48%" @click="deleteNotice">삭제</b-button>
+        <b-row>
+          <b-col>
+            <button id="bbtn" class="btn w-100" style="background-color: #48608a" :to="{ name: 'NoticeModify', params: { no: notice.no } }">수정</button>
+          </b-col>
+          <b-col>
+            <button id="bbtn" class="btn w-100" style="background-color: #48608a" @click="deleteNotice">삭제</button>
+          </b-col>
+        </b-row>
       </div>
     </div>
   </div>
@@ -79,3 +75,23 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+#head {
+  background-color: #48608a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 25vh;
+  color: lightcyan;
+}
+/* 버튼색 추천 :  #ece6cc , #637DB0 , #48608a , #506e80 */
+#head p {
+  font-weight: bold;
+}
+
+#bbtn {
+  color: white;
+}
+</style>

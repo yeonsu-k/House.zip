@@ -9,7 +9,9 @@
           <b-col class="text-left">
             <small>* 전체 공지사항 수 : {{ total }} </small>
           </b-col>
-          <b-col md="2"> <b-form-select v-model="selected" :options="options" size="sm" class="mt-3" @change="sort"> </b-form-select></b-col>
+          <b-col md="2">
+            <b-form-select v-model="selected" :options="options" size="sm" class="mt-3" @change="sort"> </b-form-select>
+          </b-col>
           <button v-if="isManager" class="btn mr-4" style="float: right; background-color: #ece6cc" to="/notice/regist">글쓰기</button>
         </b-row>
       </div>
@@ -143,7 +145,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #head {
   background-color: #48608a;
   display: flex;
@@ -156,5 +158,9 @@ export default {
 /* 버튼색 추천 :  #ece6cc , #637DB0 , #48608a , #506e80 */
 #head p {
   font-weight: bold;
+}
+
+#bbtn {
+  color: white;
 }
 </style>

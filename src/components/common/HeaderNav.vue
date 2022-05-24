@@ -12,7 +12,7 @@
             <b-nav-item to="/intro" class="mr-3">intro</b-nav-item>
             <b-nav-item to="/house/all" class="mr-3">거래조회</b-nav-item>
             <b-nav-item to="/notice" class="mr-3">공지사항</b-nav-item>
-            <b-nav-item to="/qna" class="mr-3">QnA</b-nav-item>
+            <b-nav-item to="/qna" class="mr-3">Q&A</b-nav-item>
 
             <template v-if="getUser">
               <b-nav-item-dropdown right>
