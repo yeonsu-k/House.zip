@@ -182,7 +182,7 @@ export default {
   props: {
     loginUser: null,
     isManager: null,
-    dongCode: null,
+    // dongCode: null,
   },
   data() {
     return {
@@ -614,10 +614,15 @@ export default {
       let i = 0;
       // let imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
       // let imageSrc = "http://drive.google.com/uc?export=view&id=1Th8RjUjvvMWR-zYegM2taxOYB1NlL50S";
-      let imageSrc = "http://drive.google.com/uc?export=view&id=18EHzbozgdSC1fPltqqI71hKCYgGVe-cg";
 
+      let imageSrc_apt = "http://drive.google.com/uc?export=view&id=1fTg0Xop_1pBwKNxGnEPSr2jZwu3h61Yt";
+      let imageSrc_op = "http://drive.google.com/uc?export=view&id=1BJm09kQRgh6PgiiOtP5eAoyHMF9vneOu";
+      let imageSrc_bil = "http://drive.google.com/uc?export=view&id=1XfXxlgJua7Y3BzxI4ugGGFBfJcPMOXmT";
+
+      let imageSrc = this.deals[0].infoType.trim() == "아파트" ? imageSrc_apt : this.deals[0].infoType.trim() == "오피스텔" ? imageSrc_op : imageSrc_bil;
       // 마커 이미지의 이미지 크기 입니다
       var imageSize = new kakao.maps.Size(40, 40);
+
       // 마커 이미지를 생성합니다
       var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
       // this.houses.forEach((house) => {
