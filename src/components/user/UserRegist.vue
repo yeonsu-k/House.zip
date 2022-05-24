@@ -2,7 +2,7 @@
   <div id="main">
     <b-container>
       <b-row class="container" align-h="center" style="height: 78vh">
-        <b-col md="10" class="shadow py-5 px-5" id="user_col">
+        <b-col md="8" class="shadow py-5 px-5" id="user_col">
           <h2>회원 가입</h2>
           <hr />
           <div role="group" class="mt-2">
