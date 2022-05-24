@@ -12,44 +12,44 @@
         </b-col>
       </b-row>
       <b-row>
-        <b-col md="4" id="infoView">
-          <div v-if="houses.length">
-            <b-table-simple small hover striped class="text-center">
-              <!-- sticky-header -->
-              <b-thead>
-                <b-tr>
-                  <b-th>번호</b-th>
-                  <b-th>건물명</b-th>
-                  <b-th>건물타입</b-th>
-                  <b-th>건축년도</b-th>
-                  <b-th>매물수</b-th>
-                </b-tr>
-              </b-thead>
-              <b-tbody>
-                <b-tr v-for="(house, index) in houses" :key="index">
-                  <b-td>{{ index + 1 }}</b-td>
-                  <b-td>
-                    <router-link :to="{ name: 'HouseDealList', params: { house: house, aptCode: house.aptCode } }">{{ house.aptName }}</router-link>
-                  </b-td>
-                  <b-td>{{ house.infoType }}</b-td>
-                  <b-td>{{ house.buildYear }}</b-td>
-                  <b-td>{{ house.total }}</b-td>
-                </b-tr>
-              </b-tbody>
-            </b-table-simple>
-          </div>
-          <div v-else>
-            <b-row>
-              <b-col><b-alert show>주택 목록이 없습니다.</b-alert></b-col>
-            </b-row>
-          </div>
-        </b-col>
         <b-col>
           <!-- 지도 -->
           <!-- <p id="result"></p> -->
           <!-- <div id="map" style="display: flex; width: 100%; height: 85vh; padding-left: 0px; padding-right: 0px"></div> -->
           <div class="map_wrap">
-            <div id="map" style="max-width: 63vw; min-height: 78vh; relative; overflow: hidden"></div>
+            <div id="map" style="max-width: 100vw; min-height: 78vh; relative; overflow: hidden"></div>
+            <div id="table">
+              <div v-if="houses.length">
+                <b-table-simple small hover striped class="text-center">
+                  <!-- sticky-header -->
+                  <b-thead>
+                    <b-tr>
+                      <b-th>번호</b-th>
+                      <b-th>건물명</b-th>
+                      <b-th>건물타입</b-th>
+                      <b-th>건축년도</b-th>
+                      <b-th>매물수</b-th>
+                    </b-tr>
+                  </b-thead>
+                  <b-tbody>
+                    <b-tr v-for="(house, index) in houses" :key="index">
+                      <b-td>{{ index + 1 }}</b-td>
+                      <b-td>
+                        <router-link :to="{ name: 'HouseDealList', params: { house: house, aptCode: house.aptCode } }">{{ house.aptName }}</router-link>
+                      </b-td>
+                      <b-td>{{ house.infoType }}</b-td>
+                      <b-td>{{ house.buildYear }}</b-td>
+                      <b-td>{{ house.total }}</b-td>
+                    </b-tr>
+                  </b-tbody>
+                </b-table-simple>
+              </div>
+              <div v-else>
+                <b-row>
+                  <b-col><b-alert show>주택 목록이 없습니다.</b-alert></b-col>
+                </b-row>
+              </div>
+            </div>
             <ul id="category">
               <li id="SW8" data-order="0" style="display: none">지하철역</li>
               <li id="HP8" data-order="1" style="display: none">병원</li>
@@ -62,6 +62,7 @@
               <li id="FD6" data-order="8" style="display: none">식당</li>
               <li id="CE7" data-order="9" style="display: none">카페</li>
             </ul>
+            <button id="custom_m">필터</button>
           </div>
         </b-col>
       </b-row>
@@ -144,8 +145,8 @@ export default {
           break;
       }
       // console.log("update-" + data);
-      this.x = data.x; //lng
-      this.y = data.y;
+      if (data.x) this.x = data.x; //lng
+      if (data.y) this.y = data.y;
 
       this.latlng = new kakao.maps.LatLng(this.y, this.x);
 
@@ -541,6 +542,42 @@ body {
 }
 .mouse-over-bgcolor {
   background-color: lightblue;
+}
+#table {
+  position: absolute;
+  top: 50px;
+  left: 10px;
+  border-radius: 5px;
+  border: 1px solid #909090;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+  background: #fff;
+  overflow: hidden;
+  z-index: 2;
+  float: left;
+  list-style: none;
+  width: 450px;
+  border-right: 1px solid #acacac;
+  padding: 6px 0;
+  text-align: center;
+  cursor: pointer;
+}
+#custom_m {
+  position: absolute;
+  top: 10px;
+  right: 40px;
+  border-radius: 5px;
+  border: 1px solid #909090;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+  background: #fff;
+  overflow: hidden;
+  z-index: 2;
+  float: left;
+  list-style: none;
+  width: 50px;
+  border-right: 1px solid #acacac;
+  padding: 6px 0;
+  text-align: center;
+  cursor: pointer;
 }
 #category {
   position: absolute;
