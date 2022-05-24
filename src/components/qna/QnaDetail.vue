@@ -31,13 +31,12 @@
           </b-row>
         </div>
         <hr />
-
-        <div class="text-center">
-          <b-row class="text-center" align-h="end">
-            <b-button v-if="this.loginUser == qna.userid" id="bbtn" class="btn px-3 mr-2" variant="outline-light" :to="{ name: 'QnaModify' }">질문수정</b-button>
-            <button v-if="this.loginUser == qna.userid || this.isManager" class="btn px-3 mr-4" style="background-color: #ece6cc" @click="deleteQna">질문삭제</button>
-          </b-row>
-        </div>
+        <b-row class="text-right" align-h="end">
+          <b-col cols="auto">
+            <b-button v-if="this.loginUser == qna.userid" id="bbtn" class="btn" variant="outline-light" :to="{ name: 'QnaModify' }">질문수정</b-button>
+            <button v-if="this.loginUser == qna.userid || this.isManager" class="btn" style="background-color: #ece6cc" @click="deleteQna">질문삭제</button>
+          </b-col>
+        </b-row>
       </div>
       <hr />
 

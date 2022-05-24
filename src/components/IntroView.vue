@@ -1,7 +1,9 @@
 <template>
   <div class="intro">
     <!-- Header-->
-
+    <v-app-bar flat>
+      <v-toolbar-title class="text-uppercase font-weight-bold">AppBar</v-toolbar-title>
+    </v-app-bar>
     <!-- Main Content-->
     <div class="container mb-4">
       <div class="text-center">

@@ -19,63 +19,61 @@
       </b-overlay>
     </div>
 
-    <div class="mt-5 mb-4">
-      <b-row style="width: 90vw; margin: 0 auto">
-        <b-col>
-          <div class="px-2">
-            <h4>추천매물 / 관심매물</h4>
-            <b-card-group deck>
-              <b-card>
-                <!-- <img class="card-img img-fluid mb-5" src="@/assets/img/test1.jpg" /> -->
-                <img class="card-img img-fluid mb-5" style="height: 18vw" src="@/assets/img/test1.jpg" />
-                <h4>연립다세대</h4>
-                <b-card-text
-                  ><br />
-                  <p>주변 매물보다 2%저렴한 편!</p>
-                  <br /><small> 가까운 지하철역이 5분거리 내에 있어요!</small>
-                </b-card-text>
-                <template #footer>
-                  <small class="text-muted">Last updated 3 mins ago</small>
-                </template>
-              </b-card>
+    <div class="mt-5 mb-4" style="max-height: 100%">
+      <b-row style="max-width: 80vw; margin: 0 auto">
+        <!-- 추천매물/ 관심매물 -->
+        <div class="px-2">
+          <h4>추천매물 / 관심매물</h4>
+          <b-card no-body>
+            <b-row no-gutters class="h-100" style="border-bottom: 1px solid lightgray">
+              <b-col md="6">
+                <img class="card-img img-fluid p-1" src="@/assets/img/test1.jpg" alt="Image" />
+              </b-col>
+              <b-col md="6">
+                <b-card-body title="연립다세대">
+                  <b-card-text>
+                    <br />
+                    <p>주변 매물보다 2%저렴한 편!</p>
+                    <br />
+                    <small> 가까운 지하철역이 5분거리 내에 있어요!</small>
+                  </b-card-text>
+                </b-card-body>
+              </b-col>
+            </b-row>
+            <b-row no-gutters class="h-100" style="border-bottom: 1px solid lightgray">
+              <b-col md="6">
+                <img class="card-img img-fluid p-1" src="@/assets/img/test3.jpg" alt="Image" />
+              </b-col>
+              <b-col md="6">
+                <b-card-body title="아파트">
+                  <b-card-text>
+                    <br />
+                    <p>신호부부가 많이 살은 곳!</p>
+                    <br />
+                    <small>주변 마트 3분거리!</small>
+                  </b-card-text>
+                </b-card-body>
+              </b-col>
+            </b-row>
+            <b-row no-gutters class="h-100" style="border-bottom: 1px solid lightgray">
+              <b-col md="6">
+                <img class="card-img img-fluid p-1" src="@/assets/img/test2.jpg" alt="Image" />
+              </b-col>
+              <b-col md="6">
+                <b-card-body title="오피스텔">
+                  <b-card-text>
+                    <br />
+                    <p>신축 건물이예요!</p>
+                    <br />
+                    <small>역세권 11분! 강남역까지 차로 30분 거리</small>
+                  </b-card-text>
+                </b-card-body>
+              </b-col>
+            </b-row>
+          </b-card>
+        </div>
 
-              <b-card>
-                <img class="card-img img-fluid mb-5" style="height: 18vw" src="@/assets/img/test3.jpg" />
-                <b-card-text>
-                  <h4>아파트</h4>
-                  <br />
-                  <p>신호부부가 많이 살은 곳!</p>
-                  <br /><small
-                    ><br />
-                    주변 마트 3분거리!</small
-                  >
-                </b-card-text>
-                <template #footer>
-                  <small class="text-muted">Last updated 3 mins ago</small>
-                </template>
-              </b-card>
-
-              <b-card>
-                <img class="card-img img-fluid mb-5" style="height: 18vw" src="@/assets/img/test2.jpg" />
-
-                <h4>오피스텔</h4>
-                <b-card-text
-                  ><br />
-                  <p>신축 건물이예요!</p>
-                  <br /><small
-                    ><br />
-                    역세권 11분! 강남역까지 차로 30분 거리</small
-                  >
-                </b-card-text>
-
-                <template #footer>
-                  <small class="text-muted">Last updated 3 mins ago</small>
-                </template>
-              </b-card>
-            </b-card-group>
-          </div>
-          <!--고양이 끝-->
-        </b-col>
+        <!--공지사항-->
         <b-col>
           <b-row>
             <b-col>

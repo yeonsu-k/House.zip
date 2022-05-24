@@ -65,9 +65,4 @@ export default {
   },
 };
 </script>
-<style>
-#add {
-  margin: 0;
-  padding: 0;
-}
-</style>
+<style></style>
