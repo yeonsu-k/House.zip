@@ -193,10 +193,16 @@ export default {
           gugun: gugunCode,
         })
         .then(({ data }) => {
-          this.houses = data;
-          if (this.houses) {
+          // console.log(data);
+          if (data && data.length) {
+            // this.houses = data;
+
+            this.houses = [];
+            this.houses.push(data[0]);
+            // this.houses = data;
             this.markerPositions = [];
-            this.houses.forEach((house) => this.markerPositions.push({ title: house.aptName, latlng: new kakao.maps.LatLng(house.lat, house.lng) }));
+            this.markerPositions.push({ title: this.houses[0].aptName, latlng: new kakao.maps.LatLng(this.houses[0].lat, this.houses[0].lng) });
+            // this.houses.forEach((house) => this.markerPositions.push({ title: house.aptName, latlng: new kakao.maps.LatLng(house.lat, house.lng) }));
             this.displayMarker(this.markerPositions);
           }
         })
