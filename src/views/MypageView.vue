@@ -65,6 +65,7 @@ export default {
         });
     },
     deleteUser() {
+      console.log(this.loginId);
       axios
         .delete("http://localhost:8080/happyhouse/user/" + this.loginId, {
           headers: {
