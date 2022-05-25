@@ -1,10 +1,10 @@
 <template>
-  <b-row class="mx-2 my-3 text-center">
-    <b-col sm="8">
+  <b-row class="mr-2 my-3 text-center">
+    <b-col>
       <b-form-input v-model="roadAddress" placeholder="도로명 주소" readonly></b-form-input>
     </b-col>
-    <b-col sm="4">
-      <b-button class="w-100" variant="outline-info" @click="execDaum()">찾기</b-button>
+    <b-col md="3">
+      <b-button class="w-100" variant="outline-light" @click="execDaum()">찾기</b-button>
     </b-col>
   </b-row>
 </template>

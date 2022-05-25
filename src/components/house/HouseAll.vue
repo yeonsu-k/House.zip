@@ -1,11 +1,12 @@
 <template>
   <div>
     <b-container fluid>
-      <b-row>
-        <b-col md="4">
-          <b-form-radio-group class="text-center" v-model="selected" :options="options" value-field="item" text-field="name" disabled-field="notEnabled" @change="radioChange()"></b-form-radio-group>
+      <b-row align-self="center" class="" style="background-color: #48608a">
+        <b-col md="4" class="text-center">
+          <b-form-radio-group class="pt-4" style="color: #fff" v-model="selected" :options="options" value-field="item" text-field="name" disabled-field="notEnabled" @change="radioChange()">
+          </b-form-radio-group>
         </b-col>
-        <b-col md="4">
+        <b-col>
           <house-search-bar v-if="selected == 'A'" :loginId="loginId" @search-apt="searchApt"></house-search-bar>
           <house-search-road v-else @search-road="searchRoad" :roadAddress="roadAddress"></house-search-road>
         </b-col>
@@ -19,10 +20,10 @@
           <!-- <p id="result"></p> -->
           <!-- <div id="map" style="display: flex; width: 100%; height: 85vh; padding-left: 0px; padding-right: 0px"></div> -->
           <div class="map_wrap">
-            <div id="map" style="max-width: 100vw; min-height: 78vh; relative; overflow: hidden"></div>
+            <div id="map" style="max-width: 100vw; min-height: 82vh; relative; overflow: hidden"></div>
             <div id="table">
               <div v-if="houses.length">
-                <b-table-simple small hover striped class="text-center">
+                <b-table-simple hover sticky-header>
                   <!-- sticky-header -->
                   <b-thead>
                     <b-tr>
@@ -64,7 +65,7 @@
               <li id="FD6" data-order="8" style="display: none">식당</li>
               <li id="CE7" data-order="9" style="display: none">카페</li>
             </ul>
-            <button id="custom_m">필터</button>
+            <!-- <button id="custom_m">필터</button> -->
           </div>
         </b-col>
       </b-row>
@@ -91,7 +92,7 @@ export default {
       selected: "A",
       options: [
         { item: "A", name: "시도 구군으로 검색" },
-        { item: "B", name: "우편주소로 검색" },
+        { item: "B", name: "우편 주소로 검색" },
       ],
       // houses: [],
       roadAddress: "",
@@ -529,14 +530,12 @@ body {
 .map_wrap,
 .map_wrap * {
   margin: 0;
-  padding: 0;
   font-family: "Malgun Gothic", dotum, "돋움", sans-serif;
   font-size: 12px;
 }
 .map_wrap {
   position: relative;
   width: 100%;
-  height: 350px;
 }
 .radius_border {
   border: 1px solid #919191;
@@ -545,24 +544,23 @@ body {
 .mouse-over-bgcolor {
   background-color: lightblue;
 }
+.b-table-sticky-header {
+  overflow-y: auto;
+  max-height: 75vh;
+}
 #table {
   position: absolute;
+  min-width: 450px;
   top: 50px;
   left: 10px;
   border-radius: 5px;
-  border: 1px solid #909090;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
-  background: #fff;
-  overflow: hidden;
+  background-color: rgb(255, 255, 255, 0.9);
   z-index: 2;
-  float: left;
-  list-style: none;
-  width: 450px;
-  border-right: 1px solid #acacac;
-  padding: 6px 0;
   text-align: center;
   cursor: pointer;
 }
+
 #custom_m {
   position: absolute;
   top: 10px;

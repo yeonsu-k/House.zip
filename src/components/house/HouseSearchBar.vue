@@ -1,5 +1,5 @@
 <template>
-  <b-row class="mx-2 my-3 text-center">
+  <b-row class="mr-2 my-3 text-center">
     <b-col>
       <b-form-select v-model="sidoCode" :options="sidos" @change="gugunList">
         <template #first>

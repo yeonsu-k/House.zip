@@ -14,7 +14,7 @@ export default {
   methods: {
     createUser(user) {
       axios
-        .post("http://localhost:8080/happyhouse/user/", {
+        .post("http://localhost:8080/happyhouse/userregist", {
           id: user.id,
           password: user.password,
           name: user.name,
