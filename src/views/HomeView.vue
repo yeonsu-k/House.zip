@@ -19,62 +19,62 @@
       </b-overlay>
     </div>
 
-    <div class="mt-5 mb-4" style="max-height: 100%">
-      <b-row style="max-width: 80vw; margin: 0 auto">
-        <!-- 추천매물/ 관심매물 -->
-        <div class="px-2">
-          <h4>추천매물 / 관심매물</h4>
-          <b-card no-body>
-            <b-row no-gutters class="h-100" style="border-bottom: 1px solid lightgray">
-              <b-col md="6">
-                <img class="card-img img-fluid p-1" src="@/assets/img/test1.jpg" alt="Image" />
-              </b-col>
-              <b-col md="6">
-                <b-card-body title="연립다세대">
-                  <b-card-text>
-                    <br />
-                    <p>주변 매물보다 2%저렴한 편!</p>
-                    <br />
-                    <small> 가까운 지하철역이 5분거리 내에 있어요!</small>
-                  </b-card-text>
-                </b-card-body>
-              </b-col>
-            </b-row>
-            <b-row no-gutters class="h-100" style="border-bottom: 1px solid lightgray">
-              <b-col md="6">
-                <img class="card-img img-fluid p-1" src="@/assets/img/test3.jpg" alt="Image" />
-              </b-col>
-              <b-col md="6">
-                <b-card-body title="아파트">
-                  <b-card-text>
-                    <br />
-                    <p>단지내 이용시설이 다양해요!</p>
-                    <br />
-                    <small>주변 마트 3분거리!</small>
-                  </b-card-text>
-                </b-card-body>
-              </b-col>
-            </b-row>
-            <b-row no-gutters class="h-100" style="border-bottom: 1px solid lightgray">
-              <b-col md="6">
-                <img class="card-img img-fluid p-1" src="@/assets/img/test2.jpg" alt="Image" />
-              </b-col>
-              <b-col md="6">
-                <b-card-body title="오피스텔">
-                  <b-card-text>
-                    <br />
-                    <p>신축 건물이예요!</p>
-                    <br />
-                    <small>역세권 11분! 강남역까지 차로 30분 거리</small>
-                  </b-card-text>
-                </b-card-body>
-              </b-col>
-            </b-row>
-          </b-card>
-        </div>
-
-        <!--공지사항-->
+    <b-container class="mt-5 mb-4">
+      <b-row>
         <b-col>
+          <!-- 추천매물/ 관심매물 -->
+          <b-card-group deck>
+            <b-card header="추천매물 / 관심매물">
+              <b-row no-gutters id="cardRow">
+                <b-col md="6">
+                  <img class="card-img img-fluid p-1" id="cardRow" src="@/assets/img/test1.jpg" alt="Image" />
+                </b-col>
+                <b-col md="6">
+                  <b-card-body title="연립다세대">
+                    <b-card-text>
+                      <br />
+                      <p>주변 매물보다 2%저렴한 편!</p>
+                      <br />
+                      <small> 가까운 지하철역이 5분거리 내에 있어요!</small>
+                    </b-card-text>
+                  </b-card-body>
+                </b-col>
+              </b-row>
+              <b-row no-gutters id="cardRow">
+                <b-col md="6">
+                  <img class="card-img img-fluid p-1" id="cardRow" src="@/assets/img/test3.jpg" alt="Image" />
+                </b-col>
+                <b-col md="6">
+                  <b-card-body title="아파트">
+                    <b-card-text>
+                      <br />
+                      <p>단지내 이용시설이 다양해요!</p>
+                      <br />
+                      <small>주변 마트 3분거리!</small>
+                    </b-card-text>
+                  </b-card-body>
+                </b-col>
+              </b-row>
+              <b-row no-gutters id="cardRow">
+                <b-col md="6">
+                  <img class="card-img img-fluid p-1" id="cardRow" src="@/assets/img/test2.jpg" alt="Image" />
+                </b-col>
+                <b-col md="6">
+                  <b-card-body title="오피스텔">
+                    <b-card-text>
+                      <br />
+                      <p>신축 건물이예요!</p>
+                      <br />
+                      <small>역세권 11분! 강남역까지 차로 30분 거리</small>
+                    </b-card-text>
+                  </b-card-body>
+                </b-col>
+              </b-row>
+            </b-card>
+          </b-card-group>
+        </b-col>
+        <!--공지사항-->
+        <b-col class="w-100">
           <b-row>
             <b-col>
               <b-card-group deck v-if="notices">
@@ -112,7 +112,7 @@
           </b-row>
         </b-col>
       </b-row>
-    </div>
+    </b-container>
   </div>
 </template>
 
@@ -166,6 +166,22 @@ export default {
 </script>
 
 <style scoped>
+#cardRow {
+  border-bottom: 1px solid lightgray;
+  max-height: 250px;
+}
+.card-deck {
+  display: flex;
+  flex-flow: row wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+  min-height: 350px;
+}
+.card-body {
+  flex: 1 1 auto;
+
+  /* padding: 1.25rem; */
+}
 .sliders {
   width: 100%;
   height: 35vw;

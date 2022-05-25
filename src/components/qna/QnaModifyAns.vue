@@ -32,12 +32,12 @@
         </div>
         <hr />
         <b-row class="text-right" align-h="end">
-          <b-col cols="auto">
+          <!-- <b-col cols="auto">
             <button v-if="this.loginUser == qna.userid" style="background-color: #ece6cc" class="btn" :to="{ name: 'QnaModify' }">질문수정</button>
           </b-col>
           <b-col cols="auto" v-if="this.loginUser == qna.userid || this.isManager">
             <button style="background-color: #ece6cc" class="btn" @click="deleteQna">질문삭제</button>
-          </b-col>
+          </b-col> -->
         </b-row>
       </div>
       <hr style="border-top: 2px dashed #bbb" />

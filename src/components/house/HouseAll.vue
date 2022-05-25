@@ -559,15 +559,6 @@ export default {
 </script>
 
 <style scoped>
-#infoView {
-  height: 78vh;
-  overflow: auto;
-  background-color: white;
-  align-self: center;
-}
-#infoView::-webkit-scrollbar {
-  display: none;
-}
 html,
 body {
   width: 100%;

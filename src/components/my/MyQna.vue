@@ -1,9 +1,12 @@
 <template>
   <div class="container">
     <b-container>
-      <div class="mt-5">
+      <div>
         <b-row align-h="between" align-v="end" class="mb-2">
-          <b-col> <h4 style="font-weight: bold">나의 질문</h4></b-col>
+          <b-col>
+            <h4 style="font-weight: bold">나의 질문</h4>
+            <hr />
+          </b-col>
           <!-- <b-col class="text-right">
             <b-form-checkbox id="checkbox-1" v-model="status" name="checkbox-1"> 답변완료 글만 보기 </b-form-checkbox>
           </b-col> -->
@@ -12,9 +15,9 @@
           </b-col> -->
         </b-row>
       </div>
-      <div class="mb-5">
+      <div id="scrollView">
         <div v-if="qnas.length">
-          <b-table-simple hover class="qna-list text-center">
+          <b-table-simple hover sticky-header class="text-center">
             <colgroup>
               <col :style="{ width: '10%' }" />
               <col :style="{ width: '38%' }" />
@@ -150,3 +153,13 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.b-table-sticky-header {
+  overflow-y: auto;
+  max-height: 500px;
+}
+.b-table-sticky-header::-webkit-scrollbar {
+  display: none;
+}
+</style>
