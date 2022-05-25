@@ -1,7 +1,7 @@
 <template>
   <div id="main">
     <b-container>
-      <b-row class="container" align-h="center" style="height: 78vh">
+      <b-row class="container row" align-h="center" style="height: 78vh">
         <b-col md="6" class="shadow py-5 px-5" id="user_col">
           <h1>Login</h1>
           <hr />

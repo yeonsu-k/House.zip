@@ -76,9 +76,9 @@ export default {
     };
   },
   methods: {
-    updatePage(no) {
-      this.no = no;
-    },
+    // updatePage(no) {
+    //   this.no = no;
+    // },
     initComponent() {
       if (this.status) {
         axios
@@ -132,16 +132,16 @@ export default {
       return this.qnas.length;
     },
   },
-  watch: {
-    status() {
-      this.no = 10;
-      this.initTotal();
-      this.initComponent();
-    },
-    no() {
-      this.initComponent();
-    },
-  },
+  // watch: {
+  //   status() {
+  //     this.no = 10;
+  //     this.initTotal();
+  //     this.initComponent();
+  //   },
+  //   no() {
+  //     this.initComponent();
+  //   },
+  // },
 
   created() {
     // this.initTotal();
