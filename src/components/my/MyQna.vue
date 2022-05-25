@@ -1,14 +1,16 @@
 <template>
   <div class="container">
-    <h6>나의 질문</h6>
+    <h4 style="font-weight: bold">나의 질문</h4>
+    <hr />
     <b-container>
       <div class="text-right mt-5">
         <b-row align-h="between" align-v="end" class="mb-2">
-          <b-col class="text-left"> </b-col>
-          <b-col md="4">
+          <b-col class="text-right">
             <b-form-checkbox id="checkbox-1" v-model="status" name="checkbox-1"> 답변완료 글만 보기 </b-form-checkbox>
           </b-col>
-          <b-button v-if="this.loginId && !this.isManager" id="bbtn" class="btn-sm mr-4" variant="outline-light" :to="{ name: 'QnaRegist' }">문의하기</b-button>
+          <!-- <b-col>
+            <b-button v-if="this.loginId && !this.isManager" id="bbtn" class="btn-sm mr-4" variant="outline-light" :to="{ name: 'QnaRegist' }">문의하기</b-button>
+          </b-col> -->
         </b-row>
       </div>
       <div class="mb-5">
