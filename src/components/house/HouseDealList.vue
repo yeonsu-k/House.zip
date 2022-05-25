@@ -810,18 +810,18 @@ export default {
   top: 50px;
   left: 10px;
   border-radius: 5px;
-  border: 1px solid #909090;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
   background: #fff;
-  overflow: hidden;
+  overflow: auto;
   z-index: 2;
-  float: left;
   list-style: none;
   width: 450px;
-  border-right: 1px solid #acacac;
   padding: 6px 0;
   text-align: center;
   cursor: pointer;
+}
+#detail_info::-webkit-scrollbar {
+  display: none;
 }
 #category {
   position: absolute;

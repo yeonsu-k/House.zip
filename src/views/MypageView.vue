@@ -3,15 +3,21 @@
     <div id="head">
       <p class="text-center h1">My page</p>
     </div>
-    <div>
-      <b-button-group vertical>
-        <b-button :to="{ name: 'UserDetail', params: { id: loginId } }">정보수정</b-button>
-        <b-button :to="{ name: 'MyInterest', params: { id: loginId } }">관심매물</b-button>
-        <b-button :to="{ name: 'MyQna', params: { id: loginId } }">나의질문</b-button>
-        <b-button @click="deleteUser">회원탈퇴</b-button>
-      </b-button-group>
-    </div>
-    <router-view :loginId="loginId" @logout="logout" @update-user="updateUser" />
+    <b-container>
+      <b-row class="py-5">
+        <b-col md="3">
+          <b-button-group vertical>
+            <b-button :to="{ name: 'UserDetail', params: { id: loginId } }">정보수정</b-button>
+            <b-button :to="{ name: 'MyInterest', params: { id: loginId } }">관심매물</b-button>
+            <b-button :to="{ name: 'MyQna', params: { id: loginId } }">나의질문</b-button>
+            <b-button @click="deleteUser">회원탈퇴</b-button>
+          </b-button-group>
+        </b-col>
+        <b-col>
+          <router-view :loginId="loginId" @logout="logout" @update-user="updateUser" />
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 

@@ -521,12 +521,6 @@ body {
   margin: 0;
   padding: 0;
 }
-/* .map_wrap {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: 85vh;
-} */
 .map_wrap,
 .map_wrap * {
   margin: 0;
