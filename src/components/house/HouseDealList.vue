@@ -1,9 +1,28 @@
 <template>
   <div class="ml-2">
-    <b-row style="display: flex; width: 100%; height: 100%">
-      <b-col cols="3">
+    <div class="map_wrap">
+      <div id="map" style="max-width: 100vw; min-height: 93vh; relative; overflow: hidden"></div>
+      <ul id="category">
+        <li id="SW8" data-order="0" style="display: none">지하철역</li>
+        <li id="HP8" data-order="1" style="display: none">병원</li>
+        <li id="PM9" data-order="2" style="display: none">약국</li>
+        <li id="MT1" data-order="3" style="display: none">마트</li>
+        <li id="PS3" data-order="4" style="display: none">유치원</li>
+        <li id="SC4" data-order="5" style="display: none">학교</li>
+        <li id="AC5" data-order="6" style="display: none">학원</li>
+        <li id="CT1" data-order="7" style="display: none">문화</li>
+        <li id="FD6" data-order="8" style="display: none">식당</li>
+        <li id="CE7" data-order="9" style="display: none">카페</li>
+      </ul>
+      <div id="detail_info">
         <div>
-          <h4 v-if="deals.length">{{ deals[0].aptName }}</h4>
+          <div v-if="deals.length">
+            {{ deals[0].aptName }}
+            <b-button variant="outline-danger" @click="interestcheck()" style="border: none; outline: none">
+              <b-icon v-if="intereststatus" icon="heart-fill" />
+              <b-icon v-else icon="heart" />
+            </b-button>
+          </div>
         </div>
         <hr style="border-top: 2px dashed #bcbcbc" />
         <div>
@@ -103,7 +122,7 @@
                     <b-th>거래년도</b-th>
                     <b-th>거래유형</b-th>
                     <b-th>금액</b-th>
-                    <b-th>찜하기</b-th>
+                    <!-- <b-th>찜하기</b-th> -->
                   </b-tr>
                 </b-thead>
                 <b-tbody>
@@ -115,12 +134,15 @@
                     <b-td v-if="deal.dealType == '매매'">{{ replaceMoney(deal.dealAmount) }}</b-td>
                     <b-td v-if="deal.dealType == '전세'">{{ replaceMoney(deal.rentMoney) }}</b-td>
                     <b-td v-if="deal.dealType == '월세'">{{ replaceMoney(deal.rentMoney) }} / 월 {{ deal.dealAmount }}</b-td>
-                    <b-td>
-                      <b-button variant="outline-danger" @click="interestCheck(deal.no)" style="border: none; outline: none">
-                        <!-- <b-icon icon="heart" /> -->
-                        <b-icon v-if="deal.interest" icon="heart-fill" />
-                        <b-icon v-else icon="heart" />
-                      </b-button>
+                    <b-td v-model="deal.inter">
+                      <!-- <b-button v-if="deal.inter" variant="outline-danger" @click="interestCancel(deal.no, index)" style="border: none; outline: none"> -->
+
+                      <!-- <b-button variant="outline-danger" @click="interestCheck(deal)" style="border: none; outline: none">
+                        <b-icon id="icon`${deal.no}`" icon="heart-fill" />
+                      </b-button> -->
+                      <!-- <b-button v-else variant="outline-danger" v-model="deal.inter" @click="interestCheck(deal)" style="border: none; outline: none">
+                        <b-icon icon="heart" />
+                      </b-button> -->
                     </b-td>
                   </b-tr>
                 </b-tbody>
@@ -133,28 +155,11 @@
             </div>
           </b-collapse>
         </div>
-      </b-col>
-      <b-col cols="9">
-        <!-- 지도 -->
-        <div class="map_wrap">
-          <div id="map" style="width: 100%; height: 85vh; position: relative; overflow: hidden"></div>
-          <ul id="category">
-            <li id="SW8" data-order="0" style="display: none">지하철역</li>
-            <li id="HP8" data-order="1" style="display: none">병원</li>
-            <li id="PM9" data-order="2" style="display: none">약국</li>
-            <li id="MT1" data-order="3" style="display: none">마트</li>
-            <li id="PS3" data-order="4" style="display: none">유치원</li>
-            <li id="SC4" data-order="5" style="display: none">학교</li>
-            <li id="AC5" data-order="6" style="display: none">학원</li>
-            <li id="CT1" data-order="7" style="display: none">문화</li>
-            <li id="FD6" data-order="8" style="display: none">식당</li>
-            <li id="CE7" data-order="9" style="display: none">카페</li>
-          </ul>
-        </div>
-        <!-- <div class="mb-4" id="map" style="height: 85vh"></div> -->
-        <!-- <div id="map" style="display: flex; width: 100%; height: 85vh; padding-left: 0px; padding-right: 0px"></div> -->
-      </b-col>
-    </b-row>
+      </div>
+    </div>
+
+    <!-- <div class="mb-4" id="map" style="height: 85vh"></div> -->
+    <!-- <div id="map" style="display: flex; width: 100%; height: 85vh; padding-left: 0px; padding-right: 0px"></div> -->
   </div>
 </template>
 <script>
@@ -172,6 +177,7 @@ export default {
     return {
       status: false,
       // house: null,
+      checkdeals: [],
       deals: [],
       interest: [],
       collapseStates: [true, true],
@@ -188,11 +194,17 @@ export default {
       pl_markers: [], // 마커를 담을 배열입니다
       currCategory: "", // 현재 선택된 카테고리를 가지고 있을 변수입니다
       ps: null,
+      intereststatus: false,
     };
   },
+  watch: {
+    intereststatus() {
+      console.log("바뀜!!");
+    },
+  },
   created() {
-    if (this.loginUser) {
-      axios.get("http://localhost:8080/happyhouse/user/" + this.loginUser).then(({ data }) => {
+    if (this.loginId) {
+      axios.get("http://localhost:8080/happyhouse/user/" + this.loginId).then(({ data }) => {
         this.user = data;
         const cate = document.getElementById("category");
         this.user.category.split(",").forEach((element) => {
@@ -204,8 +216,33 @@ export default {
       .post("http://localhost:8080/happyhouse/house/apt/", {
         aptCode: this.$route.params.aptCode,
       })
+
       .then(({ data }) => {
         this.deals = data;
+        // let init_ = { inter: false };
+        // for (let i = 0; i < this.deals.length; i++) {
+        //   Object.assign(this.deals[i], init_);
+        //   // console.log(this.deals[i]);
+        // }
+
+        let intedeals = JSON.parse(sessionStorage.getItem(this.loginId + "_intedeal"));
+        if (intedeals) {
+          intedeals.forEach((intedeal) => {
+            if (intedeal.aptno == this.$route.params.aptCode) {
+              // this.checkdeals.push(intedeal.dealno);
+              this.intereststatus = true;
+              return true;
+            }
+          });
+        }
+
+        // for (let j = 0; j < this.checkdeals.length; j++) {
+        //   for (let i = 0; i < this.deals.length; i++) {
+        //     if (this.checkdeals[j] == this.deals[i].no) {
+        //       this.deals[i].inter = true;
+        //     }
+        //   }
+        // }
 
         if (window.kakao && window.kakao.maps) {
           this.initMap();
@@ -242,26 +279,37 @@ export default {
       }));
     },
   },
-  // mounted() {
-  // if (window.kakao && window.kakao.maps) {
-  //   this.initMap();
-  //   if (this.houses) this.displayMarker();
-  // } else {
-  //   const script = document.createElement("script");
-  //   /* global kakao */
-  //   script.onload = () => kakao.maps.load(this.initMap);
-  //   script.src = "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=7f40405e29341c1fa46226d9889e981a&libraries=services";
-  //   document.head.appendChild(script);
-  // }
-  // },
+
   methods: {
-    //지도 객체를 등록합니다.
-    //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
-    //   this.map = new kakao.maps.Map(container, options);
-    //   this.map.setMinLevel(1);
-    //   this.map.setMaxLevel(3);
-    //   kakao.maps.event.addListener(this.map, "tilesloaded", this.getInfo);
-    // },
+    interestcheck() {
+      if (!this.intereststatus) {
+        let intedeals = JSON.parse(sessionStorage.getItem(this.loginId + "_intedeal"));
+        if (!intedeals) {
+          intedeals = [];
+        }
+
+        let de = { aptno: this.$route.params.aptCode };
+        intedeals.push({ ...de });
+        sessionStorage.setItem(this.loginId + "_intedeal", JSON.stringify(intedeals));
+        alert("관심 매물로 추가했습니다!");
+
+        this.intereststatus = true;
+      } else {
+        let intedeals = JSON.parse(sessionStorage.getItem(this.loginId + "_intedeal"));
+
+        for (let i = 0; i < intedeals.length; i++) {
+          if (intedeals[i].aptno === this.$route.params.aptCode) {
+            intedeals.splice(i, 1);
+
+            this.intereststatus = false;
+            alert("삭제 완료");
+
+            break;
+          }
+        }
+        sessionStorage.setItem(this.loginId + "_intedeal", JSON.stringify(intedeals));
+      }
+    },
     replaceMoney(money) {
       let lm = parseInt(money / 10000) + "";
       let rm = (money % 10000) + "";
@@ -361,17 +409,126 @@ export default {
     // collapseAll() {
     //   this.collapseStates = this.collapseStates.map((x) => false);
     // },
-    interestCheck(no) {
-      let check = true;
-      this.interest.forEach((element) => {
-        if (element.no == no) {
-          alert("이미 관심 매물로 추가되어있습니다.");
-          check = false;
-          return;
+    interestC(deal) {
+      if (deal.infer) {
+        let intedeals = JSON.parse(sessionStorage.getItem(this.loginId + "_intedeal"));
+        if (!intedeals) {
+          intedeals = [];
         }
-      });
-      if (check) alert("관심 매물로 추가 성공!");
+
+        let de = { aptno: this.$route.params.aptCode, dealno: deal.no };
+        intedeals.push({ ...de });
+        // deal.inter = false;
+        console.log(deal);
+        console.log(deal.inter);
+        deal.inter = !deal.inter;
+        console.log(deal.inter);
+
+        // console.log(this.deals[index]);
+
+        sessionStorage.setItem(this.loginId + "_intedeal", JSON.stringify(intedeals));
+        // this.$set(deal, deal.inter, true);
+        deal.inter = true;
+        console.log(deal);
+        alert("관심 매물로 추가했습니다!");
+        // console.log(this.deals);
+        // this.interest.forEach((element) => {
+        //   if (element.no == no) {
+        //     alert("이미 관심 매물로 추가되어있습니다.");
+        //     return;
+        //   }
+        // });
+      } else {
+        let intedeals = JSON.parse(sessionStorage.getItem(this.loginId + "_intedeal"));
+
+        if (intedeals == null || intedeals.length < 1) {
+          intedeals = [];
+        } else {
+          console.log(intedeals);
+
+          for (let i = 0; i < intedeals.length; i++) {
+            if (intedeals[i].dealno === deal.no) {
+              intedeals.splice(i, 1);
+              // console.log(this.deals[index]);
+              // this.$set(this.deals[index], "inter", false);
+              // console.log(this.deals[index]);
+              deal.inter = false;
+              alert("삭제 완료");
+              console.log(deal);
+
+              // console.log(this.deals[index]);
+              break;
+            }
+          }
+        }
+        sessionStorage.setItem(this.loginId + "_intedeal", JSON.stringify(intedeals));
+      }
     },
+
+    interestCheck(deal) {
+      if (deal.inter) {
+        console.log(1111);
+        let intedeals = JSON.parse(sessionStorage.getItem(this.loginId + "_intedeal"));
+        if (!intedeals) {
+          intedeals = [];
+        }
+
+        let de = { aptno: this.$route.params.aptCode, dealno: deal.no };
+        intedeals.push({ ...de });
+        // deal.inter = false;
+        console.log(deal);
+        console.log(deal.inter);
+        deal.inter = !deal.inter;
+        console.log(deal.inter);
+
+        // console.log(this.deals[index]);
+
+        sessionStorage.setItem(this.loginId + "_intedeal", JSON.stringify(intedeals));
+        // this.$set(deal, deal.inter, true);
+        deal.inter = true;
+        console.log(document.getElementById("icon`${deal.no}`"));
+        alert("관심 매물로 추가했습니다!");
+        document.getElementById("icon`${deal.no}`").setAttribute("icon", "heart-fill");
+        // console.log(this.deals);
+        // this.interest.forEach((element) => {
+        //   if (element.no == no) {
+        //     alert("이미 관심 매물로 추가되어있습니다.");
+        //     return;
+        //   }
+        // });
+      } else {
+        let intedeals = JSON.parse(sessionStorage.getItem(this.loginId + "_intedeal"));
+        console.log(22222);
+        // console.log(this.deals);
+
+        console.log(deal);
+
+        for (let i = 0; i < intedeals.length; i++) {
+          if (intedeals[i].dealno === deal.no) {
+            intedeals.splice(i, 1);
+            // console.log(this.deals[index]);
+            // this.$set(this.deals[index], "inter", false);
+            // console.log(this.deals[index]);
+            deal.inter = false;
+            alert("삭제 완료");
+            console.log(document.getElementById("icon`${deal.no}`"));
+            document.getElementById("icon`${deal.no}`").setAttribute("icon", "heart");
+
+            // console.log(this.deals[index]);
+            break;
+          }
+        }
+        sessionStorage.setItem(this.loginId + "_intedeal", JSON.stringify(intedeals));
+
+        // this.interest.forEach((element) => {
+        //   if (element.no == no) {
+        //     alert("이미 관심 매물로 추가되어있습니다.");
+        //     return;
+        //   }
+        // });
+      }
+    },
+    interestCancel(deal) {},
 
     // initMap() {
     // const container = document.getElementById("map");
@@ -647,6 +804,24 @@ export default {
   position: relative;
   width: 100%;
   height: 350px;
+}
+#detail_info {
+  position: absolute;
+  top: 50px;
+  left: 10px;
+  border-radius: 5px;
+  border: 1px solid #909090;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+  background: #fff;
+  overflow: hidden;
+  z-index: 2;
+  float: left;
+  list-style: none;
+  width: 450px;
+  border-right: 1px solid #acacac;
+  padding: 6px 0;
+  text-align: center;
+  cursor: pointer;
 }
 #category {
   position: absolute;

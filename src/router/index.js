@@ -7,6 +7,7 @@ import UserView from "@/views/UserView.vue";
 import NoticeView from "@/views/NoticeView.vue";
 import LoginForm from "@/components/LoginForm.vue";
 import QnaView from "@/views/QnaView.vue";
+import MypageView from "@/views/MypageView.vue";
 
 Vue.use(VueRouter);
 
@@ -40,10 +41,34 @@ const routes = [
         name: "UserRegist",
         component: () => import("@/components/user/UserRegist.vue"),
       },
+      // {
+      //   path: "detail/:id",
+      //   name: "UserDetail",
+      //   component: () => import("@/components/user/UserDetail.vue"),
+      // },
+    ],
+  },
+  {
+    // 마이페이지 화면
+    path: "/my",
+    name: "Mypage",
+    component: MypageView,
+    redirect: "/my/detail/:id",
+    children: [
       {
         path: "detail/:id",
         name: "UserDetail",
-        component: () => import("@/components/user/UserDetail.vue"),
+        component: () => import("@/components/my/UserDetail.vue"),
+      },
+      {
+        path: "interest/:id",
+        name: "MyInterest",
+        component: () => import("@/components/my/MyInterest.vue"),
+      },
+      {
+        path: "qna/:id",
+        name: "MyQna",
+        component: () => import("@/components/my/MyQna.vue"),
       },
     ],
   },
