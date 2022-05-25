@@ -1,65 +1,156 @@
 <template>
   <div class="container">
-    <h2>관심매물</h2>
-    <b-form-group label="아이디" label-for="input-id">
-      <b-form-input id="input-id" v-model="user.id" placeholder="Enter id" readonly></b-form-input>
-    </b-form-group>
-    <form>
-      <b-form-group label="비밀번호" label-for="input-password">
-        <b-form-input id="input-password" type="password" v-model="user.password" placeholder="Enter password"></b-form-input>
-      </b-form-group>
-    </form>
-    <b-form-group label="이름" label-for="input-name">
-      <b-form-input id="input-name" v-model="user.name" placeholder="Enter name"></b-form-input>
-    </b-form-group>
-    <b-form-group label="이메일" label-for="input-email">
-      <b-form-input id="input-email" type="email" v-model="user.email" placeholder="Enter email"></b-form-input>
-    </b-form-group>
-    <b-form-group label="전화번호" label-for="input-tel">
-      <b-form-input id="input-tel" v-model="user.tel" placeholder="Enter tel"></b-form-input>
-    </b-form-group>
-
-    <div role="group" class="mt-2">
-      <label for="input-tel">관심지역</label>
-      <b-row class="ml-2 mr-2 mb-2 my-1 text-center">
-        <b-col class="sm-3">
-          <b-form-select size="sm" v-model="sidoCode" :options="sidos" @change="gugunList">
-            <b-form-select-option :value="null" disabled>시도를 선택하세요</b-form-select-option>
-          </b-form-select>
-        </b-col>
-        <b-col class="sm-3">
-          <b-form-select size="sm" v-model="gugunCode" :options="guguns">
-            <b-form-select-option :value="null" disabled>구군을 선택하세요</b-form-select-option>
-          </b-form-select>
-        </b-col>
-      </b-row>
-    </div>
-    <div>관심사</div>
-    <div id="input-cate" class="mt-2">
-      <span class="mr-3" v-for="(option, index) in options" :key="index">
-        <input type="checkbox" :id="option.text" :options="options" v-model="option.checked" />
-        <label :for="option.text"> {{ option.text }}</label>
-      </span>
-    </div>
-    <b-form-text id="input-live-help-name">매물을 볼 때 중요하게 생각하는 시설을 선택해주세요 (다중선택가능)</b-form-text>
-    <b-button variant="outline-success" class="btn" @click="updateUser">수정</b-button>
-    <b-button v-if="!isManager" variant="outline-success" class="btn" @click="deleteUser">삭제</b-button>
+    <h2>나의 질문</h2>
+    <b-container>
+      <div class="text-right mt-5">
+        <b-row align-h="between" align-v="end" class="mb-2">
+          <b-col class="text-left">
+            <!-- <small class="mb-3 text-right">* 목록 수 : {{ total }} </small> -->
+          </b-col>
+          <b-col md="4">
+            <b-form-checkbox id="checkbox-1" v-model="status" name="checkbox-1"> 답변완료 글만 보기 </b-form-checkbox>
+          </b-col>
+          <b-button v-if="this.loginId && !this.isManager" id="bbtn" class="btn-sm mr-4" variant="outline-light" :to="{ name: 'QnaRegist' }">문의하기</b-button>
+        </b-row>
+      </div>
+      <div class="mb-5">
+        <div v-if="qnas.length">
+          <b-table-simple hover class="qna-list text-center">
+            <colgroup>
+              <col :style="{ width: '10%' }" />
+              <col :style="{ width: '38%' }" />
+              <col :style="{ width: '12%' }" />
+              <col :style="{ width: '10%' }" />
+              <col :style="{ width: '10%' }" />
+              <col :style="{ width: '10%' }" />
+            </colgroup>
+            <b-thead head-variant="light">
+              <b-tr>
+                <b-th>#</b-th>
+                <b-th>제목</b-th>
+                <b-th>날짜</b-th>
+                <b-th>작성자ID</b-th>
+                <b-th>조회수</b-th>
+                <b-th>상태</b-th>
+              </b-tr>
+            </b-thead>
+            <b-tbody>
+              <b-tr v-for="(qna, index) in qnas" :key="index">
+                <b-td>{{ no - pageLimit + index + 1 }}</b-td>
+                <b-td>
+                  <router-link class="qna-link" :to="{ name: 'QnaDetail', params: { no: qna.no } }">{{ qna.title }}</router-link>
+                </b-td>
+                <b-td>{{ qna.asktime.substring(0, 10) }}</b-td>
+                <b-td>{{ qna.userid }}</b-td>
+                <b-td>{{ qna.hit }}</b-td>
+                <b-td v-if="qna.masterid" style="color: darkred; font-weight: bold">완료</b-td>
+                <b-td v-else>대기</b-td>
+              </b-tr>
+            </b-tbody>
+          </b-table-simple>
+          <!-- <page-link @update-page="updatePage" :status="status" /> -->
+        </div>
+        <div v-else>등록된 QnA가 없습니다.</div>
+      </div>
+    </b-container>
   </div>
 </template>
 <script>
 import axios from "axios";
+// import PageLink from "@/components/notice/PageLink.vue";
 export default {
-  name: "UserDetail",
+  name: "MyQna",
+  // components: {
+  //   PageLink,
+  // },
   props: {
     loginId: null,
   },
   data() {
-    return {};
+    return {
+      qnas: {
+        type: Array,
+      },
+      status: false,
+      no: 10,
+      pageLimit: 10,
+      pageOffet: 0,
+      total: 0,
+      isManager: false,
+    };
   },
   methods: {
-    isManager() {
-      return localStorage.getItem("isManager");
+    updatePage(no) {
+      this.no = no;
     },
+    initComponent() {
+      if (this.status) {
+        axios
+          .get("http://localhost:8080/happyhouse/qna/my/ans", {
+            params: { userid: this.loginId, limit: this.pageLimit, offset: this.no - this.pageLimit },
+          })
+          .then(({ data }) => {
+            this.qnas = data;
+          })
+          .catch(() => {
+            alert("에러가 발생했습니다.");
+          });
+      } else {
+        axios
+          .get("http://localhost:8080/happyhouse/qna/my", {
+            params: { userid: this.loginId, limit: this.pageLimit, offset: this.no - this.pageLimit },
+          })
+          .then(({ data }) => {
+            this.qnas = data;
+          })
+          .catch(() => {
+            alert("에러가 발생했습니다.");
+          });
+      }
+    },
+    // initTotal() {
+    //   if (this.status) {
+    //     axios
+    //       .get("http://localhost:8080/happyhouse/qna/ans/total")
+    //       .then(({ data }) => {
+    //         this.total = data;
+    //       })
+    //       .catch(() => {
+    //         alert("에러가 발생했습니다.");
+    //       });
+    //   } else {
+    //     axios
+    //       .get("http://localhost:8080/happyhouse/qna/total")
+    //       .then(({ data }) => {
+    //         this.total = data;
+    //       })
+    //       .catch(() => {
+    //         alert("에러가 발생했습니다.");
+    //       });
+    //   }
+    // },
+  },
+
+  computed: {
+    qnaCnt() {
+      return this.qnas.length;
+    },
+  },
+  watch: {
+    status() {
+      this.no = 10;
+      this.initTotal();
+      this.initComponent();
+    },
+    no() {
+      this.initComponent();
+    },
+  },
+
+  created() {
+    // this.initTotal();
+    this.initComponent();
+    this.isManager = JSON.parse(localStorage.getItem("isManager"));
   },
 };
 </script>
