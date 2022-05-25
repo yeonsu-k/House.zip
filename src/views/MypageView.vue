@@ -36,7 +36,14 @@ export default {
   props: {
     loginId: null,
   },
-
+  data() {
+    return {
+      isManager: false,
+    };
+  },
+  created() {
+    this.isManager = JSON.parse(localStorage.getItem("isManager"));
+  },
   methods: {
     deleteCheck() {
       this.boxTwo = "";

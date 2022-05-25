@@ -1,9 +1,9 @@
 <template>
   <div id="main">
     <b-container>
-      <b-row class="container row" align-h="center" style="height: 78vh">
+      <b-row class="container" align-h="center" style="height: 78vh">
         <b-col md="6" class="shadow py-5 px-5" id="user_col">
-          <h1>Login</h1>
+          <h1>비밀번호 찾기</h1>
           <hr />
           <form>
             <div class="form-floating">
@@ -11,18 +11,17 @@
               <b-input class="form-control mb-3" id="id" v-model="id" type="text" />
             </div>
             <div class="form-floating">
-              <label for="password">Password</label>
+              <label for="password">이름</label>
+              <b-input class="form-control mb-3" id="password" v-model="password" name="userpwd" type="password" autocomplete="on" />
+            </div>
+            <div class="form-floating">
+              <label for="password">이메일</label>
               <b-input class="form-control mb-3" id="password" v-model="password" name="userpwd" type="password" autocomplete="on" />
             </div>
           </form>
           <!-- Login Button-->
           <!-- 버튼색 추천 :  #ece6cc , #637DB0 , #48608a , #506e80 -->
           <button class="btn mb-3" style="background-color: #ece6cc; width: 100%" @click="login">로그인</button>
-          <div class="text-right">
-            <b-link to="/findpwd">
-              <h6 style="color: #ffbf00">비밀번호 찾기</h6>
-            </b-link>
-          </div>
         </b-col>
       </b-row>
     </b-container>
