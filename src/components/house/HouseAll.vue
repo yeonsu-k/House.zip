@@ -10,6 +10,14 @@
           <house-search-bar v-if="selected == 'A'" :loginId="loginId" @search-apt="searchApt"></house-search-bar>
           <house-search-road v-else @search-road="searchRoad" :roadAddress="roadAddress"></house-search-road>
         </b-col>
+
+        <checkbox v-model="checked" label="체크박스" />
+        <b-form-group label="건물 타입" v-slot="{ ariaDescribedby }">
+          <b-form-checkbox-group v-model="typeSelected" :options="typeOptions" :aria-describedby="ariaDescribedby" name="flavour-2a" stacked></b-form-checkbox-group>
+        </b-form-group>
+        {{ typeSelected }}
+        <!-- <b-form-checkbox id="checkbox-1" v-model="status" name="checkbox-1" value="accepted" unchecked-value="not_accepted"><span class="check" :class="{ on: checked }"></span> </b-form-checkbox> -->
+
         <!-- <b-col>
           <b-col>카테고리</b-col>
         </b-col> -->
@@ -39,7 +47,7 @@
                     <b-tr v-for="(house, index) in houses" :key="index">
                       <b-td>{{ index + 1 }}</b-td>
                       <b-td>
-                        <router-link :to="{ name: 'HouseDealList', params: { house: house, aptCode: house.aptCode } }">{{ house.aptName }}</router-link>
+                        <router-link :to="{ name: 'HouseDealList', params: { aptCode: house.aptCode } }">{{ house.aptName }}</router-link>
                       </b-td>
                       <b-td>{{ house.infoType }}</b-td>
                       <b-td>{{ house.buildYear }}</b-td>
@@ -66,7 +74,22 @@
               <li id="FD6" data-order="8" style="display: none">식당</li>
               <li id="CE7" data-order="9" style="display: none">카페</li>
             </ul>
-            <button @click="show = !show" id="custom_m">필터</button>
+            <div v-if="show" id="custom_filter">
+              <div id="maker_name">
+                <b-row>
+                  <b-col cols="3">
+                    <b-img src="http://drive.google.com/uc?export=view&id=1fTg0Xop_1pBwKNxGnEPSr2jZwu3h61Yt" right style="height: 40px"></b-img>
+                  </b-col>
+                  <b-col cols="3"><b-img src="http://drive.google.com/uc?export=view&id=1XfXxlgJua7Y3BzxI4ugGGFBfJcPMOXmT" right style="height: 40px"></b-img></b-col>
+                  <b-col cols="3"><b-img src="http://drive.google.com/uc?export=view&id=1BJm09kQRgh6PgiiOtP5eAoyHMF9vneOu" right style="height: 40px"></b-img></b-col>
+                </b-row>
+                <b-row>
+                  <b-col cols="3"><b-badge variant="light">아파트</b-badge></b-col> <b-col cols="3"><b-badge variant="light">다세대</b-badge></b-col>
+                  <b-col cols="3"><b-badge variant="light">오피스텔</b-badge></b-col>
+                </b-row>
+              </div>
+            </div>
+            <!-- <button @click="show = !show" id="custom_m">필터</button>
             <transition name="fade">
               <div v-if="show" id="custom_filter">
                 <br />
@@ -78,8 +101,8 @@
                   <b-form-checkbox-group v-model="typeDealSelected" :options="typeDealOptions" :aria-describedby="ariaDescribedby" name="flavour-2a" stacked></b-form-checkbox-group>
                 </b-form-group>
               </div>
-            </transition>
-            <div id="maker_name">
+            </transition> -->
+            <!-- <div id="maker_name">
               <b-row>
                 <b-col cols="3">
                   <b-img src="http://drive.google.com/uc?export=view&id=1fTg0Xop_1pBwKNxGnEPSr2jZwu3h61Yt" right style="height: 40px"></b-img>
@@ -91,7 +114,7 @@
                 <b-col cols="3"><b-badge variant="light">아파트</b-badge></b-col> <b-col cols="3"><b-badge variant="light">다세대</b-badge></b-col>
                 <b-col cols="3"><b-badge variant="light">오피스텔</b-badge></b-col>
               </b-row>
-            </div>
+            </div> -->
           </div>
         </b-col>
       </b-row>
@@ -102,18 +125,23 @@
 import axios from "axios";
 import HouseSearchBar from "@/components/house/HouseSearchBar.vue";
 import HouseSearchRoad from "@/components/house/HouseSearchRoad.vue";
+import Checkbox from "@/components/house/Checkbox.vue";
 
 export default {
   name: "HouseAll",
   components: {
     HouseSearchBar,
     HouseSearchRoad,
+    Checkbox,
   },
   data() {
     return {
+      checked: false,
       show: true,
       user: null,
-      markers: [],
+      markers_op: [],
+      markers_apt: [],
+      markers_bil: [],
       infowindow: null,
       latlng: null,
       lv: 3,
@@ -134,18 +162,19 @@ export default {
         { text: "연립다세대", value: "연립다세대" },
         { text: "오피스텔", value: "오피스텔" },
       ],
-      typeDealSelected: [], // Must be an array reference!
-      typeDealOptions: [
-        { text: "매매", value: "매매" },
-        { text: "전세", value: "전세" },
-        { text: "월세", value: "월세" },
-      ],
       placeOverlay: null,
       contentNode: null, // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
       pl_markers: [], // 마커를 담을 배열입니다
       currCategory: "", // 현재 선택된 카테고리를 가지고 있을 변수입니다
       ps: null,
     };
+  },
+  watch: {
+    typeSelected() {
+      this.typeSelected.forEach((element) => {
+        console.log(element);
+      });
+    },
   },
   props: {
     loginId: null,
@@ -163,9 +192,11 @@ export default {
         .then(({ data }) => {
           this.user = data;
           const cate = document.getElementById("category");
-          this.user.category.split(",").forEach((element) => {
-            cate.children[parseInt(element)].style.display = "block";
-          });
+          if (this.user.category) {
+            this.user.category.split(",").forEach((element) => {
+              cate.children[parseInt(element)].style.display = "block";
+            });
+          }
         });
     }
   },
@@ -199,11 +230,6 @@ export default {
       if (data.y) this.y = data.y;
 
       this.latlng = new kakao.maps.LatLng(this.y, this.x);
-
-      // this.dongCode = data.dongCode;
-      // console.log(this.x + " : " + this.y);
-      // this.searchDong(this.dongCode);
-
       this.searchDist(this.y, this.x);
     },
     searchDist(lat, lng) {
@@ -244,7 +270,6 @@ export default {
           gugun: gugunCode,
         })
         .then(({ data }) => {
-          // console.log(data);
           if (data && data.length) {
             // this.houses = data;
 
@@ -255,6 +280,8 @@ export default {
             this.markerPositions.push({ title: this.houses[0].aptName, latlng: new kakao.maps.LatLng(this.houses[0].lat, this.houses[0].lng) });
             // this.houses.forEach((house) => this.markerPositions.push({ title: house.aptName, latlng: new kakao.maps.LatLng(house.lat, house.lng) }));
             this.displayMarker(this.markerPositions);
+          } else {
+            this.houses = [];
           }
         })
         .catch(({ error }) => {
@@ -355,21 +382,9 @@ export default {
         // 에러로 인해 검색결과가 나오지 않은 경우 해야할 처리가 있다면 이곳에 작성해 주세요
       }
     },
-    btn_filter() {
-      console.log("gigi");
-    },
     addMarker(position, order) {
-      // http://drive.google.com/uc?export=view&id=1xwzPqdS-XrKzFhhRwSxTzfXGrcNmVeVg
-      // http://drive.google.com/uc?export=view&id=1bwYdXoq__eYbieG5Bo3wMrmAixakOFti
-      // http://drive.google.com/uc?export=view&id=18J6t43zO4TFTPXSquJlbDgA8zQCh9lAG
-
       var imageSrc = "http://drive.google.com/uc?export=view&id=1xwzPqdS-XrKzFhhRwSxTzfXGrcNmVeVg", // 마커 이미지 url, 스프라이트 이미지를 씁니다
         imageSize = new kakao.maps.Size(27, 28), // 마커 이미지의 크기
-        imgOptions = {
-          spriteSize: new kakao.maps.Size(72, 208), // 스프라이트 이미지의 크기
-          spriteOrigin: new kakao.maps.Point(46, order * 36), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-          offset: new kakao.maps.Point(11, 28), // 마커 좌표에 일치시킬 이미지 내에서의 좌표
-        },
         markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
         marker = new kakao.maps.Marker({
           position: position, // 마커의 위치
@@ -386,31 +401,6 @@ export default {
         this.pl_markers[i].setMap(null);
       }
       this.pl_markers = [];
-    },
-    displayPlaceInfo(place) {
-      var content = '<div class="placeinfo">' + '   <a class="title" href="' + place.place_url + '" target="_blank" title="' + place.place_name + '">' + place.place_name + "</a>";
-
-      if (place.road_address_name) {
-        content +=
-          '    <span title="' +
-          place.road_address_name +
-          '">' +
-          place.road_address_name +
-          "</span>" +
-          '  <span class="jibun" title="' +
-          place.address_name +
-          '">(지번 : ' +
-          place.address_name +
-          ")</span>";
-      } else {
-        content += '    <span title="' + place.address_name + '">' + place.address_name + "</span>";
-      }
-
-      content += '    <span class="tel">' + place.phone + "</span>" + "</div>" + '<div class="after"></div>';
-
-      this.contentNode.innerHTML = content;
-      this.placeOverlay.setPosition(new kakao.maps.LatLng(place.y, place.x));
-      this.placeOverlay.setMap(this.map);
     },
     addCategoryClickEvent() {
       var category = document.getElementById("category"),
@@ -438,8 +428,6 @@ export default {
       }
     },
     changeCategoryClass(el) {
-      // console.log("el");
-      // console.log(el);
       var category = document.getElementById("category"),
         children = category.children,
         i;
@@ -460,45 +448,42 @@ export default {
       for (var i = 0; i < places.length; i++) {
         // 마커를 생성하고 지도에 표시합니다
         var marker = this.addMarker(new kakao.maps.LatLng(places[i].y, places[i].x), order);
-        // 마커와 검색결과 항목을 클릭 했을 때
-        // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
-        // kakao.maps.event.addListener(marker, "click", function () {
-        //   this.displayPlaceInfo(places[i]);
-        // });
+        // // 마커와 검색결과 항목을 클릭 했을 때
+        // // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
+        // // kakao.maps.event.addListener(marker, "click", function () {
+        // //   this.displayPlaceInfo(places[i]);
+        // // });
 
-        // kakao.maps.event.addListener(marker, "click", function () {
-        //   this.displayPlaceInfo(places[i]);
-        // });
-        (function (marker, place) {
-          kakao.maps.event.addListener(marker, "click", function () {
-            this.displayPlaceInfo(place);
-          });
-        })(marker, places[i]);
+        // // kakao.maps.event.addListener(marker, "click", function () {
+        // //   this.displayPlaceInfo(places[i]);
+        // // });
+        // (function (marker, place) {
+        //   kakao.maps.event.addListener(marker, "click", function () {
+        //     this.displayPlaceInfo(place);
+        //   });
+        // })(marker, places[i]);
       }
     },
 
     displayMarker() {
-      if (this.markers.length > 0) {
-        this.markers.forEach((marker) => marker.setMap(null));
+      if (this.markers_op.length > 0) {
+        this.markers_op.forEach((marker) => marker.setMap(null));
       }
-      this.markers = [];
+      if (this.markers_apt.length > 0) {
+        this.markers_apt.forEach((marker) => marker.setMap(null));
+      }
+      if (this.markers_bil.length > 0) {
+        this.markers_bil.forEach((marker) => marker.setMap(null));
+      }
+
+      this.markers_op = [];
+      this.markers_apt = [];
+      this.markers_bil = [];
 
       let i = 0;
       let imageSrc_apt = "http://drive.google.com/uc?export=view&id=1fTg0Xop_1pBwKNxGnEPSr2jZwu3h61Yt";
       let imageSrc_op = "http://drive.google.com/uc?export=view&id=1BJm09kQRgh6PgiiOtP5eAoyHMF9vneOu";
       let imageSrc_bil = "http://drive.google.com/uc?export=view&id=1XfXxlgJua7Y3BzxI4ugGGFBfJcPMOXmT";
-      // let imageSrc = "http://drive.google.com/uc?export=view&id=1XfXxlgJua7Y3BzxI4ugGGFBfJcPMOXmT";
-      // let imageSrc = "http://drive.google.com/uc?export=view&id=1Sp240hE8weIJ6l4X2sBkORkn3ntWzrhs";
-      // let imageSrc = "http://drive.google.com/uc?export=view&id=1BJm09kQRgh6PgiiOtP5eAoyHMF9vneOu";
-
-      //민트
-      //http://drive.google.com/uc?export=view&id=1fTg0Xop_1pBwKNxGnEPSr2jZwu3h61Yt
-      //노랑
-      //http://drive.google.com/uc?export=view&id=1XfXxlgJua7Y3BzxI4ugGGFBfJcPMOXmT
-      //연두
-      //http://drive.google.com/uc?export=view&id=1Sp240hE8weIJ6l4X2sBkORkn3ntWzrhs
-      //보라
-      //http://drive.google.com/uc?export=view&id=1BJm09kQRgh6PgiiOtP5eAoyHMF9vneOu
 
       // 마커 이미지의 이미지 크기 입니다
       var imageSize = new kakao.maps.Size(40, 40);
@@ -507,10 +492,16 @@ export default {
       var markerImage_op = new kakao.maps.MarkerImage(imageSrc_op, imageSize);
       var markerImage_bil = new kakao.maps.MarkerImage(imageSrc_bil, imageSize);
       let f_coords = new kakao.maps.LatLng(33.450701, 126.570667);
+
       this.houses.forEach((house) => {
         let coords = new kakao.maps.LatLng(house.lat, house.lng);
+        let markerImage = markerImage_op;
+        if (house.infoType.trim() == "아파트") {
+          markerImage = markerImage_apt;
+        } else if (house.infoType.trim() == "연립다세대") {
+          markerImage = markerImage_bil;
+        }
 
-        let markerImage = house.infoType.trim() == "아파트" ? markerImage_apt : house.infoType.trim() == "오피스텔" ? markerImage_op : markerImage_bil;
         let marker = new kakao.maps.Marker({
           map: this.map,
           position: coords,
@@ -518,6 +509,7 @@ export default {
           image: markerImage,
           clickable: true,
         });
+
         let infowindow = new kakao.maps.InfoWindow({
           position: coords,
           content: '<div style="padding:10px;text-align:center;width:200px">' + house.aptName + "</div>", // 인포윈도우에 표시할 내용
@@ -525,11 +517,18 @@ export default {
 
         kakao.maps.event.addListener(marker, "mouseover", this.makeOverListener(this.map, marker, infowindow));
         kakao.maps.event.addListener(marker, "mouseout", this.makeOutListener(infowindow));
-        kakao.maps.event.addListener(marker, "click", function () {
-          alert(house.aptName + " " + house.aptCode);
-        });
+        // kakao.maps.event.addListener(marker, "click", function () {
+        //   alert(house.aptName + " " + house.aptCode);
+        // });
         i++;
-        this.markers.push(marker);
+
+        if (house.infoType.trim() == "아파트") {
+          this.markers_apt.push(marker);
+        } else if (house.infoType.trim() == "연립다세대") {
+          this.markers_bil.push(marker);
+        } else {
+          this.markers_op.push(marker);
+        }
         if (i == 1) {
           f_coords = coords;
         }
@@ -602,18 +601,18 @@ body {
 
 #custom_filter {
   position: absolute;
-  top: 50px;
-  right: 40px;
+  bottom: 20px;
+  right: 20px;
   border-radius: 5px;
   /* border: 1px solid #909090; */
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
-  background-color: rgb(255, 255, 255, 0.7);
+  background-color: rgb(255, 255, 255, 0.8);
   overflow: hidden;
   z-index: 2;
   float: left;
   list-style: none;
-  width: 350px;
-  height: 800px;
+  width: 220px;
+  height: 70px;
   border-right: 1px solid #acacac;
 
   padding: 6px 0;
@@ -640,9 +639,9 @@ body {
   cursor: pointer;
 }
 #maker_name {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
+  /* position: absolute; */
+  /* bottom: 10px;
+  right: 10px; */
 
   overflow: hidden;
   z-index: 2;
@@ -650,7 +649,7 @@ body {
   list-style: none;
   width: 300px;
   height: 70px;
-  padding: 6px 0;
+  /* padding: 6px 0; */
   text-align: center;
   cursor: pointer;
 }

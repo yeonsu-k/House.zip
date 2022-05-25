@@ -6,6 +6,7 @@ import IntroView from "@/components/IntroView.vue";
 import UserView from "@/views/UserView.vue";
 import NoticeView from "@/views/NoticeView.vue";
 import LoginForm from "@/components/LoginForm.vue";
+import FindPWForm from "@/components/FindPWForm.vue";
 import QnaView from "@/views/QnaView.vue";
 import MypageView from "@/views/MypageView.vue";
 
@@ -28,6 +29,12 @@ const routes = [
     path: "/login",
     name: "Login",
     component: LoginForm,
+  },
+  {
+    // 비밀번호 찾기 화면
+    path: "/findpwd",
+    name: "FindPW",
+    component: FindPWForm,
   },
   {
     // 사용자 화면

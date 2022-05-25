@@ -14,7 +14,7 @@
         <li id="FD6" data-order="8" style="display: none">식당</li>
         <li id="CE7" data-order="9" style="display: none">카페</li>
       </ul>
-      <div id="detail_info">
+      <div id="detail_info" class="infoView">
         <div>
           <div v-if="deals.length" style="font-size: 30px">
             {{ deals[0].aptName }}
@@ -30,69 +30,99 @@
             <div>평점 <b-icon v-if="collapseStates[0]" icon="chevron-down" /><b-icon v-else icon="chevron-up" /></div>
           </b-button>
           <b-collapse id="accordion-1" v-model="collapseStates[0]">
-            <div class="mt-3">
-              Submitted Names:
-              <div v-if="submittedNames.length === 0">--</div>
-              <ul v-else class="mb-0 pl-3">
-                <li v-for="(name, index) in submittedNames" :key="index">{{ name }}</li>
-              </ul>
-            </div>
-
-            <div class="mb-1">
-              <b-button @click="showMsgBoxTwo">거주자 평점등록</b-button>
-            </div>
-            <div>비회원에게 보일 문구</div>
-            <div>거주자 평점 및 리뷰는 회원 전용입니다! 로그인해주세요!</div>
-            <div></div>
             <br />
-            <br />
-            <div>평점을 작성하지 않은 회원에게 보일 문구(리뷰들 중 최신 리뷰 1개만 보여줌)</div>
-            <div>더 많은 리뷰를 보려면 살고 있는 집의 거주자 평점을 작성해주세요!</div>
-            <div>거주자 평점을 한번 이상 작성하면 해피하우스의 모든 건물 리뷰를 확인할수있습니다!</div>
+            <div>전체 평균 평점</div>
+            <b-form-rating id="rating-readonly" :value="totalavg" variant="warning" size="lg" readonly show-value show-value-max inline no-border></b-form-rating>
+            <div>{{ reviews.length }}명의 리뷰가 있습니다.</div>
+            <div v-if="!loginId" class="container my-3">
+              <div class="shadow py-3 px-5" style="background: #ffe6e6">거주자 평점 및 리뷰는 회원 전용입니다! <br />로그인해주세요!</div>
+            </div>
+            <div v-else>
+              <div class="mb-1">
+                <b-button @click="showMsgBoxTwo">거주자 평점등록</b-button>
+              </div>
 
-            <b-modal
-              centered
-              ref="my-modal"
-              id="modal-prevent-closing"
-              title="거주자 평점 등록"
-              @show="resetModal"
-              @hidden="resetModal"
-              @ok="handleOk"
-              v-show="showModal"
-              v-on:close="showModal = false"
-            >
-              <form ref="form" @submit.stop.prevent="handleSubmit">
-                <div>
-                  <label for="rating-inline">출퇴근: </label>
-                  <b-form-rating show-value show-value-max id="rating-inline" inline value="3"></b-form-rating>
-                  <br /><small>대중교통이 다양하거나, 출퇴근 시간에 도로가 덜 밀리나요?</small>
+              <div v-if="user.review">
+                <div v-for="(review, index) in reviews" :key="index" class="container my-2">
+                  <div class="shadow py-3 px-5">
+                    {{ review.time }}년동안 거주한 {{ review.userid }}님 평점! <br />
+                    <b-form-rating id="rating-readonly" :value="review.avg" variant="warning" readonly show-value show-value-max inline no-border></b-form-rating><br />
+                    <div class="rounded border border-secondary py-3 px-5">
+                      출퇴근길: <b-form-rating id="rating-readonly" :value="review.commute" readonly show-value show-value-max inline no-border></b-form-rating><br />
+                      주차공간: <b-form-rating id="rating-readonly" :value="review.park" readonly show-value show-value-max inline no-border></b-form-rating><br />
+                      방음정도: <b-form-rating id="rating-readonly" :value="review.noise" readonly show-value show-value-max inline no-border></b-form-rating><br />
+                      이용시설: <b-form-rating id="rating-readonly" :value="review.facilities" readonly show-value show-value-max inline no-border></b-form-rating><br />
+                      리뷰: <br />
+                      {{ review.content }}
+                    </div>
+                  </div>
                 </div>
+              </div>
+              <div v-else>
+                <div v-if="reviews.length" class="shadow py-3 px-5">
+                  {{ reviews[0].time }}년동안 거주한 {{ reviews[0].userid }}님 평점! <br />
+                  <b-form-rating id="rating-readonly" :value="reviews[0].avg" variant="warning" readonly show-value show-value-max inline no-border></b-form-rating><br />
+                  <div class="rounded border border-secondary py-3 px-5">
+                    출퇴근길: <b-form-rating id="rating-readonly" :value="reviews[0].commute" readonly show-value show-value-max inline no-border></b-form-rating><br />
+                    주차공간: <b-form-rating id="rating-readonly" :value="reviews[0].park" readonly show-value show-value-max inline no-border></b-form-rating><br />
+                    방음정도: <b-form-rating id="rating-readonly" :value="reviews[0].noise" readonly show-value show-value-max inline no-border></b-form-rating><br />
+                    이용시설: <b-form-rating id="rating-readonly" :value="reviews[0].facilities" readonly show-value show-value-max inline no-border></b-form-rating><br />
+                    리뷰: <br />
+                    <pre>{{ reviews[0].content }}</pre>
+                  </div>
+                </div>
+                <div class="container my-3" style="background: #ffe6e6">
+                  <div class="shadow py-3 px-5">리뷰를 더 확인하고 싶으신가요? 실제 거주 중인 집의 거주자 평점을 작성하면 HAPPYHOUSE의 모든 회원리뷰를 읽을 수 있습니다.</div>
+                </div>
+              </div>
 
-                <div>
-                  <label for="rating-inline">주차공간: </label>
-                  <b-form-rating show-value show-value-max id="rating-inline" inline value="3"></b-form-rating>
-                  <br /><small>주차 공간이 많거나, 넓은 가요?</small>
-                </div>
+              <b-modal
+                centered
+                ref="my-modal"
+                id="modal-prevent-closing"
+                title="거주자 평점 등록"
+                @show="resetModal"
+                @hidden="resetModal"
+                @ok="handleOk"
+                v-show="showModal"
+                v-on:close="showModal = false"
+              >
+                <form ref="form" @submit.stop.prevent="handleSubmit">
+                  <div>
+                    <label for="rating-inline">거주기간: </label>
+                    <b-form-input v-model="review_time" min="1" type="number" id="rating-inline" inline></b-form-input>
+                    <br /><small>몇년동안 거주하셨나요?</small>
+                  </div>
+                  <div>
+                    <label for="rating-inline">출퇴근길: </label>
+                    <b-form-rating v-model="review_commute" show-value show-value-max id="rating-inline" inline></b-form-rating>
+                    <br /><small>대중교통이 다양하거나, 출퇴근 시간에 도로가 덜 밀리나요?</small>
+                  </div>
 
-                <div>
-                  <label for="rating-inline">방음정도: </label>
-                  <b-form-rating show-value show-value-max id="rating-inline" inline value="3"></b-form-rating>
-                  <br /><small>퇴근이나 주말에 소음없이 편안하게 휴식을 즐기시나요?</small>
-                </div>
+                  <div>
+                    <label for="rating-inline">주차공간: </label>
+                    <b-form-rating v-model="review_park" show-value show-value-max id="rating-inline" inline value="3"></b-form-rating>
+                    <br /><small>주차 공간이 많거나, 넓은 가요?</small>
+                  </div>
 
-                <div>
-                  <label for="rating-inline">이용시설: </label>
-                  <b-form-rating show-value show-value-max id="rating-inline" inline value="3"></b-form-rating>
-                  <br /><small>주변에 취미를 가질 수 있는 다양한 시설이 있나요?</small>
-                </div>
-                <b-form-group label="거주하는 건물에 대한 이야기를 해주세요!(70자 이상 200자 이하)" label-for="name-input" invalid-feedback="70자이상 작성해주세요" :state="nameState">
-                  <b-form-textarea rows="" id="name-input" v-model="name" :state="nameState" required minlength="70" maxlength="200" size="8"></b-form-textarea>
-                </b-form-group>
-              </form>
-            </b-modal>
+                  <div>
+                    <label for="rating-inline">방음정도: </label>
+                    <b-form-rating v-model="review_noise" show-value show-value-max id="rating-inline" inline value="3"></b-form-rating>
+                    <br /><small>퇴근이나 주말에 소음없이 편안하게 휴식을 즐기시나요?</small>
+                  </div>
+
+                  <div>
+                    <label for="rating-inline">이용시설: </label>
+                    <b-form-rating v-model="review_facilities" show-value show-value-max id="rating-inline" inline value="3"></b-form-rating>
+                    <br /><small>주변에 취미를 가질 수 있는 다양한 시설이 있나요?</small>
+                  </div>
+                  <b-form-group label="거주하는 건물에 대한 이야기를 해주세요!(70자 이상 200자 이하)" label-for="name-input" invalid-feedback="70자이상 작성해주세요" :state="nameState">
+                    <b-form-textarea rows="7" id="name-input" v-model="review_content" :state="nameState" required minlength="70" maxlength="200" size="8"></b-form-textarea>
+                  </b-form-group>
+                </form>
+              </b-modal>
+            </div>
           </b-collapse>
-
-          <hr style="border-top: 2px dashed #bcbcbc" />
 
           <b-button block v-b-toggle.accordion-2 class="mt-2">
             <div>로드뷰 <b-icon v-if="collapseStates[1]" icon="chevron-down" /><b-icon v-else icon="chevron-up" /></div>
@@ -125,39 +155,106 @@
                 v-if="collapseStatesChart"
               />
 
-              <b-table-simple hover striped responsive class="text-center">
-                <b-thead>
-                  <b-tr>
-                    <b-th>층</b-th>
-                    <b-th>면적</b-th>
-                    <b-th>거래년도</b-th>
-                    <b-th>거래유형</b-th>
-                    <b-th>금액</b-th>
-                    <!-- <b-th>찜하기</b-th> -->
-                  </b-tr>
-                </b-thead>
-                <b-tbody>
-                  <b-tr v-for="(deal, index) in deals" :key="index" class="m-2">
-                    <b-td>{{ deal.floor }}</b-td>
-                    <b-td>{{ deal.area }}</b-td>
-                    <b-td>{{ deal.dealYear }}</b-td>
-                    <b-td>{{ deal.dealType }}</b-td>
-                    <b-td v-if="deal.dealType == '매매'">{{ replaceMoney(deal.dealAmount) }}</b-td>
-                    <b-td v-if="deal.dealType == '전세'">{{ replaceMoney(deal.rentMoney) }}</b-td>
-                    <b-td v-if="deal.dealType == '월세'">{{ replaceMoney(deal.rentMoney) }} / 월 {{ deal.dealAmount }}</b-td>
-                    <b-td v-model="deal.inter">
-                      <!-- <b-button v-if="deal.inter" variant="outline-danger" @click="interestCancel(deal.no, index)" style="border: none; outline: none"> -->
+              <b-tabs card>
+                <b-tab no-body title="매매">
+                  <div v-if="dealsm.length">
+                    <b-table-simple hover striped responsive class="text-center">
+                      <b-thead>
+                        <b-tr>
+                          <b-th>층</b-th>
+                          <b-th>면적</b-th>
+                          <b-th>거래년도</b-th>
+                          <b-th>거래유형</b-th>
+                          <b-th>금액</b-th>
+                        </b-tr>
+                      </b-thead>
+                      <b-tbody>
+                        <b-tr v-for="(deal, index) in dealsm" :key="index" class="m-2">
+                          <b-td>{{ deal.floor }}</b-td>
+                          <b-td>{{ deal.area }}</b-td>
+                          <b-td>{{ deal.dealYear }}</b-td>
+                          <b-td>{{ deal.dealType }}</b-td>
+                          <b-td v-if="deal.dealType == '매매'">{{ replaceMoney(deal.dealAmount) }}</b-td>
+                          <b-td v-if="deal.dealType == '전세'">{{ replaceMoney(deal.rentMoney) }}</b-td>
+                          <b-td v-if="deal.dealType == '월세'">{{ replaceMoney(deal.rentMoney) }} / 월 {{ deal.dealAmount }}</b-td>
+                          <b-td v-model="deal.inter"> </b-td>
+                        </b-tr>
+                      </b-tbody>
+                    </b-table-simple>
+                  </div>
+                  <div v-else>
+                    <b-row>
+                      <b-col><b-alert show>매매 실거래기록이 없습니다.</b-alert></b-col>
+                    </b-row>
+                  </div>
+                </b-tab>
 
-                      <!-- <b-button variant="outline-danger" @click="interestCheck(deal)" style="border: none; outline: none">
-                        <b-icon id="icon`${deal.no}`" icon="heart-fill" />
-                      </b-button> -->
-                      <!-- <b-button v-else variant="outline-danger" v-model="deal.inter" @click="interestCheck(deal)" style="border: none; outline: none">
-                        <b-icon icon="heart" />
-                      </b-button> -->
-                    </b-td>
-                  </b-tr>
-                </b-tbody>
-              </b-table-simple>
+                <b-tab no-body title="전세">
+                  <div v-if="dealsj.length">
+                    <b-table-simple hover striped responsive class="text-center">
+                      <b-thead>
+                        <b-tr>
+                          <b-th>층</b-th>
+                          <b-th>면적</b-th>
+                          <b-th>거래년도</b-th>
+                          <b-th>거래유형</b-th>
+                          <b-th>금액</b-th>
+                        </b-tr>
+                      </b-thead>
+                      <b-tbody>
+                        <b-tr v-for="(deal, index) in dealsj" :key="index" class="m-2">
+                          <b-td>{{ deal.floor }}</b-td>
+                          <b-td>{{ deal.area }}</b-td>
+                          <b-td>{{ deal.dealYear }}</b-td>
+                          <b-td>{{ deal.dealType }}</b-td>
+                          <b-td v-if="deal.dealType == '매매'">{{ replaceMoney(deal.dealAmount) }}</b-td>
+                          <b-td v-if="deal.dealType == '전세'">{{ replaceMoney(deal.rentMoney) }}</b-td>
+                          <b-td v-if="deal.dealType == '월세'">{{ replaceMoney(deal.rentMoney) }} / 월 {{ deal.dealAmount }}</b-td>
+                          <b-td v-model="deal.inter"> </b-td>
+                        </b-tr>
+                      </b-tbody>
+                    </b-table-simple>
+                  </div>
+                  <div v-else>
+                    <b-row>
+                      <b-col><b-alert show>전세 실거래기록이 없습니다.</b-alert></b-col>
+                    </b-row>
+                  </div>
+                </b-tab>
+
+                <b-tab no-body title="월세">
+                  <div v-if="dealsw.length">
+                    <b-table-simple hover striped responsive class="text-center">
+                      <b-thead>
+                        <b-tr>
+                          <b-th>층</b-th>
+                          <b-th>면적</b-th>
+                          <b-th>거래년도</b-th>
+                          <b-th>거래유형</b-th>
+                          <b-th>금액</b-th>
+                        </b-tr>
+                      </b-thead>
+                      <b-tbody>
+                        <b-tr v-for="(deal, index) in dealsw" :key="index" class="m-2">
+                          <b-td>{{ deal.floor }}</b-td>
+                          <b-td>{{ deal.area }}</b-td>
+                          <b-td>{{ deal.dealYear }}</b-td>
+                          <b-td>{{ deal.dealType }}</b-td>
+                          <b-td v-if="deal.dealType == '매매'">{{ replaceMoney(deal.dealAmount) }}</b-td>
+                          <b-td v-if="deal.dealType == '전세'">{{ replaceMoney(deal.rentMoney) }}</b-td>
+                          <b-td v-if="deal.dealType == '월세'">{{ replaceMoney(deal.rentMoney) }} / 월 {{ deal.dealAmount }}</b-td>
+                          <b-td v-model="deal.inter"> </b-td>
+                        </b-tr>
+                      </b-tbody>
+                    </b-table-simple>
+                  </div>
+                  <div v-else>
+                    <b-row>
+                      <b-col><b-alert show>월세 실거래기록이 없습니다.</b-alert></b-col>
+                    </b-row>
+                  </div>
+                </b-tab>
+              </b-tabs>
             </div>
             <div v-else>
               <b-row>
@@ -176,6 +273,7 @@
 <script>
 import axios from "axios";
 import BarChart from "@/components/house/BarChart.vue";
+import HouseDealListtVue from "./HouseDealListt.vue";
 export default {
   name: "HouseDealList",
   components: {
@@ -190,14 +288,16 @@ export default {
       // house: null,
       checkdeals: [],
       deals: [],
+      dealsj: [],
+      dealsw: [],
+      dealsm: [],
       interest: [],
-      collapseStates: [true, true],
+      collapseStates: [false, false],
       collapseStatesChart: true,
       name: "",
       nameState: null,
       submittedNames: [],
       showModal: false,
-      boxTwo: "",
       datacollection: {},
       filterItem: [],
       placeOverlay: null,
@@ -206,13 +306,25 @@ export default {
       currCategory: "", // 현재 선택된 카테고리를 가지고 있을 변수입니다
       ps: null,
       intereststatus: false,
+      reviews: [],
+      review_time: 1,
+      review_commute: 1,
+      review_park: 1,
+      review_noise: 1,
+      review_facilities: 1,
+      review_content: "",
+      user: [{ review: false }],
+      totalavg: 0,
     };
   },
-  watch: {
-    intereststatus() {
-      console.log("바뀜!!");
-    },
-  },
+  // watch: {
+  //   // intereststatus() {
+  //   //   console.log("바뀜!!");
+  //   // },
+  //   review_commute() {
+  //     console.log("바뀜!!");
+  //   },
+  // },
   created() {
     if (this.loginId) {
       axios
@@ -225,12 +337,39 @@ export default {
         })
         .then(({ data }) => {
           this.user = data;
+
+          console.log(this.user);
           const cate = document.getElementById("category");
           this.user.category.split(",").forEach((element) => {
             cate.children[parseInt(element)].style.display = "block";
           });
         });
     }
+
+    axios
+      .get("http://localhost:8080/happyhouse/house/review/" + this.$route.params.aptCode, {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json; charset = utf-8",
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+      })
+      .then(({ data }) => {
+        this.reviews = data;
+
+        for (let i = 0; i < this.reviews.length; i++) {
+          this.reviews[i].avg = (this.reviews[i].commute + this.reviews[i].park + this.reviews[i].noise + this.reviews[i].facilities) / 4;
+          this.totalavg = this.totalavg + this.reviews[i].avg;
+        }
+        this.totalavg = this.totalavg / this.reviews.length;
+        // this.user = data;
+        // console.log(this.user);
+        // const cate = document.getElementById("category");
+        // this.user.category.split(",").forEach((element) => {
+        //   cate.children[parseInt(element)].style.display = "block";
+        // });
+      });
+
     axios
       .post("http://localhost:8080/happyhouse/house/apt/", {
         aptCode: this.$route.params.aptCode,
@@ -238,12 +377,19 @@ export default {
 
       .then(({ data }) => {
         this.deals = data;
-        // let init_ = { inter: false };
-        // for (let i = 0; i < this.deals.length; i++) {
-        //   Object.assign(this.deals[i], init_);
-        //   // console.log(this.deals[i]);
-        // }
+        this.dealsm = [];
+        this.dealsw = [];
+        this.dealsj = [];
 
+        this.deals.forEach((element) => {
+          if (element.dealType.trim() == "매매") {
+            this.dealsm.push(element);
+          } else if (element.dealType.trim() == "월세") {
+            this.dealsw.push(element);
+          } else {
+            this.dealsj.push(element);
+          }
+        });
         let intedeals = JSON.parse(sessionStorage.getItem(this.loginId + "_intedeal"));
         if (intedeals) {
           intedeals.forEach((intedeal) => {
@@ -301,6 +447,10 @@ export default {
 
   methods: {
     interestcheck() {
+      if (!this.loginId) {
+        alert("찜하기 기능은 회원만 이용가능합니다.");
+        return;
+      }
       if (!this.intereststatus) {
         let intedeals = JSON.parse(sessionStorage.getItem(this.loginId + "_intedeal"));
         if (!intedeals) {
@@ -374,7 +524,7 @@ export default {
       };
     },
     showMsgBoxTwo() {
-      this.boxTwo = "";
+      // this.boxTwo = "";
       this.$bvModal
         .msgBoxConfirm(this.deals[0].aptName + "에 거주한 경험이 있나요?", {
           title: "거주자 평점등록",
@@ -388,8 +538,16 @@ export default {
           centered: true,
         })
         .then((value) => {
-          this.boxTwo = value;
-          if (this.boxTwo) this.$refs["my-modal"].show();
+          // this.boxTwo = value;
+          if (value) {
+            for (let i = 0; i < this.reviews.length; i++) {
+              if (this.reviews[i].userid == this.loginId) {
+                alert("이미 리뷰를 작성했습니다.");
+                return;
+              }
+            }
+            this.$refs["my-modal"].show();
+          }
         })
         .catch((err) => {
           // An error occurred
@@ -417,6 +575,46 @@ export default {
       }
       // Push the name to submitted names
       this.submittedNames.push(this.name);
+
+      axios
+        .post(
+          "http://localhost:8080/happyhouse/house/review/" + this.$route.params.aptCode,
+          {
+            userid: this.loginId,
+            aptCode: this.$route.params.aptCode,
+            time: this.review_time,
+            commute: this.review_commute,
+            park: this.review_park,
+            noise: this.review_noise,
+            facilities: this.review_facilities,
+            content: this.review_content,
+          },
+          {
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+              "Content-Type": "application/json; charset = utf-8",
+              Authorization: "Bearer " + localStorage.getItem("jwt"),
+            },
+          }
+        )
+        .then(({ data }) => {
+          alert("리뷰가 등록되었습니다.");
+          this.$router.go();
+          // this.reviews = data;
+
+          // for (let i = 0; i < this.reviews.length; i++) {
+          //   this.reviews[i].avg = (this.reviews[i].commute + this.reviews[i].park + this.reviews[i].noise + this.reviews[i].facilities) / 4;
+          //   this.totalavg = this.totalavg + this.reviews[i].avg;
+          // }
+          // this.totalavg = this.totalavg / this.reviews.length;
+          // this.user = data;
+          // console.log(this.user);
+          // const cate = document.getElementById("category");
+          // this.user.category.split(",").forEach((element) => {
+          //   cate.children[parseInt(element)].style.display = "block";
+          // });
+        });
+
       // Hide the modal manually
       this.$nextTick(() => {
         this.$bvModal.hide("modal-prevent-closing");
@@ -812,6 +1010,15 @@ export default {
 </script>
 
 <style>
+.infoView {
+  height: 78vh;
+  overflow: auto;
+  background-color: white;
+  align-self: center;
+}
+.infoView::-webkit-scrollbar {
+  display: none;
+}
 .map_wrap,
 .map_wrap * {
   margin: 0;

@@ -134,7 +134,7 @@ export default {
     this.clearSido();
     this.getSido();
     // let loginId = localStorage.getItem("loginId");
-    console.log(localStorage.getItem("jwt"));
+    // console.log(localStorage.getItem("jwt"));
     if (this.$route.params.id) {
       axios
         .get("/happyhouse/user/" + this.$route.params.id, {
@@ -146,9 +146,11 @@ export default {
         })
         .then(({ data }) => {
           this.user = data;
-          this.user.category.split(",").forEach((element) => {
-            this.options[parseInt(element)].checked = true;
-          });
+          if (this.user.category) {
+            this.user.category.split(",").forEach((element) => {
+              this.options[parseInt(element)].checked = true;
+            });
+          }
           if (this.user.interestSidoCode) {
             this.sidoCode = this.user.interestSidoCode;
             this.getGugun();
