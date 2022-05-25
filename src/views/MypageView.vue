@@ -10,7 +10,7 @@
             <b-button :to="{ name: 'UserDetail', params: { id: loginId } }">정보수정</b-button>
             <b-button :to="{ name: 'MyInterest', params: { id: loginId } }">관심매물</b-button>
             <b-button :to="{ name: 'MyQna', params: { id: loginId } }">나의질문</b-button>
-            <b-button @click="deleteUser">회원탈퇴</b-button>
+            <b-button @click="deleteCheck">회원탈퇴</b-button>
           </b-button-group>
         </b-col>
         <b-col class="py-5 px-2" id="user_col">
@@ -28,11 +28,34 @@ export default {
   props: {
     loginId: null,
   },
+
   methods: {
+    deleteCheck() {
+      this.boxTwo = "";
+      this.$bvModal
+        .msgBoxConfirm("정말로 탈퇴하시겠습니까?", {
+          size: "sm",
+          buttonSize: "sm",
+          okVariant: "danger",
+          okTitle: "YES",
+          cancelTitle: "NO",
+          footerClass: "p-2",
+          hideHeaderClose: false,
+          centered: true,
+        })
+        .then((value) => {
+          if (value) {
+            this.deleteUser();
+          }
+        })
+        .catch((err) => {
+          // An error occurred
+        });
+    },
     updateUser(user) {
       axios
         .put(
-          "http://localhost:8080/happyhouse/user/" + user.id,
+          "/happyhouse/user/" + user.id,
           {
             id: user.id,
             password: user.password,
@@ -68,7 +91,7 @@ export default {
     deleteUser() {
       console.log(this.loginId);
       axios
-        .delete("http://localhost:8080/happyhouse/user/" + this.loginId, {
+        .delete("/happyhouse/user/" + this.loginId, {
           headers: {
             "Access-Control-Allow-Origin": "*",
             "Content-Type": "application/json; charset = utf-8",

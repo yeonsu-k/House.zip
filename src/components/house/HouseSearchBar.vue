@@ -38,11 +38,19 @@ export default {
     this.getSido();
 
     if (this.loginId) {
-      axios.get("http://localhost:8080/happyhouse/user/inter/" + this.loginId).then(({ data }) => {
-        this.sidoCode = data.interestSidoCode;
-        this.checkGugun = data.interestGugunCode;
-        this.gugunList();
-      });
+      axios
+        .get("/happyhouse/user/inter/" + this.loginId, {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json; charset = utf-8",
+            Authorization: "Bearer " + localStorage.getItem("jwt"),
+          },
+        })
+        .then(({ data }) => {
+          this.sidoCode = data.interestSidoCode;
+          this.checkGugun = data.interestGugunCode;
+          this.gugunList();
+        });
     }
   },
   methods: {

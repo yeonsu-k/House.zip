@@ -134,7 +134,7 @@ export default {
     console.log(localStorage.getItem("jwt"));
     if (this.$route.params.id) {
       axios
-        .get("http://localhost:8080/happyhouse/user/" + this.$route.params.id, {
+        .get("/happyhouse/user/" + this.$route.params.id, {
           headers: {
             "Access-Control-Allow-Origin": "*",
             "Content-Type": "application/json; charset = utf-8",

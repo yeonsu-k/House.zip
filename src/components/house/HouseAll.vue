@@ -14,6 +14,7 @@
           <b-col>카테고리</b-col>
         </b-col> -->
       </b-row>
+
       <b-row>
         <b-col>
           <!-- 지도 -->
@@ -65,7 +66,32 @@
               <li id="FD6" data-order="8" style="display: none">식당</li>
               <li id="CE7" data-order="9" style="display: none">카페</li>
             </ul>
-            <!-- <button id="custom_m">필터</button> -->
+            <button @click="show = !show" id="custom_m">필터</button>
+            <transition name="fade">
+              <div v-if="show" id="custom_filter">
+                <br />
+                <b-form-group label="건물 타입" v-slot="{ ariaDescribedby }">
+                  <b-form-checkbox-group v-model="typeSelected" :options="typeOptions" :aria-describedby="ariaDescribedby" name="flavour-2a" stacked></b-form-checkbox-group>
+                </b-form-group>
+                <br />
+                <b-form-group label="거래 타입" v-slot="{ ariaDescribedby }">
+                  <b-form-checkbox-group v-model="typeDealSelected" :options="typeDealOptions" :aria-describedby="ariaDescribedby" name="flavour-2a" stacked></b-form-checkbox-group>
+                </b-form-group>
+              </div>
+            </transition>
+            <div id="maker_name">
+              <b-row>
+                <b-col cols="3">
+                  <b-img src="http://drive.google.com/uc?export=view&id=1fTg0Xop_1pBwKNxGnEPSr2jZwu3h61Yt" right style="height: 40px"></b-img>
+                </b-col>
+                <b-col cols="3"><b-img src="http://drive.google.com/uc?export=view&id=1XfXxlgJua7Y3BzxI4ugGGFBfJcPMOXmT" right style="height: 40px"></b-img></b-col>
+                <b-col cols="3"><b-img src="http://drive.google.com/uc?export=view&id=1BJm09kQRgh6PgiiOtP5eAoyHMF9vneOu" right style="height: 40px"></b-img></b-col>
+              </b-row>
+              <b-row>
+                <b-col cols="3"><b-badge variant="light">아파트</b-badge></b-col> <b-col cols="3"><b-badge variant="light">다세대</b-badge></b-col>
+                <b-col cols="3"><b-badge variant="light">오피스텔</b-badge></b-col>
+              </b-row>
+            </div>
           </div>
         </b-col>
       </b-row>
@@ -76,6 +102,7 @@
 import axios from "axios";
 import HouseSearchBar from "@/components/house/HouseSearchBar.vue";
 import HouseSearchRoad from "@/components/house/HouseSearchRoad.vue";
+
 export default {
   name: "HouseAll",
   components: {
@@ -84,6 +111,7 @@ export default {
   },
   data() {
     return {
+      show: true,
       user: null,
       markers: [],
       infowindow: null,
@@ -100,7 +128,18 @@ export default {
       y: "",
       dist: 0.55,
       houses: [],
-
+      typeSelected: [], // Must be an array reference!
+      typeOptions: [
+        { text: "아파트", value: "아파트" },
+        { text: "연립다세대", value: "연립다세대" },
+        { text: "오피스텔", value: "오피스텔" },
+      ],
+      typeDealSelected: [], // Must be an array reference!
+      typeDealOptions: [
+        { text: "매매", value: "매매" },
+        { text: "전세", value: "전세" },
+        { text: "월세", value: "월세" },
+      ],
       placeOverlay: null,
       contentNode: null, // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
       pl_markers: [], // 마커를 담을 배열입니다
@@ -113,13 +152,21 @@ export default {
   },
   created() {
     if (this.loginId) {
-      axios.get("http://localhost:8080/happyhouse/user/" + this.loginId).then(({ data }) => {
-        this.user = data;
-        const cate = document.getElementById("category");
-        this.user.category.split(",").forEach((element) => {
-          cate.children[parseInt(element)].style.display = "block";
+      axios
+        .get("/happyhouse/user/" + this.loginId, {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json; charset = utf-8",
+            Authorization: "Bearer " + localStorage.getItem("jwt"),
+          },
+        })
+        .then(({ data }) => {
+          this.user = data;
+          const cate = document.getElementById("category");
+          this.user.category.split(",").forEach((element) => {
+            cate.children[parseInt(element)].style.display = "block";
+          });
         });
-      });
     }
   },
   mounted() {
@@ -308,6 +355,9 @@ export default {
         // 에러로 인해 검색결과가 나오지 않은 경우 해야할 처리가 있다면 이곳에 작성해 주세요
       }
     },
+    btn_filter() {
+      console.log("gigi");
+    },
     addMarker(position, order) {
       // http://drive.google.com/uc?export=view&id=1xwzPqdS-XrKzFhhRwSxTzfXGrcNmVeVg
       // http://drive.google.com/uc?export=view&id=1bwYdXoq__eYbieG5Bo3wMrmAixakOFti
@@ -413,13 +463,17 @@ export default {
         // 마커와 검색결과 항목을 클릭 했을 때
         // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
         // kakao.maps.event.addListener(marker, "click", function () {
-        //     this.displayPlaceInfo(place);
-        //   });
-        // (function (marker, place) {
-        //   kakao.maps.event.addListener(marker, "click", function () {
-        //     this.displayPlaceInfo(place);
-        //   });
-        // })(marker, places[i]);
+        //   this.displayPlaceInfo(places[i]);
+        // });
+
+        // kakao.maps.event.addListener(marker, "click", function () {
+        //   this.displayPlaceInfo(places[i]);
+        // });
+        (function (marker, place) {
+          kakao.maps.event.addListener(marker, "click", function () {
+            this.displayPlaceInfo(place);
+          });
+        })(marker, places[i]);
       }
     },
 
@@ -544,13 +598,34 @@ body {
 }
 #table {
   position: absolute;
-  min-width: 450px;
   top: 50px;
+  min-width: 450px;
   left: 10px;
   border-radius: 5px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
   background-color: rgb(255, 255, 255, 0.9);
   z-index: 2;
+  text-align: center;
+  cursor: pointer;
+}
+
+#custom_filter {
+  position: absolute;
+  top: 50px;
+  right: 40px;
+  border-radius: 5px;
+  /* border: 1px solid #909090; */
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+  background-color: rgb(255, 255, 255, 0.7);
+  overflow: hidden;
+  z-index: 2;
+  float: left;
+  list-style: none;
+  width: 350px;
+  height: 800px;
+  border-right: 1px solid #acacac;
+
+  padding: 6px 0;
   text-align: center;
   cursor: pointer;
 }
@@ -569,6 +644,21 @@ body {
   list-style: none;
   width: 50px;
   border-right: 1px solid #acacac;
+  padding: 6px 0;
+  text-align: center;
+  cursor: pointer;
+}
+#maker_name {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+
+  overflow: hidden;
+  z-index: 2;
+  float: center;
+  list-style: none;
+  width: 300px;
+  height: 70px;
   padding: 6px 0;
   text-align: center;
   cursor: pointer;
@@ -675,5 +765,12 @@ body {
   color: #999;
   font-size: 11px;
   margin-top: 0;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

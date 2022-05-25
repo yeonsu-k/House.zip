@@ -86,7 +86,7 @@
                   <br /><small>주변에 취미를 가질 수 있는 다양한 시설이 있나요?</small>
                 </div>
                 <b-form-group label="거주하는 건물에 대한 이야기를 해주세요!(70자 이상 200자 이하)" label-for="name-input" invalid-feedback="70자이상 작성해주세요" :state="nameState">
-                  <b-form-textarea id="name-input" v-model="name" :state="nameState" required minlength="70" maxlength="200" size="8"></b-form-textarea>
+                  <b-form-textarea rows="" id="name-input" v-model="name" :state="nameState" required minlength="70" maxlength="200" size="8"></b-form-textarea>
                 </b-form-group>
               </form>
             </b-modal>
@@ -215,13 +215,21 @@ export default {
   },
   created() {
     if (this.loginId) {
-      axios.get("http://localhost:8080/happyhouse/user/" + this.loginId).then(({ data }) => {
-        this.user = data;
-        const cate = document.getElementById("category");
-        this.user.category.split(",").forEach((element) => {
-          cate.children[parseInt(element)].style.display = "block";
+      axios
+        .get("/happyhouse/user/" + this.loginId, {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Content-Type": "application/json; charset = utf-8",
+            Authorization: "Bearer " + localStorage.getItem("jwt"),
+          },
+        })
+        .then(({ data }) => {
+          this.user = data;
+          const cate = document.getElementById("category");
+          this.user.category.split(",").forEach((element) => {
+            cate.children[parseInt(element)].style.display = "block";
+          });
         });
-      });
     }
     axios
       .post("http://localhost:8080/happyhouse/house/apt/", {

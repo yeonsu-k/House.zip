@@ -25,14 +25,14 @@ export default {
             category: user.category,
             interestSidoCode: user.interestSidoCode,
             interestGugunCode: user.interestGugunCode,
-          },
-          {
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-              "Content-Type": "application/json; charset = utf-8",
-              Authorization: "Bearer " + localStorage.getItem("jwt"),
-            },
           }
+          // {
+          //   headers: {
+          //     "Access-Control-Allow-Origin": "*",
+          //     "Content-Type": "application/json; charset = utf-8",
+          //     Authorization: "Bearer " + localStorage.getItem("jwt"),
+          //   },
+          // }
         )
         .then(({ data }) => {
           let msg = "등록 처리시 문제가 발생했습니다.";
