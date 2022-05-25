@@ -1,11 +1,9 @@
 <template>
   <div class="container">
-    <h2>관심 매물</h2>
+    <h4 style="font-weight: bold">관심 매물</h4>
+    <hr />
     <div v-for="(aptinfo, index) in aptinfos" :key="index">
       <div>
-        <!-- 
-          { "no": 0, "aptCode": 6535, "aptName": "건입미화", "dongCode": "5011010700", "dongName": "건입동", "buildYear": 1994, "jibun": "1044-8", "lat": "33.5149482", "lng": "126.5376843", "dealAmount": null, "dealYear": null, "dealMonth": null, "dealDay": null, "area": null, "floor": null, "type": null, "rentMoney": null, "infoType": "아파트\r", "dealType": null, "total": 1, "dist": 0 }
-         -->
         <b-card
           :title="aptinfo.aptName"
           img-src="http://drive.google.com/uc?export=view&id=13FYqvOX6ONeR2Ae2Za-sSKO8SSRHcf3W"

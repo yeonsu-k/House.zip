@@ -4,7 +4,25 @@
       <p class="text-center h1">My page</p>
     </div>
     <b-container>
-      <b-row class="my-5" style="height: 70vh">
+      <ul class="nav nav-tabs nav-fill justify-content-center">
+        <li class="nav-item">
+          <b-link class="nav-link" :to="{ name: 'UserDetail', params: { id: loginId } }">정보수정</b-link>
+        </li>
+        <li class="nav-item">
+          <b-link class="nav-link" :to="{ name: 'MyInterest', params: { id: loginId } }">관심매물</b-link>
+        </li>
+        <li class="nav-item">
+          <b-link class="nav-link" :to="{ name: 'MyQna', params: { id: loginId } }">나의질문</b-link>
+        </li>
+        <li class="nav-item">
+          <b-link class="nav-link" @click="deleteUser">회원탈퇴</b-link>
+        </li>
+      </ul>
+      <div class="my-5">
+        <router-view id="view" :loginId="loginId" @logout="logout" @update-user="updateUser" />
+      </div>
+
+      <!-- <b-row class="my-5" style="height: 70vh">
         <b-col md="3" class="text-center">
           <b-button-group vertical>
             <b-button :to="{ name: 'UserDetail', params: { id: loginId } }">정보수정</b-button>
@@ -14,9 +32,9 @@
           </b-button-group>
         </b-col>
         <b-col class="py-5 px-2" id="user_col">
-          <router-view :loginId="loginId" @logout="logout" @update-user="updateUser" />
+          <router-view id="view" :loginId="loginId" @logout="logout" @update-user="updateUser" />
         </b-col>
-      </b-row>
+      </b-row> -->
     </b-container>
   </div>
 </template>
@@ -117,7 +135,6 @@ export default {
 }
 #user_col {
   height: 70vh;
-  border-radius: 40px;
   border: 1px solid lightgray;
   overflow: auto;
   background-color: white;

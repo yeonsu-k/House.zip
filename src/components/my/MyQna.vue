@@ -1,13 +1,12 @@
 <template>
   <div class="container">
-    <h4 style="font-weight: bold">나의 질문</h4>
-    <hr />
     <b-container>
-      <div class="text-right mt-5">
+      <div class="mt-5">
         <b-row align-h="between" align-v="end" class="mb-2">
-          <b-col class="text-right">
+          <b-col> <h4 style="font-weight: bold">나의 질문</h4></b-col>
+          <!-- <b-col class="text-right">
             <b-form-checkbox id="checkbox-1" v-model="status" name="checkbox-1"> 답변완료 글만 보기 </b-form-checkbox>
-          </b-col>
+          </b-col> -->
           <!-- <b-col>
             <b-button v-if="this.loginId && !this.isManager" id="bbtn" class="btn-sm mr-4" variant="outline-light" :to="{ name: 'QnaRegist' }">문의하기</b-button>
           </b-col> -->
@@ -22,14 +21,12 @@
               <col :style="{ width: '12%' }" />
               <col :style="{ width: '10%' }" />
               <col :style="{ width: '10%' }" />
-              <col :style="{ width: '10%' }" />
             </colgroup>
             <b-thead head-variant="light">
               <b-tr>
                 <b-th>#</b-th>
                 <b-th>제목</b-th>
                 <b-th>날짜</b-th>
-                <b-th>작성자ID</b-th>
                 <b-th>조회수</b-th>
                 <b-th>상태</b-th>
               </b-tr>
@@ -41,7 +38,6 @@
                   <router-link class="qna-link" :to="{ name: 'QnaDetail', params: { no: qna.no } }">{{ qna.title }}</router-link>
                 </b-td>
                 <b-td>{{ qna.asktime.substring(0, 10) }}</b-td>
-                <b-td>{{ qna.userid }}</b-td>
                 <b-td>{{ qna.hit }}</b-td>
                 <b-td v-if="qna.masterid" style="color: darkred; font-weight: bold">완료</b-td>
                 <b-td v-else>대기</b-td>
