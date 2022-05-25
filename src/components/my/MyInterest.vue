@@ -2,25 +2,19 @@
   <div class="container">
     <h4 style="font-weight: bold">관심 매물</h4>
     <hr />
-    <div v-for="(aptinfo, index) in aptinfos" :key="index">
-      <div>
-        <b-card
-          :title="aptinfo.aptName"
-          img-src="http://drive.google.com/uc?export=view&id=13FYqvOX6ONeR2Ae2Za-sSKO8SSRHcf3W"
-          img-alt="Image"
-          img-top
-          tag="article"
-          style="max-width: 20rem"
-          class="mb-2"
-        >
-          <b-card-text> {{ aptinfo.dongName }} {{ aptinfo.infoType.trim() }}</b-card-text>
-          <b-card-text> {{ aptinfo.buildYear }}년 건축 </b-card-text>
+    <b-card-group deck id="cardGroup">
+      <div id="inCard" v-for="(aptinfo, index) in aptinfos" :key="index">
+        <div>
+          <b-card :title="aptinfo.aptName" img-src="http://drive.google.com/uc?export=view&id=13FYqvOX6ONeR2Ae2Za-sSKO8SSRHcf3W" img-alt="Image" img-top tag="article" class="mb-2">
+            <b-card-text> {{ aptinfo.dongName }} {{ aptinfo.infoType.trim() }}</b-card-text>
+            <b-card-text> {{ aptinfo.buildYear }}년 건축 </b-card-text>
 
-          <b-button :to="{ name: 'HouseDealList', params: { aptCode: aptinfo.aptCode } }" variant="primary">매물 조회하러 가기</b-button>
-          <!-- <b-button @click="interestCheck(aptinfo.aptCode)" variant="primary">관심매물 해제</b-button> -->
-        </b-card>
+            <b-button :to="{ name: 'HouseDealList', params: { aptCode: aptinfo.aptCode } }" variant="primary">매물 조회하러 가기</b-button>
+            <!-- <b-button @click="interestCheck(aptinfo.aptCode)" variant="primary">관심매물 해제</b-button> -->
+          </b-card>
+        </div>
       </div>
-    </div>
+    </b-card-group>
   </div>
 </template>
 <script>
@@ -154,3 +148,21 @@ export default {
   },
 };
 </script>
+
+<style>
+#cardGroup {
+  text-align: center;
+  height: 35rem;
+  overflow: auto;
+  background-color: white;
+  align-self: center;
+}
+#cardGroup::-webkit-scrollbar {
+  display: none;
+}
+#inCard {
+  max-width: 19rem;
+  flex-shrink: 0;
+  display: inline-block;
+}
+</style>

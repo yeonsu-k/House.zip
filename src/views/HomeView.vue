@@ -27,7 +27,7 @@
             <b-card header="추천매물 / 관심매물">
               <b-row no-gutters id="cardRow">
                 <b-col md="6">
-                  <img class="card-img img-fluid p-1" id="cardRow" src="@/assets/img/test1.jpg" alt="Image" />
+                  <img class="rounded-0 card-img img-fluid p-1" id="cardRow" src="@/assets/img/test1.jpg" alt="Image" />
                 </b-col>
                 <b-col md="6">
                   <b-card-body title="연립다세대">

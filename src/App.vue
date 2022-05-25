@@ -65,4 +65,8 @@ export default {
   },
 };
 </script>
-<style></style>
+<style>
+#app {
+  overflow: hidden;
+}
+</style>
