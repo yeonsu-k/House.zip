@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <h2>회원 정보</h2>
+    <h4 style="font-weight: bold">회원 정보 수정</h4>
+    <hr />
     <b-form-group label="아이디" label-for="input-id">
       <b-form-input id="input-id" v-model="user.id" placeholder="Enter id" readonly></b-form-input>
     </b-form-group>
@@ -21,7 +22,7 @@
 
     <div role="group" class="mt-2">
       <label for="input-tel">관심지역</label>
-      <b-row class="ml-2 mr-2 mb-2 my-1 text-center">
+      <b-row class="mb-2 my-1 text-center">
         <b-col class="sm-3">
           <b-form-select size="sm" v-model="sidoCode" :options="sidos" @change="gugunList">
             <b-form-select-option :value="null" disabled>시도를 선택하세요</b-form-select-option>
@@ -42,7 +43,7 @@
       </span>
     </div>
     <b-form-text id="input-live-help-name">매물을 볼 때 중요하게 생각하는 시설을 선택해주세요 (다중선택가능)</b-form-text>
-    <b-button variant="outline-success" class="btn" @click="updateUser">수정</b-button>
+    <b-button class="btn mt-3 w-100" variant="outline-light" id="bbtn" @click="updateUser">수정</b-button>
     <b-button v-if="!isManager" variant="outline-success" class="btn" @click="deleteUser">삭제</b-button>
   </div>
 </template>
@@ -159,3 +160,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+#bbtn {
+  color: black;
+  background-color: #ece6cc;
+}
+</style>

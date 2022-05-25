@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="user_col">
     <div id="head">
       <p class="text-center h1">Notice</p>
     </div>

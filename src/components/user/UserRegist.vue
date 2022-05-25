@@ -36,13 +36,13 @@
           </div>
           <div role="group" class="mt-2">
             <label for="input-tel">관심지역</label>
-            <b-row class="ml-2 mr-2 mb-2 my-1 text-center">
-              <b-col class="sm-3">
+            <b-row class="mb-2 my-1 text-center">
+              <b-col class="sm">
                 <b-form-select size="sm" v-model="sidoCode" :options="sidos" @change="gugunList">
                   <b-form-select-option :value="null" disabled>시도를 선택하세요</b-form-select-option>
                 </b-form-select>
               </b-col>
-              <b-col class="sm-3">
+              <b-col class="sm">
                 <b-form-select size="sm" v-model="gugunCode" :options="guguns">
                   <b-form-select-option :value="null" disabled>구군을 선택하세요</b-form-select-option>
                 </b-form-select>

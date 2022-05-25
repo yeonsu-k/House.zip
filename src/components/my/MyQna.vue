@@ -1,12 +1,10 @@
 <template>
   <div class="container">
-    <h2>나의 질문</h2>
+    <h6>나의 질문</h6>
     <b-container>
       <div class="text-right mt-5">
         <b-row align-h="between" align-v="end" class="mb-2">
-          <b-col class="text-left">
-            <!-- <small class="mb-3 text-right">* 목록 수 : {{ total }} </small> -->
-          </b-col>
+          <b-col class="text-left"> </b-col>
           <b-col md="4">
             <b-form-checkbox id="checkbox-1" v-model="status" name="checkbox-1"> 답변완료 글만 보기 </b-form-checkbox>
           </b-col>
