@@ -574,6 +574,7 @@ body {
   cursor: pointer;
 }
 #category {
+  padding: 0;
   position: absolute;
   top: 10px;
   left: 10px;

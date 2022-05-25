@@ -16,7 +16,7 @@
       </ul>
       <div id="detail_info">
         <div>
-          <div v-if="deals.length">
+          <div v-if="deals.length" style="font-size: 30px">
             {{ deals[0].aptName }}
             <b-button variant="outline-danger" @click="interestcheck()" style="border: none; outline: none">
               <b-icon v-if="intereststatus" icon="heart-fill" />
@@ -50,32 +50,42 @@
             <div>더 많은 리뷰를 보려면 살고 있는 집의 거주자 평점을 작성해주세요!</div>
             <div>거주자 평점을 한번 이상 작성하면 해피하우스의 모든 건물 리뷰를 확인할수있습니다!</div>
 
-            <b-modal ref="my-modal" id="modal-prevent-closing" title="Submit Your Name" @show="resetModal" @hidden="resetModal" @ok="handleOk" v-show="showModal" v-on:close="showModal = false">
+            <b-modal
+              centered
+              ref="my-modal"
+              id="modal-prevent-closing"
+              title="거주자 평점 등록"
+              @show="resetModal"
+              @hidden="resetModal"
+              @ok="handleOk"
+              v-show="showModal"
+              v-on:close="showModal = false"
+            >
               <form ref="form" @submit.stop.prevent="handleSubmit">
                 <div>
-                  <label for="rating-inline">교통: </label>
+                  <label for="rating-inline">출퇴근: </label>
                   <b-form-rating show-value show-value-max id="rating-inline" inline value="3"></b-form-rating>
-                  <br /><small>이거는 이거다!</small>
+                  <br /><small>대중교통이 다양하거나, 출퇴근 시간에 도로가 덜 밀리나요?</small>
                 </div>
 
                 <div>
-                  <label for="rating-inline">주차: </label>
+                  <label for="rating-inline">주차공간: </label>
                   <b-form-rating show-value show-value-max id="rating-inline" inline value="3"></b-form-rating>
-                  <br /><small>이거는 이거다!</small>
+                  <br /><small>주차 공간이 많거나, 넓은 가요?</small>
                 </div>
 
                 <div>
-                  <label for="rating-inline">소음: </label>
+                  <label for="rating-inline">방음정도: </label>
                   <b-form-rating show-value show-value-max id="rating-inline" inline value="3"></b-form-rating>
-                  <br /><small>이거는 이거다!</small>
+                  <br /><small>퇴근이나 주말에 소음없이 편안하게 휴식을 즐기시나요?</small>
                 </div>
 
                 <div>
                   <label for="rating-inline">이용시설: </label>
                   <b-form-rating show-value show-value-max id="rating-inline" inline value="3"></b-form-rating>
-                  <br /><small>이거는 이거다!</small>
+                  <br /><small>주변에 취미를 가질 수 있는 다양한 시설이 있나요?</small>
                 </div>
-                <b-form-group label="거주하는 건물에 대한 이야기를 해주세요!(70자 이상 200자 이하)" label-for="name-input" invalid-feedback="Name is required" :state="nameState">
+                <b-form-group label="거주하는 건물에 대한 이야기를 해주세요!(70자 이상 200자 이하)" label-for="name-input" invalid-feedback="70자이상 작성해주세요" :state="nameState">
                   <b-form-textarea id="name-input" v-model="name" :state="nameState" required minlength="70" maxlength="200" size="8"></b-form-textarea>
                 </b-form-group>
               </form>
@@ -102,6 +112,7 @@
                 >
               </template>
               <BarChart
+                style="position: relative; height: 20vh"
                 :chart-data="filteredDataCollection"
                 :options="{
                   responsive: true,
@@ -554,7 +565,7 @@ export default {
       //지도 객체를 등록합니다.
       //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
       this.map = new kakao.maps.Map(container, options);
-      this.map.setMinLevel(1);
+      this.map.setMinLevel(3);
       this.map.setMaxLevel(3);
 
       this.ps = new kakao.maps.services.Places(this.map);

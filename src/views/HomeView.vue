@@ -48,7 +48,7 @@
                 <b-card-body title="아파트">
                   <b-card-text>
                     <br />
-                    <p>신호부부가 많이 살은 곳!</p>
+                    <p>단지내 이용시설이 다양해요!</p>
                     <br />
                     <small>주변 마트 3분거리!</small>
                   </b-card-text>
