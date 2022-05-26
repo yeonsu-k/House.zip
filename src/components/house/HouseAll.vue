@@ -481,9 +481,9 @@ export default {
       this.markers_bil = [];
 
       let i = 0;
-      let imageSrc_apt = "http://drive.google.com/uc?export=view&id=1fTg0Xop_1pBwKNxGnEPSr2jZwu3h61Yt";
-      let imageSrc_op = "http://drive.google.com/uc?export=view&id=1BJm09kQRgh6PgiiOtP5eAoyHMF9vneOu";
-      let imageSrc_bil = "http://drive.google.com/uc?export=view&id=1XfXxlgJua7Y3BzxI4ugGGFBfJcPMOXmT";
+      let imageSrc_apt = "http://drive.google.com/uc?export=view&id=1Prms3VPLeaf9lmSjmtgx4sZaR0STdRd8";
+      let imageSrc_op = "http://drive.google.com/uc?export=view&id=16BoBFDkUUhwMYsrwdjI_8IZXCJggA25W";
+      let imageSrc_bil = "http://drive.google.com/uc?export=view&id=1yx1FS9P5-za82s_pYYMA6CXt0n-qcTgJ";
 
       // 마커 이미지의 이미지 크기 입니다
       var imageSize = new kakao.maps.Size(40, 40);

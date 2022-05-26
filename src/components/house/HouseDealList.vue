@@ -948,9 +948,9 @@ export default {
       // let imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
       // let imageSrc = "http://drive.google.com/uc?export=view&id=1Th8RjUjvvMWR-zYegM2taxOYB1NlL50S";
 
-      let imageSrc_apt = "http://drive.google.com/uc?export=view&id=1fTg0Xop_1pBwKNxGnEPSr2jZwu3h61Yt";
-      let imageSrc_op = "http://drive.google.com/uc?export=view&id=1BJm09kQRgh6PgiiOtP5eAoyHMF9vneOu";
-      let imageSrc_bil = "http://drive.google.com/uc?export=view&id=1XfXxlgJua7Y3BzxI4ugGGFBfJcPMOXmT";
+      let imageSrc_apt = "http://drive.google.com/uc?export=view&id=1Prms3VPLeaf9lmSjmtgx4sZaR0STdRd8";
+      let imageSrc_op = "http://drive.google.com/uc?export=view&id=16BoBFDkUUhwMYsrwdjI_8IZXCJggA25W";
+      let imageSrc_bil = "http://drive.google.com/uc?export=view&id=1yx1FS9P5-za82s_pYYMA6CXt0n-qcTgJ";
 
       let imageSrc = this.deals[0].infoType.trim() == "아파트" ? imageSrc_apt : this.deals[0].infoType.trim() == "오피스텔" ? imageSrc_op : imageSrc_bil;
       // 마커 이미지의 이미지 크기 입니다
