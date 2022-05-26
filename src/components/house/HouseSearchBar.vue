@@ -50,6 +50,10 @@ export default {
           this.sidoCode = data.interestSidoCode;
           this.checkGugun = data.interestGugunCode;
           this.gugunList();
+        })
+        .catch(({ error }) => {
+          alert("처리 중 문제가 생겼습니다. 다시 로그인 해주세요");
+          this.$emit("logout");
         });
     }
   },

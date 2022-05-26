@@ -7,26 +7,12 @@
           </b-form-radio-group>
         </b-col>
         <b-col>
-          <house-search-bar v-if="selected == 'A'" :loginId="loginId" @search-apt="searchApt"></house-search-bar>
-          <house-search-road v-else @search-road="searchRoad" :roadAddress="roadAddress"></house-search-road>
+          <house-search-bar @logout="logout" v-if="selected == 'A'" :loginId="loginId" @search-apt="searchApt"></house-search-bar>
+          <house-search-road @logout="logout" v-else @search-road="searchRoad" :roadAddress="roadAddress"></house-search-road>
         </b-col>
-        <!-- <b-form-group label="건물 타입" v-slot="{ ariaDescribedby }">
-      <b-form-checkbox-group v-model="typeSelected" :options="typeOptions" :aria-describedby="ariaDescribedby" name="flavour-2a" stacked></b-form-checkbox-group>
-        </b-form-group> -->
-        <!-- {{ typeSelected }} -->
-
-        <!-- <b-form-checkbox id="checkbox-1" v-model="status" name="checkbox-1" value="accepted" unchecked-value="not_accepted"><span class="check" :class="{ on: checked }"></span> </b-form-checkbox> -->
-
-        <!-- <b-col>
-          <b-col>카테고리</b-col>
-        </b-col> -->
       </b-row>
-
       <b-row>
         <b-col>
-          <!-- 지도 -->
-          <!-- <p id="result"></p> -->
-          <!-- <div id="map" style="display: flex; width: 100%; height: 85vh; padding-left: 0px; padding-right: 0px"></div> -->
           <div class="map_wrap">
             <div id="map" style="max-width: 100vw; min-height: 82vh; relative; overflow: hidden"></div>
             <div id="table">
@@ -75,46 +61,9 @@
             </ul>
             <div v-if="show" id="custom_filter">
               <div id="maker_name">
-                <checkbox v-model="checked" label="체크박스" />
-                <!-- <b-row>
-                  <b-col cols="3">
-                    <b-img src="http://drive.google.com/uc?export=view&id=1fTg0Xop_1pBwKNxGnEPSr2jZwu3h61Yt" right style="height: 40px"></b-img>
-                  </b-col>
-                  <b-col cols="3"><b-img src="http://drive.google.com/uc?export=view&id=1XfXxlgJua7Y3BzxI4ugGGFBfJcPMOXmT" right style="height: 40px"></b-img></b-col>
-                  <b-col cols="3"><b-img src="http://drive.google.com/uc?export=view&id=1BJm09kQRgh6PgiiOtP5eAoyHMF9vneOu" right style="height: 40px"></b-img></b-col>
-                </b-row>
-                <b-row>
-                  <b-col cols="3"><b-badge variant="light">아파트</b-badge></b-col> <b-col cols="3"><b-badge variant="light">다세대</b-badge></b-col>
-                  <b-col cols="3"><b-badge variant="light">오피스텔</b-badge></b-col>
-                </b-row> -->
+                <checkbox @chang-aptmark="changAptmark" />
               </div>
             </div>
-            <!-- <button @click="show = !show" id="custom_m">필터</button>
-            <transition name="fade">
-              <div v-if="show" id="custom_filter">
-                <br />
-                <b-form-group label="건물 타입" v-slot="{ ariaDescribedby }">
-                  <b-form-checkbox-group v-model="typeSelected" :options="typeOptions" :aria-describedby="ariaDescribedby" name="flavour-2a" stacked></b-form-checkbox-group>
-                </b-form-group>
-                <br />
-                <b-form-group label="거래 타입" v-slot="{ ariaDescribedby }">
-                  <b-form-checkbox-group v-model="typeDealSelected" :options="typeDealOptions" :aria-describedby="ariaDescribedby" name="flavour-2a" stacked></b-form-checkbox-group>
-                </b-form-group>
-              </div>
-            </transition> -->
-            <!-- <div id="maker_name">
-              <b-row>
-                <b-col cols="3">
-                  <b-img src="http://drive.google.com/uc?export=view&id=1fTg0Xop_1pBwKNxGnEPSr2jZwu3h61Yt" right style="height: 40px"></b-img>
-                </b-col>
-                <b-col cols="3"><b-img src="http://drive.google.com/uc?export=view&id=1XfXxlgJua7Y3BzxI4ugGGFBfJcPMOXmT" right style="height: 40px"></b-img></b-col>
-                <b-col cols="3"><b-img src="http://drive.google.com/uc?export=view&id=1BJm09kQRgh6PgiiOtP5eAoyHMF9vneOu" right style="height: 40px"></b-img></b-col>
-              </b-row>
-              <b-row>
-                <b-col cols="3"><b-badge variant="light">아파트</b-badge></b-col> <b-col cols="3"><b-badge variant="light">다세대</b-badge></b-col>
-                <b-col cols="3"><b-badge variant="light">오피스텔</b-badge></b-col>
-              </b-row>
-            </div> -->
           </div>
         </b-col>
       </b-row>
@@ -136,7 +85,7 @@ export default {
   },
   data() {
     return {
-      checked: false,
+      checked: [true, true, true],
       show: true,
       user: null,
       markers_op: [],
@@ -156,12 +105,6 @@ export default {
       y: "",
       dist: 0.55,
       houses: [],
-      typeSelected: [], // Must be an array reference!
-      typeOptions: [
-        { text: "아파트", value: "아파트" },
-        { text: "연립다세대", value: "연립다세대" },
-        { text: "오피스텔", value: "오피스텔" },
-      ],
       placeOverlay: null,
       contentNode: null, // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
       pl_markers: [], // 마커를 담을 배열입니다
@@ -197,6 +140,10 @@ export default {
               cate.children[parseInt(element)].style.display = "block";
             });
           }
+        })
+        .catch(({ error }) => {
+          alert("처리 중 문제가 생겼습니다. 다시 로그인 해주세요");
+          this.$emit("logout");
         });
     }
   },
@@ -213,6 +160,19 @@ export default {
     }
   },
   methods: {
+    changAptmark(checked) {
+      console.log(checked);
+      if (checked[0]) this.showMarkers(this.markers_apt);
+      else this.hideMarkers(this.markers_apt);
+      if (checked[1]) this.showMarkers(this.markers_bil);
+      else this.hideMarkers(this.markers_bil);
+      if (checked[2]) this.showMarkers(this.markers_op);
+      else this.hideMarkers(this.markers_op);
+      this.checked = checked;
+    },
+    logout() {
+      this.$emit("logout");
+    },
     searchRoad(data) {
       switch (data.lv) {
         case 1:
@@ -296,6 +256,31 @@ export default {
         this.y = "";
         this.latlng = new kakao.maps.LatLng(33.450701, 126.570667);
       }
+    },
+    displayPlaceInfo(place) {
+      var content = '<div class="placeinfo">' + '   <a class="title" href="' + place.place_url + '" target="_blank" title="' + place.place_name + '">' + place.place_name + "</a>";
+
+      if (place.road_address_name) {
+        content +=
+          '    <span title="' +
+          place.road_address_name +
+          '">' +
+          place.road_address_name +
+          "</span>" +
+          '  <span class="jibun" title="' +
+          place.address_name +
+          '">(지번 : ' +
+          place.address_name +
+          ")</span>";
+      } else {
+        content += '    <span title="' + place.address_name + '">' + place.address_name + "</span>";
+      }
+
+      content += '    <span class="tel">' + place.phone + "</span>" + "</div>" + '<div class="after"></div>';
+
+      this.contentNode.innerHTML = content;
+      this.placeOverlay.setPosition(new kakao.maps.LatLng(place.y, place.x));
+      this.placeOverlay.setMap(this.map);
     },
     initMap() {
       const container = document.getElementById("map");
@@ -457,9 +442,11 @@ export default {
         // kakao.maps.event.addListener(marker, "click", function () {
         //   this.displayPlaceInfo(places[i]);
         // });
-        (function (marker, place) {
-          kakao.maps.event.addListener(marker, "click", function () {
+        ((marker, place) => {
+          window.kakao.maps.event.addListener(marker, "click", () => {
+            // console.log("장소클릭이벤트:" + place);
             this.displayPlaceInfo(place);
+            // this.test(place);
           });
         })(marker, places[i]);
       }
@@ -512,14 +499,14 @@ export default {
 
         let infowindow = new kakao.maps.InfoWindow({
           position: coords,
-          content: '<div style="padding:10px;text-align:center;width:200px">' + house.aptName + "</div>", // 인포윈도우에 표시할 내용
+          content: '<span class="info-title">' + house.aptName + "</span>",
         });
-
+        // infowindow.open(this.map, marker);
         kakao.maps.event.addListener(marker, "mouseover", this.makeOverListener(this.map, marker, infowindow));
         kakao.maps.event.addListener(marker, "mouseout", this.makeOutListener(infowindow));
-        // kakao.maps.event.addListener(marker, "click", function () {
-        //   alert(house.aptName + " " + house.aptCode);
-        // });
+        // // kakao.maps.event.addListener(marker, "click", function () {
+        // //   alert(house.aptName + " " + house.aptCode);
+        // // });
         i++;
 
         if (house.infoType.trim() == "아파트") {
@@ -540,11 +527,24 @@ export default {
       } else {
         this.map.panTo(f_coords);
       }
+      this.changAptmark(this.checked);
     },
     // 인포윈도우를 표시하는 클로저를 만드는 함수입니다
     makeOverListener(map, marker, infowindow) {
       return function () {
         infowindow.open(map, marker);
+        var infoTitle = document.querySelectorAll(".info-title");
+        infoTitle.forEach(function (e) {
+          var w = e.offsetWidth + 10;
+          var ml = w / 2;
+          e.parentElement.style.top = "82px";
+          e.parentElement.style.left = "50%";
+          e.parentElement.style.marginLeft = -ml + "px";
+          // e.parentElement.style.width = w + "px";
+          e.parentElement.previousSibling.style.display = "none";
+          e.parentElement.parentElement.style.border = "0px";
+          e.parentElement.parentElement.style.background = "unset";
+        });
       };
     },
     // 인포윈도우를 닫는 클로저를 만드는 함수입니다
@@ -553,17 +553,43 @@ export default {
         infowindow.close();
       };
     },
+    // 배열에 추가된 마커들을 지도에 표시하거나 삭제하는 함수입니다
+    setMarkers(map, markers) {
+      for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(map);
+      }
+    },
+
+    // "마커 보이기" 버튼을 클릭하면 호출되어 배열에 추가된 마커를 지도에 표시하는 함수입니다
+    showMarkers(markers) {
+      this.setMarkers(this.map, markers);
+    },
+
+    // "마커 감추기" 버튼을 클릭하면 호출되어 배열에 추가된 마커를 지도에서 삭제하는 함수입니다
+    hideMarkers(markers) {
+      this.setMarkers(null, markers);
+    },
   },
 };
 </script>
 
-<style scoped>
+<style>
 html,
 body {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
+}
+.info-title {
+  display: block;
+  background: #50627f;
+  color: #fff;
+  text-align: center;
+  height: 24px;
+  line-height: 22px;
+  border-radius: 4px;
+  padding: 0px 10px;
 }
 .map_wrap,
 .map_wrap * {
