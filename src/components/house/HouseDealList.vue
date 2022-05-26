@@ -274,7 +274,6 @@
 <script>
 import axios from "axios";
 import BarChart from "@/components/house/BarChart.vue";
-import HouseDealListtVue from "./HouseDealListt.vue";
 export default {
   name: "HouseDealList",
   components: {
@@ -339,8 +338,6 @@ export default {
       axios
         .get("/happyhouse/user/" + this.loginId, {
           headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Content-Type": "application/json; charset = utf-8",
             Authorization: "Bearer " + localStorage.getItem("jwt"),
           },
         })
@@ -358,8 +355,8 @@ export default {
     axios
       .get("http://localhost:8080/happyhouse/house/review/" + this.$route.params.aptCode, {
         headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Content-Type": "application/json; charset = utf-8",
+          // "Access-Control-Allow-Origin": "*",
+          // "Content-Type": "application/json; charset = utf-8",
           Authorization: "Bearer " + localStorage.getItem("jwt"),
         },
       })

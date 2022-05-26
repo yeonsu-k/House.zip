@@ -10,6 +10,16 @@
           <house-search-bar v-if="selected == 'A'" :loginId="loginId" @search-apt="searchApt"></house-search-bar>
           <house-search-road v-else @search-road="searchRoad" :roadAddress="roadAddress"></house-search-road>
         </b-col>
+        <!-- <b-form-group label="건물 타입" v-slot="{ ariaDescribedby }">
+      <b-form-checkbox-group v-model="typeSelected" :options="typeOptions" :aria-describedby="ariaDescribedby" name="flavour-2a" stacked></b-form-checkbox-group>
+        </b-form-group> -->
+        <!-- {{ typeSelected }} -->
+
+        <!-- <b-form-checkbox id="checkbox-1" v-model="status" name="checkbox-1" value="accepted" unchecked-value="not_accepted"><span class="check" :class="{ on: checked }"></span> </b-form-checkbox> -->
+
+        <!-- <b-col>
+          <b-col>카테고리</b-col>
+        </b-col> -->
       </b-row>
 
       <b-row>
@@ -115,12 +125,14 @@
 import axios from "axios";
 import HouseSearchBar from "@/components/house/HouseSearchBar.vue";
 import HouseSearchRoad from "@/components/house/HouseSearchRoad.vue";
+import Checkbox from "@/components/house/Checkbox.vue";
 
 export default {
   name: "HouseAll",
   components: {
     HouseSearchBar,
     HouseSearchRoad,
+    Checkbox,
   },
   data() {
     return {
