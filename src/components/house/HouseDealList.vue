@@ -289,12 +289,16 @@ export default {
   data() {
     return {
       aptimg: [
-        "http://drive.google.com/uc?export=view&id=1my1vx8CHxesehRUfTR1ho6MOg4LvwMk5",
-        "http://drive.google.com/uc?export=view&id=13FYqvOX6ONeR2Ae2Za-sSKO8SSRHcf3W",
-        "http://drive.google.com/uc?export=view&id=1cDzzNa_NYuJv1qmv6j8PaBpSbFCDyHEz",
-        "http://drive.google.com/uc?export=view&id=1Fq70xAqcSKzibjZ1JjnPhGM7BbVP66iD",
-        "http://drive.google.com/uc?export=view&id=1FUtR0NLOBQnDMCFkAZzhnZ3NDcYr8562",
-        "http://drive.google.com/uc?export=view&id=1cZ5FdBdE2wOz1EYsBBWiVrP39rMqTDTj",
+        "http://drive.google.com/uc?export=view&id=1ZYVQv1YrtuyRcXivqkN6IVQ6_jdWJHCR",
+        "http://drive.google.com/uc?export=view&id=1Bw1hoGbyv-kMGBckYgv_PwRVJCEtKcI-",
+        "http://drive.google.com/uc?export=view&id=1GI8BindQv6G3BE3ONShQUjnYfE-3xLiC",
+        "http://drive.google.com/uc?export=view&id=1aukR4qJZUAKXr2RUrQFQnUVBa3DbmOXv",
+        "http://drive.google.com/uc?export=view&id=1GhE4xsOeI-_UceRa8A9eIxFD8pPaxj9r",
+        "http://drive.google.com/uc?export=view&id=1FMYepfQDuEL78VlxuyKmvMU4EkGEk-Kk",
+        "http://drive.google.com/uc?export=view&id=1APtOw7BuJxuVJRf3ANNSE0fbj5vtraL3",
+        "http://drive.google.com/uc?export=view&id=1PVIp2PerohL0Hauan_kZTpO2-eaYylpo",
+        "http://drive.google.com/uc?export=view&id=1ANWJOk9KEj5zKMHVa8CmYv0dhiTrT74M",
+        "http://drive.google.com/uc?export=view&id=1nuWU1FdKTqmOnmim3rmMGeLGV6YX11EV",
       ],
       status: false,
       // house: null,
@@ -461,7 +465,7 @@ export default {
 
   methods: {
     getImg(aptCode) {
-      return this.aptimg[parseInt(this.$route.params.aptCode) % 6];
+      return this.aptimg[parseInt(this.$route.params.aptCode) % 10];
     },
     interestcheck() {
       if (!this.loginId) {
