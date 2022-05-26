@@ -147,7 +147,6 @@ export default {
 #head p {
   font-weight: bold;
 }
-
 #bbtn {
   float: right;
   color: black;

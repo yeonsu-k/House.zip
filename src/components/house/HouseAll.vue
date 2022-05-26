@@ -10,12 +10,15 @@
           <house-search-bar v-if="selected == 'A'" :loginId="loginId" @search-apt="searchApt"></house-search-bar>
           <house-search-road v-else @search-road="searchRoad" :roadAddress="roadAddress"></house-search-road>
         </b-col>
+        <!-- <b-col md="1">
+          <checkbox v-model="checked" label="체크박스" />
+        </b-col> -->
 
-        <checkbox v-model="checked" label="체크박스" />
-        <b-form-group label="건물 타입" v-slot="{ ariaDescribedby }">
+        <!-- <b-form-group label="건물 타입" v-slot="{ ariaDescribedby }">
           <b-form-checkbox-group v-model="typeSelected" :options="typeOptions" :aria-describedby="ariaDescribedby" name="flavour-2a" stacked></b-form-checkbox-group>
-        </b-form-group>
-        {{ typeSelected }}
+        </b-form-group> -->
+        <!-- {{ typeSelected }} -->
+
         <!-- <b-form-checkbox id="checkbox-1" v-model="status" name="checkbox-1" value="accepted" unchecked-value="not_accepted"><span class="check" :class="{ on: checked }"></span> </b-form-checkbox> -->
 
         <!-- <b-col>
@@ -58,7 +61,7 @@
               </div>
               <div v-else>
                 <b-row>
-                  <b-col><b-alert show>주택 목록이 없습니다.</b-alert></b-col>
+                  <b-col id="alertT"><p class="p-2">주택 목록이 없습니다.</p></b-col>
                 </b-row>
               </div>
             </div>
@@ -76,7 +79,8 @@
             </ul>
             <div v-if="show" id="custom_filter">
               <div id="maker_name">
-                <b-row>
+                <checkbox v-model="checked" label="체크박스" />
+                <!-- <b-row>
                   <b-col cols="3">
                     <b-img src="http://drive.google.com/uc?export=view&id=1fTg0Xop_1pBwKNxGnEPSr2jZwu3h61Yt" right style="height: 40px"></b-img>
                   </b-col>
@@ -86,7 +90,7 @@
                 <b-row>
                   <b-col cols="3"><b-badge variant="light">아파트</b-badge></b-col> <b-col cols="3"><b-badge variant="light">다세대</b-badge></b-col>
                   <b-col cols="3"><b-badge variant="light">오피스텔</b-badge></b-col>
-                </b-row>
+                </b-row> -->
               </div>
             </div>
             <!-- <button @click="show = !show" id="custom_m">필터</button>
@@ -584,7 +588,14 @@ body {
 }
 .b-table-sticky-header {
   overflow-y: auto;
-  max-height: 75vh;
+  max-height: 70vh;
+}
+.b-table-sticky-heade::-webkit-scrollbar {
+  display: none;
+}
+#alertT {
+  background-color: lightcyan;
+  border-radius: 10px;
 }
 #table {
   position: absolute;
@@ -614,7 +625,6 @@ body {
   width: 220px;
   height: 70px;
   border-right: 1px solid #acacac;
-
   padding: 6px 0;
   text-align: center;
   cursor: pointer;

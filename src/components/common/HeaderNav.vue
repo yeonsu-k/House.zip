@@ -9,7 +9,7 @@
         <b-nav-toggle target="nav-collapse"> </b-nav-toggle>
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav class="ml-auto" small>
-            <b-nav-item to="/intro" class="mr-3">intro</b-nav-item>
+            <b-nav-item to="/intro" class="mr-3">이용안내</b-nav-item>
             <b-nav-item to="/house/all" class="mr-3">거래조회</b-nav-item>
             <b-nav-item to="/notice" class="mr-3">공지사항</b-nav-item>
             <b-nav-item to="/qna" class="mr-3">Q&A</b-nav-item>
