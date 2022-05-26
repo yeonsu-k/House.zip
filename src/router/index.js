@@ -120,20 +120,15 @@ const routes = [
         name: "HouseAll",
         component: () => import("@/components/house/HouseAll.vue"),
       },
-      {
-        path: "search",
-        name: "HouseSearchBar",
-        component: () => import("@/components/house/HouseSearchBar.vue"),
-      },
+      // {
+      //   path: "search",
+      //   name: "HouseSearchBar",
+      //   component: () => import("@/components/house/HouseSearchBar.vue"),
+      // },
       {
         path: "deallist/:aptCode",
         name: "HouseDealList",
         component: () => import("@/components/house/HouseDealList.vue"),
-      },
-      {
-        path: "dong",
-        name: "HouseDong",
-        //component: () => import("@/components/house/MovieCreate.vue"),
       },
     ],
   },

@@ -2,7 +2,7 @@
   <div id="app">
     <header-nav :loginId="loginId" :loginName="loginName" @logout="logout"></header-nav>
     <router-view :loginId="loginId" @logout="logout" @login="login"></router-view>
-    <footer-view v-if="$route.name != 'HouseAll' && $route.name != 'HouseDealList'"></footer-view>
+    <footer-view v-if="$route.name != 'house' && $route.name != 'HouseAll' && $route.name != 'HouseDealList'"></footer-view>
 
     <div
       id="frogue-container"

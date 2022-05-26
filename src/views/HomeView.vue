@@ -27,12 +27,12 @@
             <b-card header="추천매물 / 관심매물">
               <b-row v-for="(item, index) in aptinfos" :key="index" no-gutters id="cardRow">
                 <b-col md="6">
-                  <img class="rounded-0 card-img img-fluid p-1" id="cardRow" src="@/assets/img/test1.jpg" alt="Image" />
+                  <img class="rounded-0 card-img img-fluid p-1" id="cardRow" :src="getImg(item.aptCode)" alt="Image" />
                 </b-col>
                 <b-col md="6">
                   <b-card-body :title="item.aptName">
                     <b-card-text>
-                      <p>{{ item.dongName }}에 위치한 {{ item.infoType.trim() }}입니다</p>
+                      <p>{{ item.dongName }}에 위치한 {{ item.infoType.trim() }}</p>
                       <small>{{ item.buildYear }}년도에 건축되었어요</small><br />
                       <small> 현재 {{ item.total }}개의 매물이 있는데, <br />보러 가실래요?</small>
                       <b-link :to="{ name: 'HouseDealList', params: { aptCode: item.aptCode } }">보러가기</b-link>
@@ -100,6 +100,18 @@ export default {
       lat: 37.541,
       lng: 126.986,
       aptinfos: [],
+      aptimg: [
+        "http://drive.google.com/uc?export=view&id=1ZYVQv1YrtuyRcXivqkN6IVQ6_jdWJHCR",
+        "http://drive.google.com/uc?export=view&id=1Bw1hoGbyv-kMGBckYgv_PwRVJCEtKcI-",
+        "http://drive.google.com/uc?export=view&id=1GI8BindQv6G3BE3ONShQUjnYfE-3xLiC",
+        "http://drive.google.com/uc?export=view&id=1aukR4qJZUAKXr2RUrQFQnUVBa3DbmOXv",
+        "http://drive.google.com/uc?export=view&id=1GhE4xsOeI-_UceRa8A9eIxFD8pPaxj9r",
+        "http://drive.google.com/uc?export=view&id=1FMYepfQDuEL78VlxuyKmvMU4EkGEk-Kk",
+        "http://drive.google.com/uc?export=view&id=1APtOw7BuJxuVJRf3ANNSE0fbj5vtraL3",
+        "http://drive.google.com/uc?export=view&id=1PVIp2PerohL0Hauan_kZTpO2-eaYylpo",
+        "http://drive.google.com/uc?export=view&id=1ANWJOk9KEj5zKMHVa8CmYv0dhiTrT74M",
+        "http://drive.google.com/uc?export=view&id=1nuWU1FdKTqmOnmim3rmMGeLGV6YX11EV",
+      ],
     };
   },
   created() {
@@ -174,6 +186,10 @@ export default {
       });
   },
   methods: {
+    getImg(aptCode) {
+      console.log(parseInt(aptCode));
+      return this.aptimg[parseInt(aptCode) % 10];
+    },
     goNoticeD(no) {
       if (no) {
         this.$router.push({ name: "NoticeDetail", params: { no: no } });

@@ -150,7 +150,8 @@
           </b-button>
           <b-collapse id="accordion-3" v-model="collapseStatesChart">
             <div v-if="deals.length">
-              <template v-for="item in dataSetsKey">
+              <BarChart :dongcode="this.deals[0].dongCode" :avgdeal="this.avgdeal" :aptName="deals[0].aptName" />
+              <!-- <template v-for="item in dataSetsKey">
                 <label :for="`check_${item.index}`" :key="item.label" :style="`color: ${item.color}; margin: 8px;`"
                   ><input :id="`check_${item.index}`" type="checkbox" v-model="filterItem" :value="item.index" />{{ item.label }}</label
                 >
@@ -167,7 +168,7 @@
                   },
                 }"
                 v-if="collapseStatesChart"
-              />
+              /> -->
 
               <b-tabs card>
                 <b-tab no-body title="매매">
@@ -279,14 +280,12 @@
         </div>
       </div>
     </div>
-
-    <!-- <div class="mb-4" id="map" style="height: 85vh"></div> -->
-    <!-- <div id="map" style="display: flex; width: 100%; height: 85vh; padding-left: 0px; padding-right: 0px"></div> -->
   </div>
 </template>
 <script>
 import axios from "axios";
-import BarChart from "@/components/house/BarChart.vue";
+import BarChart from "@/components/house/Bar.vue";
+
 export default {
   name: "HouseDealList",
   components: {
@@ -317,7 +316,7 @@ export default {
       dealsw: [],
       dealsm: [],
       interest: [],
-      collapseStates: [false, false],
+      collapseStates: [false, true],
       collapseStatesChart: true,
       name: "",
       nameState: null,
@@ -340,6 +339,8 @@ export default {
       review_content: "",
       user: [{ review: false }],
       totalavg: 0,
+      avgs: [],
+      avgdeal: [],
     };
   },
 
@@ -398,24 +399,35 @@ export default {
       });
 
     axios
-      .post("http://localhost:8080/happyhouse/house/apt/", {
+      .post("/happyhouse/house/apt/", {
         aptCode: this.$route.params.aptCode,
       })
-
       .then(({ data }) => {
         this.deals = data;
+        console.log(this.deals);
         this.dealsm = [];
         this.dealsw = [];
         this.dealsj = [];
-
+        let dealsm_n = 0;
+        let dealsw_n = 0;
+        let dealsj_n = 0;
         this.deals.forEach((element) => {
           if (element.dealType.trim() == "매매") {
             this.dealsm.push(element);
+            dealsm_n += parseInt(element.dealAmount);
           } else if (element.dealType.trim() == "월세") {
             this.dealsw.push(element);
+            dealsw_n += parseInt(element.rentMoney);
           } else {
             this.dealsj.push(element);
+            dealsj_n += parseInt(element.rentMoney);
           }
+          // console.log("dealsm_n: " + dealsm_n + " " + this.dealsm.length);
+          if (0 < this.dealsm.length) dealsm_n = dealsm_n / this.dealsm.length;
+          if (0 < this.dealsw.length) dealsw_n = dealsw_n / this.dealsw.length;
+          if (0 < this.dealsj.length) dealsj_n = dealsj_n / this.dealsj.length;
+
+          this.avgdeal = [dealsm_n, dealsw_n, dealsj_n];
         });
         let intedeals = JSON.parse(sessionStorage.getItem(this.loginId + "_intedeal"));
         if (intedeals) {
@@ -428,14 +440,6 @@ export default {
           });
         }
 
-        // for (let j = 0; j < this.checkdeals.length; j++) {
-        //   for (let i = 0; i < this.deals.length; i++) {
-        //     if (this.checkdeals[j] == this.deals[i].no) {
-        //       this.deals[i].inter = true;
-        //     }
-        //   }
-        // }
-
         if (window.kakao && window.kakao.maps) {
           this.initMap();
           // this.displayMarker();
@@ -447,8 +451,6 @@ export default {
           document.head.appendChild(script);
           // this.displayMarker();
         }
-        this.fillData();
-        this.filterItem = this.datacollection.datasets.map((_s, i) => i);
       });
 
     // console.log(this.loginUser);
@@ -471,7 +473,6 @@ export default {
       }));
     },
   },
-
   methods: {
     getImg(aptCode) {
       return this.aptimg[parseInt(this.$route.params.aptCode) % 10];
@@ -510,6 +511,8 @@ export default {
       }
     },
     replaceMoney(money) {
+      if (!money) money = 0;
+      money = parseInt(money);
       let lm = parseInt(money / 10000) + "";
       let rm = (money % 10000) + "";
 
@@ -526,6 +529,9 @@ export default {
     //     .filter((s) => s >= 0);
     // },
     fillData() {
+      console.log(this.avgs);
+      console.log(parseInt(this.avgs.all[0].dealAmount));
+      console.log(parseInt(this.avgs.sido[0].dealAmount));
       this.datacollection = {
         labels: ["매매", "전세", "월세"],
         datasets: [
@@ -534,14 +540,28 @@ export default {
             // backgroundColor: "#4cc36b",
             backgroundColor: "rgba(0, 0, 255, 0.8)",
             // dataCategory: "vegetable",
-            data: [14000, 1000, 5000],
+            data: [parseInt(this.avgs.all[0].dealAmount), parseInt(this.avgs.all[1].rentMoney), parseInt(this.avgs.all[2].rentMoney)],
           },
           {
-            label: "서울시",
+            label: "시도",
             // backgroundColor: "#456dfe",
             // dataCategory: "vegetable",
             backgroundColor: "rgba(0, 255,0, 0.8)",
-            data: [23000, 8000, 5000],
+            data: [parseInt(this.avgs.sido[0].dealAmount), parseInt(this.avgs.sido[1].rentMoney), parseInt(this.avgs.sido[2].rentMoney)],
+          },
+          {
+            label: "구군",
+            // backgroundColor: "#456dfe",
+            // dataCategory: "vegetable",
+            backgroundColor: "rgba(0, 255,0, 0.8)",
+            data: [parseInt(this.avgs.gugun[0].dealAmount), parseInt(this.avgs.gugun[1].rentMoney), parseInt(this.avgs.gugun[2].rentMoney)],
+          },
+          {
+            label: "동",
+            // backgroundColor: "#456dfe",
+            // dataCategory: "vegetable",
+            backgroundColor: "rgba(0, 255,0, 0.8)",
+            data: [parseInt(this.avgs.dong[0].dealAmount), parseInt(this.avgs.dong[1].rentMoney), parseInt(this.avgs.dong[2].rentMoney)],
           },
           {
             label: "스테이 더 디자이너스",
@@ -630,19 +650,6 @@ export default {
         .then(({ data }) => {
           alert("리뷰가 등록되었습니다.");
           this.$router.go();
-          // this.reviews = data;
-
-          // for (let i = 0; i < this.reviews.length; i++) {
-          //   this.reviews[i].avg = (this.reviews[i].commute + this.reviews[i].park + this.reviews[i].noise + this.reviews[i].facilities) / 4;
-          //   this.totalavg = this.totalavg + this.reviews[i].avg;
-          // }
-          // this.totalavg = this.totalavg / this.reviews.length;
-          // this.user = data;
-          // console.log(this.user);
-          // const cate = document.getElementById("category");
-          // this.user.category.split(",").forEach((element) => {
-          //   cate.children[parseInt(element)].style.display = "block";
-          // });
         });
 
       // Hide the modal manually
@@ -650,12 +657,7 @@ export default {
         this.$bvModal.hide("modal-prevent-closing");
       });
     },
-    // expandAll() {
-    //   this.collapseStates = this.collapseStates.map((x) => true);
-    // },
-    // collapseAll() {
-    //   this.collapseStates = this.collapseStates.map((x) => false);
-    // },
+
     interestC(deal) {
       if (deal.infer) {
         let intedeals = JSON.parse(sessionStorage.getItem(this.loginId + "_intedeal"));
@@ -666,10 +668,10 @@ export default {
         let de = { aptno: this.$route.params.aptCode, dealno: deal.no };
         intedeals.push({ ...de });
         // deal.inter = false;
-        console.log(deal);
-        console.log(deal.inter);
+        // console.log(deal);
+        // console.log(deal.inter);
         deal.inter = !deal.inter;
-        console.log(deal.inter);
+        // console.log(deal.inter);
 
         // console.log(this.deals[index]);
 
@@ -701,7 +703,7 @@ export default {
               // console.log(this.deals[index]);
               deal.inter = false;
               alert("삭제 완료");
-              console.log(deal);
+              // console.log(deal);
 
               // console.log(this.deals[index]);
               break;
@@ -723,10 +725,10 @@ export default {
         let de = { aptno: this.$route.params.aptCode, dealno: deal.no };
         intedeals.push({ ...de });
         // deal.inter = false;
-        console.log(deal);
-        console.log(deal.inter);
+        // console.log(deal);
+        // console.log(deal.inter);
         deal.inter = !deal.inter;
-        console.log(deal.inter);
+        // console.log(deal.inter);
 
         // console.log(this.deals[index]);
 
