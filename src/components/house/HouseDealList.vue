@@ -414,21 +414,23 @@ export default {
         this.deals.forEach((element) => {
           if (element.dealType.trim() == "매매") {
             this.dealsm.push(element);
-            dealsm_n += parseInt(element.dealAmount);
+            dealsm_n += parseInt(element.dealAmount.trim());
           } else if (element.dealType.trim() == "월세") {
             this.dealsw.push(element);
-            dealsw_n += parseInt(element.rentMoney);
+            console.log(element.rentMoney.trim());
+            dealsw_n += parseInt(element.rentMoney.trim());
           } else {
             this.dealsj.push(element);
-            dealsj_n += parseInt(element.rentMoney);
+            dealsj_n += parseInt(element.rentMoney.trim());
           }
-          // console.log("dealsm_n: " + dealsm_n + " " + this.dealsm.length);
-          if (0 < this.dealsm.length) dealsm_n = dealsm_n / this.dealsm.length;
-          if (0 < this.dealsw.length) dealsw_n = dealsw_n / this.dealsw.length;
-          if (0 < this.dealsj.length) dealsj_n = dealsj_n / this.dealsj.length;
-
-          this.avgdeal = [dealsm_n, dealsw_n, dealsj_n];
         });
+
+        if (0 < this.dealsm.length) dealsm_n = dealsm_n / this.dealsm.length;
+        if (0 < this.dealsw.length) dealsw_n = dealsw_n / this.dealsw.length;
+        if (0 < this.dealsj.length) dealsj_n = dealsj_n / this.dealsj.length;
+
+        this.avgdeal = [dealsm_n, dealsw_n, dealsj_n];
+
         let intedeals = JSON.parse(sessionStorage.getItem(this.loginId + "_intedeal"));
         if (intedeals) {
           intedeals.forEach((intedeal) => {
@@ -520,59 +522,7 @@ export default {
       else if (lm != "0") return lm + "억";
       else return rm + "만원";
     },
-    // filterByCategory(category) {
-    //   this.filterItem = this.datacollection.datasets
-    //     .map((s, i) => {
-    //       if (s.dataCategory === category) return i;
-    //       return -1;
-    //     })
-    //     .filter((s) => s >= 0);
-    // },
-    fillData() {
-      console.log(this.avgs);
-      console.log(parseInt(this.avgs.all[0].dealAmount));
-      console.log(parseInt(this.avgs.sido[0].dealAmount));
-      this.datacollection = {
-        labels: ["매매", "전세", "월세"],
-        datasets: [
-          {
-            label: "전국",
-            // backgroundColor: "#4cc36b",
-            backgroundColor: "rgba(0, 0, 255, 0.8)",
-            // dataCategory: "vegetable",
-            data: [parseInt(this.avgs.all[0].dealAmount), parseInt(this.avgs.all[1].rentMoney), parseInt(this.avgs.all[2].rentMoney)],
-          },
-          {
-            label: "시도",
-            // backgroundColor: "#456dfe",
-            // dataCategory: "vegetable",
-            backgroundColor: "rgba(0, 255,0, 0.8)",
-            data: [parseInt(this.avgs.sido[0].dealAmount), parseInt(this.avgs.sido[1].rentMoney), parseInt(this.avgs.sido[2].rentMoney)],
-          },
-          {
-            label: "구군",
-            // backgroundColor: "#456dfe",
-            // dataCategory: "vegetable",
-            backgroundColor: "rgba(0, 255,0, 0.8)",
-            data: [parseInt(this.avgs.gugun[0].dealAmount), parseInt(this.avgs.gugun[1].rentMoney), parseInt(this.avgs.gugun[2].rentMoney)],
-          },
-          {
-            label: "동",
-            // backgroundColor: "#456dfe",
-            // dataCategory: "vegetable",
-            backgroundColor: "rgba(0, 255,0, 0.8)",
-            data: [parseInt(this.avgs.dong[0].dealAmount), parseInt(this.avgs.dong[1].rentMoney), parseInt(this.avgs.dong[2].rentMoney)],
-          },
-          {
-            label: "스테이 더 디자이너스",
-            // backgroundColor: "#f44b81",
-            // dataCategory: "fruit",
-            backgroundColor: "rgba(255, 0, 0, 0.8)",
-            data: [10000, 3000, 6000],
-          },
-        ],
-      };
-    },
+
     showMsgBoxTwo() {
       // this.boxTwo = "";
       this.$bvModal
