@@ -25,47 +25,17 @@
           <!-- 추천매물/ 관심매물 -->
           <b-card-group deck>
             <b-card header="추천매물 / 관심매물">
-              <b-row no-gutters id="cardRow">
+              <b-row v-for="(item, index) in aptinfos" :key="index" no-gutters id="cardRow">
                 <b-col md="6">
                   <img class="rounded-0 card-img img-fluid p-1" id="cardRow" src="@/assets/img/test1.jpg" alt="Image" />
                 </b-col>
                 <b-col md="6">
-                  <b-card-body title="연립다세대">
+                  <b-card-body :title="item.aptName">
                     <b-card-text>
-                      <br />
-                      <p>주변 매물보다 2%저렴한 편!</p>
-                      <br />
-                      <small> 가까운 지하철역이 5분거리 내에 있어요!</small>
-                    </b-card-text>
-                  </b-card-body>
-                </b-col>
-              </b-row>
-              <b-row no-gutters id="cardRow">
-                <b-col md="6">
-                  <img class="card-img img-fluid p-1" id="cardRow" src="@/assets/img/test3.jpg" alt="Image" />
-                </b-col>
-                <b-col md="6">
-                  <b-card-body title="아파트">
-                    <b-card-text>
-                      <br />
-                      <p>단지내 이용시설이 다양해요!</p>
-                      <br />
-                      <small>주변 마트 3분거리!</small>
-                    </b-card-text>
-                  </b-card-body>
-                </b-col>
-              </b-row>
-              <b-row no-gutters id="cardRow">
-                <b-col md="6">
-                  <img class="card-img img-fluid p-1" id="cardRow" src="@/assets/img/test2.jpg" alt="Image" />
-                </b-col>
-                <b-col md="6">
-                  <b-card-body title="오피스텔">
-                    <b-card-text>
-                      <br />
-                      <p>신축 건물이예요!</p>
-                      <br />
-                      <small>역세권 11분! 강남역까지 차로 30분 거리</small>
+                      <p>{{ item.dongName }}에 위치한 {{ item.infoType.trim() }}입니다</p>
+                      <small>{{ item.buildYear }}년도에 건축되었어요</small><br />
+                      <small> 현재 {{ item.total }}개의 매물이 있는데, <br />보러 가실래요?</small>
+                      <b-link :to="{ name: 'HouseDealList', params: { aptCode: item.aptCode } }">보러가기</b-link>
                     </b-card-text>
                   </b-card-body>
                 </b-col>
@@ -117,7 +87,7 @@ import axios from "axios";
 export default {
   name: "HomeView",
   props: {
-    user: null,
+    loginId: null,
   },
   data() {
     return {
@@ -127,14 +97,72 @@ export default {
       notices: {
         type: Array,
       },
-      //     loginUser: "",
-      //     isManager: "",
+      lat: 37.541,
+      lng: 126.986,
+      aptinfos: [],
     };
   },
   created() {
+    // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
+    if (navigator.geolocation) {
+      // GeoLocation을 이용해서 접속 위치를 얻어옵니다
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.lat = position.coords.latitude; // 위도
+        this.lng = position.coords.longitude; // 경도
+        console.log(this.lat);
+        console.log(this.lng);
+      });
+    }
+    if (this.loginId) {
+      this.intedeals = JSON.parse(sessionStorage.getItem(this.loginId + "_intedeal"));
+      if (this.intedeals && this.intedeals.length) {
+        // intedeals = [];
+        let arr = [];
+        for (let i = 0; i < this.intedeals.length && i < 3; i++) {
+          arr[i] = this.intedeals[i].aptno;
+        }
+        axios
+          .post(
+            "http://localhost:8080/happyhouse/house/interest",
+            {
+              aptCode: arr,
+            },
+            {
+              headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Content-Type": "application/json; charset = utf-8",
+                Authorization: "Bearer " + localStorage.getItem("jwt"),
+              },
+            }
+          )
+          .then(({ data }) => {
+            this.aptinfos = [];
+            if (data) {
+              for (let i = 0; i < 3 && i < data.length; i++) {
+                this.aptinfos.push(data[i]);
+              }
+            }
+
+            if (this.aptinfos.length < 3) {
+              this.check();
+            }
+            console.log(this.aptinfos);
+          })
+          .catch(({ error }) => {
+            alert("조회 중 문제가 생겼습니다. 다시 로그인 해주세요");
+            this.$emit("logout");
+          });
+      } else {
+        this.check();
+      }
+    } else {
+      this.check();
+    }
+
     axios.get("http://localhost:8080/happyhouse/crawling/").then(({ data }) => {
       this.newslist = data;
     });
+
     axios
       .get("http://localhost:8080/happyhouse/notice/", { params: { sortCal: "regtime", sortVal: "desc", limit: 5, offset: 0 } })
       .then(({ data }) => {
@@ -144,19 +172,29 @@ export default {
         alert("처리 중 문제가 생겼습니다. 다시 로그인 해주세요");
         this.$emit("logout");
       });
-    // if (this.user) {
-    //   this.loginUser = this.user.id;
-    //   this.isManager = this.user.manager;
-    // } else {
-    //   this.loginUser = null;
-    //   this.isManager = null;
-    // }
   },
   methods: {
     goNoticeD(no) {
       if (no) {
         this.$router.push({ name: "NoticeDetail", params: { no: no } });
       }
+    },
+    check() {
+      axios
+        .post("http://localhost:8080/happyhouse/house/dist", {
+          lat: this.lat,
+          lng: this.lng,
+          dist: 7,
+        })
+        .then(({ data }) => {
+          if (data) {
+            for (let i = 0; i < 3 && i < data.length; i++) {
+              this.aptinfos.push(data[i]);
+              if (this.aptinfos.length == 3) break;
+            }
+          }
+        })
+        .catch(({ error }) => {});
     },
   },
 };

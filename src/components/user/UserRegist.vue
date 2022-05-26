@@ -6,7 +6,7 @@
           <h2>회원 가입</h2>
           <hr />
           <div role="group" class="mt-2">
-            <label for="input-id">아이디</label>
+            <label for="input-id">아이디</label><button class="btn" style="background-color: #ece6cc" @click="checkid">중복확인</button>
             <b-form-input id="input-id" size="sm" v-model="id" :state="idState" placeholder="Enter at least 4 letters" trim></b-form-input>
             <b-form-invalid-feedback id="input-live-feedback-password"> Enter at least 4 letters </b-form-invalid-feedback>
           </div>
@@ -71,6 +71,7 @@ export default {
   },
   data() {
     return {
+      idchecked: false,
       id: "",
       password: "",
       pwdcheck: "",
@@ -101,9 +102,36 @@ export default {
     this.getSido();
   },
   methods: {
+    checkid() {
+      if (this.id === "") {
+        alert("ID를 입력해주세요");
+        return;
+      }
+      axios
+        .get("/happyhouse/checked/" + this.id)
+        .then(({ data }) => {
+          let msg = "중복입니다!";
+          if (data == 1) {
+            msg = "사용가능한 ID입니다";
+            document.getElementById("input-id").readOnly = true;
+            this.idchecked = true;
+          }
+          alert(msg);
+        })
+        .catch(({ error }) => {});
+    },
     regist() {
-      if (this.id === "" || this.password === "" || this.pwdcheck === "" || this.name === "" || this.email === "" || this.tel === "") {
+      if (!this.idchecked) {
+        alert("ID 중복검사를 해주세요");
+        return;
+      }
+      if (this.password === "" || this.pwdcheck === "" || this.name === "" || this.email === "" || this.tel === "") {
         alert("모든 내용을 입력해주세요");
+        return;
+      }
+      var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+      if (!re.test(this.email)) {
+        alert("이메일 형식이 올바르지 않습니다.");
         return;
       }
       let category = "";
