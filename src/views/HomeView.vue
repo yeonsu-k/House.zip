@@ -100,10 +100,6 @@
                         <div class="font-weight-bold">{{ news.title }}</div>
                         <small class="text-muted">{{ news.time }}</small>
                       </div>
-                      <!-- <div class="mb-1 mt-2">
-                        {{ news.content }}
-                      </div>
-                      <small class="text-muted">뉴스 기사로 이동하기</small> -->
                     </b-list-group-item>
                   </b-list-group>
                 </b-card>
