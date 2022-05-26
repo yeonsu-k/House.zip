@@ -1017,16 +1017,16 @@ body {
   margin: 0;
   padding: 0;
 }
-/* .infoView {
+.infoView {
   height: 75vh;
   overflow: auto;
   background-color: white;
   align-self: center;
-} 
+}
 .infoView::-webkit-scrollbar {
   display: none;
 }
-*/
+
 .map_wrap,
 .map_wrap * {
   margin: 0;
