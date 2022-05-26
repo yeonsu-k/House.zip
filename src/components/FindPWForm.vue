@@ -11,38 +11,60 @@
               <b-input class="form-control mb-3" id="id" v-model="id" type="text" />
             </div>
             <div class="form-floating">
-              <label for="password">이름</label>
-              <b-input class="form-control mb-3" id="password" v-model="password" name="userpwd" type="password" autocomplete="on" />
+              <label for="name">이름</label>
+              <b-input class="form-control mb-3" id="name" v-model="name" type="text" />
             </div>
             <div class="form-floating">
-              <label for="password">이메일</label>
-              <b-input class="form-control mb-3" id="password" v-model="password" name="userpwd" type="password" autocomplete="on" />
+              <label for="email">이메일</label>
+              <b-input class="form-control mb-3" id="email" v-model="email" type="text" />
             </div>
           </form>
           <!-- Login Button-->
           <!-- 버튼색 추천 :  #ece6cc , #637DB0 , #48608a , #506e80 -->
-          <button class="btn mb-3" style="background-color: #ece6cc; width: 100%" @click="login">로그인</button>
+          <button class="btn mb-3" style="background-color: #ece6cc; width: 100%" @click="find">비밀번호 찾기</button>
         </b-col>
       </b-row>
     </b-container>
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "LoginForm",
   data() {
     return {
       id: "",
-      password: "",
+      name: "",
+      email: "",
     };
   },
   methods: {
-    login() {
-      let user = {
-        id: this.id,
-        password: this.password,
-      };
-      this.$emit("login", user);
+    find() {
+      axios
+        .put(
+          "/happyhouse/findpwd/",
+          {
+            id: this.id,
+            name: this.name,
+            email: this.email,
+          },
+          {
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+              "Content-Type": "application/json; charset = utf-8",
+              Authorization: "Bearer " + localStorage.getItem("jwt"),
+            },
+          }
+        )
+        .then(({ data }) => {
+          let msg = "일치하는 정보가 없습니다.";
+          if (data == 1) {
+            msg = "비밀번호가 1234@로 초기화되었습니다.\n개인정보 보호를 위해 비밀번호를 수정해주세요! ";
+          }
+          alert(msg);
+          this.$router.push({ name: "Home" });
+        })
+        .catch(({ error }) => {});
     },
   },
 };
