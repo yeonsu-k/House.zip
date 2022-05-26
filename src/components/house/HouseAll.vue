@@ -60,7 +60,7 @@
               <li id="CE7" data-order="9" style="display: none">카페</li>
             </ul>
             <div v-if="show" id="custom_filter">
-              <div id="maker_name">
+              <div id="c">
                 <check-box @chang-aptmark="changAptmark" />
               </div>
             </div>
@@ -635,7 +635,7 @@ body {
 #table {
   position: absolute;
   top: 50px;
-  min-width: 450px;
+  min-width: 400px;
   left: 10px;
   border-radius: 5px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
@@ -647,7 +647,7 @@ body {
 
 #custom_filter {
   position: absolute;
-  bottom: 20px;
+  top: 20px;
   right: 20px;
   border-radius: 5px;
   /* border: 1px solid #909090; */
@@ -657,10 +657,10 @@ body {
   z-index: 2;
   float: left;
   list-style: none;
-  width: 195px;
+  width: 200px;
   height: 70px;
   border-right: 1px solid #acacac;
-  padding: 7px 0;
+  padding-top: 6px;
   text-align: center;
   cursor: pointer;
 }

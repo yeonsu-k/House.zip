@@ -1,7 +1,7 @@
 <template>
-  <div class="ml-2">
+  <div>
     <div class="map_wrap">
-      <div id="map" style="max-width: 100vw; min-height: 83vh; relative; overflow: hidden"></div>
+      <div id="map" style="max-width: 100vw; min-height: 91vh; relative; overflow: hidden"></div>
       <ul id="category">
         <li id="SW8" data-order="0" style="display: none">지하철역</li>
         <li id="HP8" data-order="1" style="display: none">병원</li>
@@ -15,17 +15,18 @@
         <li id="CE7" data-order="9" style="display: none">카페</li>
       </ul>
       <div id="detail_info" class="infoView">
-        <div>
-          <div v-if="deals.length" style="font-size: 30px">
+        <div v-if="deals.length">
+          <span style="font-size: 30px">
             {{ deals[0].aptName }}
-            <b-button variant="outline-danger" @click="interestcheck()" style="border: none; outline: none">
-              <b-icon v-if="intereststatus" icon="heart-fill" />
-              <b-icon v-else icon="heart" />
-            </b-button>
-          </div>
+            <span @click="interestcheck()" class="align-middle">
+              <img v-if="intereststatus" src="@/assets/img/heart-fill.svg" />
+              <img v-else src="@/assets/img/heart.svg" />
+            </span>
+          </span>
         </div>
+
         <hr style="border-top: 2px dashed #bcbcbc" />
-        <b-img :src="getImg()"></b-img>
+        <b-img :src="getImg()" style="max-height: 250px; min-width: 100%; overflow: hidden" />
         <div>
           <b-button block v-b-toggle.accordion-1 class="mt-2">
             <div>평점 <b-icon v-if="collapseStates[0]" icon="chevron-down" /><b-icon v-else icon="chevron-up" /></div>
@@ -89,44 +90,51 @@
                 v-on:close="showModal = false"
               >
                 <form ref="form" @submit.stop.prevent="handleSubmit">
-                  <div>
-                    <label for="rating-inline">거주기간: </label>
-                    <b-form-input v-model="review_time" min="1" type="number" id="rating-inline" inline></b-form-input>
-                    <br /><small>몇년동안 거주하셨나요?</small>
-                  </div>
-                  <div>
-                    <label for="rating-inline">출퇴근길: </label>
-                    <b-form-rating v-model="review_commute" show-value show-value-max id="rating-inline" inline></b-form-rating>
-                    <br /><small>대중교통이 다양하거나, 출퇴근 시간에 도로가 덜 밀리나요?</small>
-                  </div>
+                  <b-container fluid>
+                    <div class="mb-2">
+                      <label for="rating-inline" class="mr-3">거주기간 : </label>
+                      <b-form-input v-model="review_time" min="1" type="number" id="rating-inline" inline></b-form-input>
+                      <small>몇년동안 거주하셨나요?</small>
+                    </div>
 
-                  <div>
-                    <label for="rating-inline">주차공간: </label>
-                    <b-form-rating v-model="review_park" show-value show-value-max id="rating-inline" inline value="3"></b-form-rating>
-                    <br /><small>주차 공간이 많거나, 넓은 가요?</small>
-                  </div>
+                    <div class="mb-1">
+                      <label for="rating-inline" class="mr-3">출퇴근길 : </label>
+                      <b-form-rating v-model="review_commute" show-value show-value-max id="rating-inline" inline></b-form-rating>
+                      <br /><small>대중교통이 다양하거나, 출퇴근 시간에 도로가 덜 밀리나요?</small>
+                    </div>
 
-                  <div>
-                    <label for="rating-inline">방음정도: </label>
-                    <b-form-rating v-model="review_noise" show-value show-value-max id="rating-inline" inline value="3"></b-form-rating>
-                    <br /><small>퇴근이나 주말에 소음없이 편안하게 휴식을 즐기시나요?</small>
-                  </div>
+                    <div class="mb-1">
+                      <label for="rating-inline" class="mr-3">주차공간 : </label>
+                      <b-form-rating v-model="review_park" show-value show-value-max id="rating-inline" inline value="3"></b-form-rating>
+                      <br /><small>주차 공간이 많거나, 넓은 가요?</small>
+                    </div>
 
-                  <div>
-                    <label for="rating-inline">이용시설: </label>
-                    <b-form-rating v-model="review_facilities" show-value show-value-max id="rating-inline" inline value="3"></b-form-rating>
-                    <br /><small>주변에 취미를 가질 수 있는 다양한 시설이 있나요?</small>
-                  </div>
-                  <b-form-group label="거주하는 건물에 대한 이야기를 해주세요!(70자 이상 200자 이하)" label-for="name-input" invalid-feedback="70자이상 작성해주세요" :state="nameState">
-                    <b-form-textarea rows="7" id="name-input" v-model="review_content" :state="nameState" required minlength="70" maxlength="200" size="8"></b-form-textarea>
-                  </b-form-group>
+                    <div class="mb-1">
+                      <label for="rating-inline" class="mr-3">방음정도 : </label>
+                      <b-form-rating v-model="review_noise" show-value show-value-max id="rating-inline" inline value="3"></b-form-rating>
+                      <br /><small>퇴근이나 주말에 소음없이 편안하게 휴식을 즐기시나요?</small>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="rating-inline" class="mr-3">이용시설 : </label>
+                      <b-form-rating v-model="review_facilities" show-value show-value-max id="rating-inline" inline value="3"></b-form-rating>
+                      <br /><small>주변에 취미를 가질 수 있는 다양한 시설이 있나요?</small>
+                    </div>
+                    <b-form-group label="거주하는 건물에 대한 이야기를 해주세요!(50자 이상 200자 이하)" label-for="name-input" invalid-feedback="70자이상 작성해주세요" :state="nameState">
+                      <b-form-textarea rows="7" id="name-input" v-model="review_content" :state="nameState" required minlength="50" maxlength="200" size="6"></b-form-textarea>
+                    </b-form-group>
+                  </b-container>
                 </form>
               </b-modal>
             </div>
           </b-collapse>
 
           <b-button block v-b-toggle.accordion-2 class="mt-2">
-            <div>로드뷰 <b-icon v-if="collapseStates[1]" icon="chevron-down" /><b-icon v-else icon="chevron-up" /></div>
+            <div>
+              로드뷰
+              <b-icon v-if="collapseStates[1]" icon="chevron-down" />
+              <b-icon v-else icon="chevron-up" />
+            </div>
           </b-button>
           <b-collapse id="accordion-2" v-model="collapseStates[1]">
             <div id="roadview" style="width: 100%; height: 300px"></div>
@@ -189,7 +197,7 @@
                   </div>
                   <div v-else>
                     <b-row>
-                      <b-col><b-alert show>매매 실거래기록이 없습니다.</b-alert></b-col>
+                      <b-col id="alertT"><p class="p-2">매매 실거래기록이 없습니다.</p></b-col>
                     </b-row>
                   </div>
                 </b-tab>
@@ -1002,16 +1010,23 @@ export default {
 </script>
 
 <style>
-.infoView {
-  height: 85vh;
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+/* .infoView {
+  height: 75vh;
   overflow: auto;
   background-color: white;
   align-self: center;
-}
+} 
 .infoView::-webkit-scrollbar {
   display: none;
 }
-
+*/
 .map_wrap,
 .map_wrap * {
   margin: 0;
@@ -1023,6 +1038,9 @@ export default {
   width: 100%;
 }
 #detail_info {
+  height: 83vh;
+  background-color: white;
+  align-self: center;
   position: absolute;
   top: 50px;
   left: 10px;
@@ -1033,7 +1051,7 @@ export default {
   z-index: 2;
   list-style: none;
   width: 450px;
-  padding: 6px 0;
+  padding: 6px;
   text-align: center;
   cursor: pointer;
 }
@@ -1079,6 +1097,15 @@ export default {
   margin: 0 auto 3px;
   width: 27px;
   height: 28px;
+}
+#alertT {
+  background-color: lightcyan;
+  border-radius: 10px;
+}
+label > img {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
 }
 .placeinfo_wrap {
   position: absolute;

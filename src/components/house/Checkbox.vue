@@ -1,15 +1,15 @@
 <template>
   <div>
     <b-row class="input-group">
-      <b-col cols="3" class="mr-3">
+      <b-col cols="3" class="mr-2">
         <input type="checkbox" id="box1" v-model="status" value="아파트" />
         <label for="box1"></label>
       </b-col>
-      <b-col cols="3" class="mr-3">
+      <b-col cols="3" class="mr-2">
         <input type="checkbox" id="box2" v-model="status" value="연립다세대" />
         <label for="box2"> </label>
       </b-col>
-      <b-col cols="3" class="mr-3">
+      <b-col cols="3" class="mr-2">
         <input type="checkbox" id="box3" v-model="status" value="오피스텔" />
         <label for="box3"></label>
       </b-col>
