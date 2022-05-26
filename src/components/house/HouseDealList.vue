@@ -329,14 +329,7 @@ export default {
       totalavg: 0,
     };
   },
-  // watch: {
-  //   // intereststatus() {
-  //   //   console.log("바뀜!!");
-  //   // },
-  //   review_commute() {
-  //     console.log("바뀜!!");
-  //   },
-  // },
+
   created() {
     if (this.loginId) {
       axios
@@ -353,6 +346,10 @@ export default {
           this.user.category.split(",").forEach((element) => {
             cate.children[parseInt(element)].style.display = "block";
           });
+        })
+        .catch(({ error }) => {
+          alert("처리 중 문제가 생겼습니다. 다시 로그인 해주세요");
+          this.$emit("logout");
         });
     }
 
@@ -366,18 +363,25 @@ export default {
       })
       .then(({ data }) => {
         this.reviews = data;
-
-        for (let i = 0; i < this.reviews.length; i++) {
-          this.reviews[i].avg = (this.reviews[i].commute + this.reviews[i].park + this.reviews[i].noise + this.reviews[i].facilities) / 4;
-          this.totalavg = this.totalavg + this.reviews[i].avg;
+        if (this.reviews) {
+          for (let i = 0; i < this.reviews.length; i++) {
+            this.reviews[i].avg = (this.reviews[i].commute + this.reviews[i].park + this.reviews[i].noise + this.reviews[i].facilities) / 4;
+            this.totalavg = this.totalavg + this.reviews[i].avg;
+          }
+          this.totalavg = this.totalavg / this.reviews.length;
+          // this.user = data;
+          // console.log(this.user);
+          // const cate = document.getElementById("category");
+          // this.user.category.split(",").forEach((element) => {
+          //   cate.children[parseInt(element)].style.display = "block";
+          // });
         }
-        this.totalavg = this.totalavg / this.reviews.length;
-        // this.user = data;
-        // console.log(this.user);
-        // const cate = document.getElementById("category");
-        // this.user.category.split(",").forEach((element) => {
-        //   cate.children[parseInt(element)].style.display = "block";
-        // });
+      })
+      .catch(({ error }) => {
+        let msg = "등록 처리시 문제가 발생했습니다.";
+
+        alert(msg);
+        this.$router.push({ name: "Home" });
       });
 
     axios
@@ -841,6 +845,7 @@ export default {
       }
       this.pl_markers = [];
     },
+
     displayPlaceInfo(place) {
       var content = '<div class="placeinfo">' + '   <a class="title" href="' + place.place_url + '" target="_blank" title="' + place.place_name + '">' + place.place_name + "</a>";
 
@@ -921,11 +926,11 @@ export default {
         // kakao.maps.event.addListener(marker, "click", function () {
         //     this.displayPlaceInfo(place);
         //   });
-        // (function (marker, place) {
-        //   kakao.maps.event.addListener(marker, "click", function () {
-        //     this.displayPlaceInfo(place);
-        //   });
-        // })(marker, places[i]);
+        ((marker, place) => {
+          window.kakao.maps.event.addListener(marker, "click", () => {
+            this.displayPlaceInfo(place);
+          });
+        })(marker, places[i]);
       }
     },
     displayMarker() {
@@ -963,7 +968,7 @@ export default {
         position: coords,
         content: '<div style="padding:10px;text-align:center;width:200px">' + this.deals[0].aptName + "</div>", // 인포윈도우에 표시할 내용
       });
-      console.log("");
+      // console.log("");
       // kakao.maps.event.addListener(marker, "mouseover", this.makeOverListener(this.map, marker, infowindow));
       // kakao.maps.event.addListener(marker, "mouseout", this.makeOutListener(infowindow));
       // kakao.maps.event.addListener(marker, "click", function () {
@@ -994,7 +999,7 @@ export default {
 
 <style>
 .infoView {
-  height: 78vh;
+  height: 85vh;
   overflow: auto;
   background-color: white;
   align-self: center;

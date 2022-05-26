@@ -5,7 +5,7 @@
     <b-card-group deck id="cardGroup">
       <div id="inCard" v-for="(aptinfo, index) in aptinfos" :key="index">
         <div>
-          <b-card :title="aptinfo.aptName" :img-src="Image" img-alt="Image" img-top tag="article" class="mb-2">
+          <b-card :title="aptinfo.aptName" :img-src="getImg(aptinfo.aptCode)" img-alt="Image" img-top tag="article" class="mb-2">
             <b-card-text> {{ aptinfo.dongName }} {{ aptinfo.infoType.trim() }}</b-card-text>
             <b-card-text> {{ aptinfo.buildYear }}년 건축 </b-card-text>
             <b-button :to="{ name: 'HouseDealList', params: { aptCode: aptinfo.aptCode } }" variant="primary">매물 조회하러 가기</b-button>
@@ -40,46 +40,13 @@ export default {
   methods: {
     getImg(aptCode) {
       console.log(parseInt(aptCode));
-      return this.aptimg[aptCode % 6];
+      return this.aptimg[parseInt(aptCode) % 6];
     },
     isManager() {
       return localStorage.getItem("isManager");
     },
     interestCheck(no) {
-      // if (deal.inter) {
-      //   console.log(1111);
-      //   let intedeals = JSON.parse(sessionStorage.getItem(this.loginId + "_intedeal"));
-      //   if (!intedeals) {
-      //     intedeals = [];
-      //   }
-
-      //   let de = { aptno: this.$route.params.aptCode, dealno: deal.no };
-      //   intedeals.push({ ...de });
-      //   // deal.inter = false;
-      //   console.log(deal);
-      //   console.log(deal.inter);
-      //   deal.inter = !deal.inter;
-      //   console.log(deal.inter);
-
-      //   // console.log(this.deals[index]);
-
-      //   sessionStorage.setItem(this.loginId + "_intedeal", JSON.stringify(intedeals));
-      //   // this.$set(deal, deal.inter, true);
-      //   deal.inter = true;
-      //   console.log(document.getElementById("icon`${deal.no}`"));
-      //   alert("관심 매물로 추가했습니다!");
-      //   document.getElementById("icon`${deal.no}`").setAttribute("icon", "heart-fill");
-      //   // console.log(this.deals);
-      //   // this.interest.forEach((element) => {
-      //   //   if (element.no == no) {
-      //   //     alert("이미 관심 매물로 추가되어있습니다.");
-      //   //     return;
-      //   //   }
-      //   // });
-      // } else {
       let intedeals = JSON.parse(sessionStorage.getItem(this.loginId + "_intedeal"));
-
-      // console.log(this.deals);
 
       for (let i = 0; i < intedeals.length; i++) {
         if (intedeals[i].dealno === no) {
@@ -107,7 +74,7 @@ export default {
   },
   created() {
     this.intedeals = JSON.parse(sessionStorage.getItem(this.loginId + "_intedeal"));
-    if (this.intedeals) {
+    if (this.intedeals && this.intedeals.length) {
       // intedeals = [];
       let arr = [];
       for (let i = 0; i < this.intedeals.length; i++) {

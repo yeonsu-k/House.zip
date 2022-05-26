@@ -144,8 +144,9 @@ export default {
       .then(({ data }) => {
         this.notices = data;
       })
-      .catch(() => {
-        alert("에러가 발생했습니다.");
+      .catch(({ error }) => {
+        alert("처리 중 문제가 생겼습니다. 다시 로그인 해주세요");
+        this.$emit("logout");
       });
     // if (this.user) {
     //   this.loginUser = this.user.id;
