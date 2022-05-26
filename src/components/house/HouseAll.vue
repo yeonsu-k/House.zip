@@ -29,7 +29,7 @@
                     </b-tr>
                   </b-thead>
                   <b-tbody>
-                    <b-tr v-for="(house, index) in houses" :key="index">
+                    <b-tr v-for="(house, index) in checkedhouses" :key="index">
                       <b-td>{{ index + 1 }}</b-td>
                       <b-td>
                         <router-link :to="{ name: 'HouseDealList', params: { aptCode: house.aptCode } }">{{ house.aptName }}</router-link>
@@ -110,14 +110,8 @@ export default {
       pl_markers: [], // 마커를 담을 배열입니다
       currCategory: "", // 현재 선택된 카테고리를 가지고 있을 변수입니다
       ps: null,
+      checkedhouses: [],
     };
-  },
-  watch: {
-    typeSelected() {
-      this.typeSelected.forEach((element) => {
-        console.log(element);
-      });
-    },
   },
   props: {
     loginId: null,
@@ -160,8 +154,21 @@ export default {
     }
   },
   methods: {
+    updateH() {
+      this.checkedhouses = [];
+
+      this.houses.forEach((element) => {
+        if (element.infoType.trim() == "아파트") {
+          if (this.checked[0]) this.checkedhouses.push(element);
+        } else if (element.infoType.trim() == "연립다세대") {
+          if (this.checked[1]) this.checkedhouses.push(element);
+        } else {
+          if (this.checked[2]) this.checkedhouses.push(element);
+        }
+      });
+    },
     changAptmark(checked) {
-      console.log(checked);
+      // console.log(checked);
       if (checked[0]) this.showMarkers(this.markers_apt);
       else this.hideMarkers(this.markers_apt);
       if (checked[1]) this.showMarkers(this.markers_bil);
@@ -169,6 +176,7 @@ export default {
       if (checked[2]) this.showMarkers(this.markers_op);
       else this.hideMarkers(this.markers_op);
       this.checked = checked;
+      this.updateH();
     },
     logout() {
       this.$emit("logout");
@@ -203,10 +211,12 @@ export default {
         })
         .then(({ data }) => {
           this.houses = data;
+
           if (this.houses) {
             this.markerPositions = [];
             this.houses.forEach((house) => this.markerPositions.push({ title: house.aptName, latlng: new kakao.maps.LatLng(house.lat, house.lng) }));
             this.displayMarker(this.markerPositions);
+            // this.updateH();
           }
           // this.$router.push("/house");
         })
@@ -240,8 +250,11 @@ export default {
             this.markerPositions.push({ title: this.houses[0].aptName, latlng: new kakao.maps.LatLng(this.houses[0].lat, this.houses[0].lng) });
             // this.houses.forEach((house) => this.markerPositions.push({ title: house.aptName, latlng: new kakao.maps.LatLng(house.lat, house.lng) }));
             this.displayMarker(this.markerPositions);
+            // this.updateH();
           } else {
             this.houses = [];
+            // this.checkedhouses = [];
+            this.updateH();
           }
         })
         .catch(({ error }) => {

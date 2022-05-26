@@ -17,7 +17,7 @@
               <b-link class="nav-link" :to="{ name: 'MyQna', params: { id: loginId } }">나의질문</b-link>
             </li>
             <li class="nav-item">
-              <b-link class="nav-link" @click="deleteUser">회원탈퇴</b-link>
+              <b-link class="nav-link" @click="deleteCheck">회원탈퇴</b-link>
             </li>
           </ul>
         </b-col>
