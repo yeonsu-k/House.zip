@@ -25,6 +25,7 @@
           </div>
         </div>
         <hr style="border-top: 2px dashed #bcbcbc" />
+        <b-img :src="getImg()"></b-img>
         <div>
           <b-button block v-b-toggle.accordion-1 class="mt-2">
             <div>평점 <b-icon v-if="collapseStates[0]" icon="chevron-down" /><b-icon v-else icon="chevron-up" /></div>
@@ -284,6 +285,14 @@ export default {
   },
   data() {
     return {
+      aptimg: [
+        "http://drive.google.com/uc?export=view&id=1my1vx8CHxesehRUfTR1ho6MOg4LvwMk5",
+        "http://drive.google.com/uc?export=view&id=13FYqvOX6ONeR2Ae2Za-sSKO8SSRHcf3W",
+        "http://drive.google.com/uc?export=view&id=1cDzzNa_NYuJv1qmv6j8PaBpSbFCDyHEz",
+        "http://drive.google.com/uc?export=view&id=1Fq70xAqcSKzibjZ1JjnPhGM7BbVP66iD",
+        "http://drive.google.com/uc?export=view&id=1FUtR0NLOBQnDMCFkAZzhnZ3NDcYr8562",
+        "http://drive.google.com/uc?export=view&id=1cZ5FdBdE2wOz1EYsBBWiVrP39rMqTDTj",
+      ],
       status: false,
       // house: null,
       checkdeals: [],
@@ -446,6 +455,9 @@ export default {
   },
 
   methods: {
+    getImg(aptCode) {
+      return this.aptimg[parseInt(this.$route.params.aptCode) % 6];
+    },
     interestcheck() {
       if (!this.loginId) {
         alert("찜하기 기능은 회원만 이용가능합니다.");

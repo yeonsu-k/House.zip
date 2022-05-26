@@ -5,10 +5,9 @@
     <b-card-group deck id="cardGroup">
       <div id="inCard" v-for="(aptinfo, index) in aptinfos" :key="index">
         <div>
-          <b-card :title="aptinfo.aptName" img-src="http://drive.google.com/uc?export=view&id=13FYqvOX6ONeR2Ae2Za-sSKO8SSRHcf3W" img-alt="Image" img-top tag="article" class="mb-2">
+          <b-card :title="aptinfo.aptName" :img-src="Image" img-alt="Image" img-top tag="article" class="mb-2">
             <b-card-text> {{ aptinfo.dongName }} {{ aptinfo.infoType.trim() }}</b-card-text>
             <b-card-text> {{ aptinfo.buildYear }}년 건축 </b-card-text>
-
             <b-button :to="{ name: 'HouseDealList', params: { aptCode: aptinfo.aptCode } }" variant="primary">매물 조회하러 가기</b-button>
             <!-- <b-button @click="interestCheck(aptinfo.aptCode)" variant="primary">관심매물 해제</b-button> -->
           </b-card>
@@ -28,9 +27,21 @@ export default {
     return {
       intedeals: [],
       aptinfos: [],
+      aptimg: [
+        "http://drive.google.com/uc?export=view&id=1my1vx8CHxesehRUfTR1ho6MOg4LvwMk5",
+        "http://drive.google.com/uc?export=view&id=13FYqvOX6ONeR2Ae2Za-sSKO8SSRHcf3W",
+        "http://drive.google.com/uc?export=view&id=1cDzzNa_NYuJv1qmv6j8PaBpSbFCDyHEz",
+        "http://drive.google.com/uc?export=view&id=1Fq70xAqcSKzibjZ1JjnPhGM7BbVP66iD",
+        "http://drive.google.com/uc?export=view&id=1FUtR0NLOBQnDMCFkAZzhnZ3NDcYr8562",
+        "http://drive.google.com/uc?export=view&id=1cZ5FdBdE2wOz1EYsBBWiVrP39rMqTDTj",
+      ],
     };
   },
   methods: {
+    getImg(aptCode) {
+      console.log(parseInt(aptCode));
+      return this.aptimg[aptCode % 6];
+    },
     isManager() {
       return localStorage.getItem("isManager");
     },
