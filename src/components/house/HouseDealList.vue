@@ -1,7 +1,7 @@
 <template>
   <div class="ml-2">
     <div class="map_wrap">
-      <div id="map" style="max-width: 100vw; min-height: 93vh; relative; overflow: hidden"></div>
+      <div id="map" style="max-width: 100vw; min-height: 83vh; relative; overflow: hidden"></div>
       <ul id="category">
         <li id="SW8" data-order="0" style="display: none">지하철역</li>
         <li id="HP8" data-order="1" style="display: none">병원</li>
@@ -133,7 +133,11 @@
           </b-collapse>
 
           <b-button block v-b-toggle.accordion-3 class="mt-2">
-            <div>실거래가 리스트 <b-icon v-if="collapseStatesChart" icon="chevron-down" /><b-icon v-else icon="chevron-up" /></div>
+            <div>
+              실거래가 리스트
+              <b-icon v-if="collapseStatesChart" icon="chevron-down" />
+              <b-icon v-else icon="chevron-up" />
+            </div>
           </b-button>
           <b-collapse id="accordion-3" v-model="collapseStatesChart">
             <div v-if="deals.length">
@@ -142,7 +146,7 @@
                   ><input :id="`check_${item.index}`" type="checkbox" v-model="filterItem" :value="item.index" />{{ item.label }}</label
                 >
               </template>
-              <BarChart
+              <bar-chart
                 style="position: relative; height: 20vh"
                 :chart-data="filteredDataCollection"
                 :options="{
@@ -998,10 +1002,10 @@ export default {
 .infoView::-webkit-scrollbar {
   display: none;
 }
+
 .map_wrap,
 .map_wrap * {
   margin: 0;
-  padding: 0;
   font-family: "Malgun Gothic", dotum, "돋움", sans-serif;
   font-size: 12px;
 }
@@ -1036,8 +1040,10 @@ export default {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
   background: #fff;
   overflow: hidden;
+  padding: 0;
   z-index: 2;
 }
+
 #category li {
   float: left;
   list-style: none;

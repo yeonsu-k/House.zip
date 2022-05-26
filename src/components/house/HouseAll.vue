@@ -75,7 +75,7 @@
             </ul>
             <div v-if="show" id="custom_filter">
               <div id="maker_name">
-                <checkbox v-model="checked" label="체크박스" />
+                <check-box v-model="checked" label="체크박스" />
                 <!-- <b-row>
                   <b-col cols="3">
                     <b-img src="http://drive.google.com/uc?export=view&id=1fTg0Xop_1pBwKNxGnEPSr2jZwu3h61Yt" right style="height: 40px"></b-img>
@@ -125,14 +125,14 @@
 import axios from "axios";
 import HouseSearchBar from "@/components/house/HouseSearchBar.vue";
 import HouseSearchRoad from "@/components/house/HouseSearchRoad.vue";
-import Checkbox from "@/components/house/Checkbox.vue";
+import CheckBox from "@/components/house/Checkbox.vue";
 
 export default {
   name: "HouseAll",
   components: {
     HouseSearchBar,
     HouseSearchRoad,
-    Checkbox,
+    CheckBox,
   },
   data() {
     return {
@@ -618,10 +618,10 @@ body {
   z-index: 2;
   float: left;
   list-style: none;
-  width: 220px;
+  width: 195px;
   height: 70px;
   border-right: 1px solid #acacac;
-  padding: 6px 0;
+  padding: 7px 0;
   text-align: center;
   cursor: pointer;
 }
@@ -648,13 +648,12 @@ body {
   /* position: absolute; */
   /* bottom: 10px;
   right: 10px; */
-
   overflow: hidden;
   z-index: 2;
   float: center;
   list-style: none;
-  width: 300px;
-  height: 70px;
+  /* width: 300px;
+  height: 70px; */
   /* padding: 6px 0; */
   text-align: center;
   cursor: pointer;
