@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h4 style="font-weight: bold">관심 매물</h4>
+    <h4 style="font-weight: bold">관심 건물</h4>
     <hr />
     <b-card-group deck id="cardGroup">
       <div id="inCard" v-for="(aptinfo, index) in aptinfos" :key="index">

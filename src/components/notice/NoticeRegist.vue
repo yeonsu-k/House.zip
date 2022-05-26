@@ -1,8 +1,5 @@
 <template>
   <div>
-    <div id="head">
-      <p class="text-center h1">Notice</p>
-    </div>
     <div class="container my-4">
       <div class="shadow py-3 px-5 col-md-12 mx-auto" id="user_col">
         <div role="group" class="my-3">

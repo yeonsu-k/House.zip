@@ -1,8 +1,5 @@
 <template>
   <div>
-    <div id="head">
-      <p class="text-center h1">Q & A</p>
-    </div>
     <b-container>
       <div class="text-right mt-5">
         <b-row align-h="between" align-v="end" class="mb-2">

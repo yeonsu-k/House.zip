@@ -1,8 +1,5 @@
 <template>
   <div id="user_col">
-    <div id="head">
-      <p class="text-center h1">Notice</p>
-    </div>
     <div class="container my-4">
       <div class="shadow py-3 px-5" id="user_col">
         <hr />
@@ -81,20 +78,6 @@ export default {
 </script>
 
 <style scoped>
-#head {
-  background-color: #48608a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 25vh;
-  color: lightcyan;
-}
-/* 버튼색 추천 :  #ece6cc , #637DB0 , #48608a , #506e80 */
-#head p {
-  font-weight: bold;
-}
-
 #bbtn {
   color: black;
   background-color: #ece6cc;

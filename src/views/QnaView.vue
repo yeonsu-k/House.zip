@@ -1,12 +1,17 @@
 <template>
   <div>
+    <qna-head></qna-head>
     <router-view :loginId="loginId" @create-qna="createQna" @update-qna="updateQna" @delete-qna="deleteQna" @create-qna-ans="createQnaAns" @update-qna-ans="updateQnaAns" />
   </div>
 </template>
 
 <script>
+import QnaHead from "@/components/qna/QnaHead.vue";
 import axios from "axios";
 export default {
+  components: {
+    QnaHead,
+  },
   name: "QnaView",
   props: {
     loginId: null,

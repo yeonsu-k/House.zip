@@ -1,8 +1,5 @@
 <template>
   <div>
-    <div id="head">
-      <p class="text-center h1">Q & A</p>
-    </div>
     <div class="container my-4">
       <div class="shadow py-3 px-5" id="user_col">
         <hr />

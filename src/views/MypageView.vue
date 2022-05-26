@@ -11,7 +11,7 @@
               <b-link class="nav-link" :to="{ name: 'UserDetail', params: { id: loginId } }">정보수정</b-link>
             </li>
             <li class="nav-item">
-              <b-link class="nav-link" :to="{ name: 'MyInterest', params: { id: loginId } }">관심매물</b-link>
+              <b-link class="nav-link" :to="{ name: 'MyInterest', params: { id: loginId } }">관심건물</b-link>
             </li>
             <li class="nav-item">
               <b-link class="nav-link" :to="{ name: 'MyQna', params: { id: loginId } }">나의질문</b-link>

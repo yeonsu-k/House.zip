@@ -1,8 +1,5 @@
 <template>
   <div>
-    <div id="head">
-      <p class="text-center h1">Notice</p>
-    </div>
     <b-container>
       <div class="text-right mt-5">
         <b-row align-h="between" align-v="end" class="mb-2">
@@ -147,20 +144,6 @@ export default {
 </script>
 
 <style scoped>
-#head {
-  background-color: #48608a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 25vh;
-  color: lightcyan;
-}
-/* 버튼색 추천 :  #ece6cc , #637DB0 , #48608a , #506e80 */
-#head p {
-  font-weight: bold;
-}
-
 #bbtn {
   float: right;
   color: black;

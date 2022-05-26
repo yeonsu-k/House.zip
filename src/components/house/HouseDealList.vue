@@ -28,7 +28,7 @@
         <hr style="border-top: 2px dashed #bcbcbc" />
         <b-img :src="getImg()" style="max-height: 250px; min-width: 100%; overflow: hidden" />
         <div>
-          <b-button block v-b-toggle.accordion-1 class="mt-2">
+          <b-button style="background-color: #48608a" block v-b-toggle.accordion-1 class="mt-2" @click="updateAns">
             <div>평점 <b-icon v-if="collapseStates[0]" icon="chevron-down" /><b-icon v-else icon="chevron-up" /></div>
           </b-button>
           <b-collapse id="accordion-1" v-model="collapseStates[0]">
@@ -40,8 +40,9 @@
               <div class="shadow py-3 px-5" style="background: #ffe6e6">거주자 평점 및 리뷰는 회원 전용입니다! <br />로그인해주세요!</div>
             </div>
             <div v-else>
-              <div class="mb-1">
-                <b-button @click="showMsgBoxTwo">거주자 평점등록</b-button>
+              <div class="my-1">
+                <!-- <b-button @click="showMsgBoxTwo">거주자 평점등록</b-button> -->
+                <button style="background-color: #ece6cc" class="btn" @click="showMsgBoxTwo">거주자 평점등록</button>
               </div>
 
               <div v-if="user.review">
@@ -129,7 +130,7 @@
             </div>
           </b-collapse>
 
-          <b-button block v-b-toggle.accordion-2 class="mt-2">
+          <b-button style="background-color: #48608a" block v-b-toggle.accordion-2 class="mt-2">
             <div>
               로드뷰
               <b-icon v-if="collapseStates[1]" icon="chevron-down" />
@@ -140,7 +141,7 @@
             <div id="roadview" style="width: 100%; height: 300px"></div>
           </b-collapse>
 
-          <b-button block v-b-toggle.accordion-3 class="mt-2">
+          <b-button style="background-color: #48608a" block v-b-toggle.accordion-3 class="mt-2">
             <div>
               실거래가 리스트
               <b-icon v-if="collapseStatesChart" icon="chevron-down" />
@@ -1102,6 +1103,7 @@ body {
   background-color: lightcyan;
   border-radius: 10px;
 }
+
 label > img {
   width: 20px;
   height: 20px;

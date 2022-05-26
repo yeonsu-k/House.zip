@@ -1,12 +1,17 @@
 <template>
   <div>
+    <notice-head></notice-head>
     <router-view :loginId="loginId" @create-notice="createNotice" @update-notice="updateNotice" @delete-notice="deleteNotice" />
   </div>
 </template>
 
 <script>
+import NoticeHead from "@/components/notice/NoticeHead.vue";
 import axios from "axios";
 export default {
+  components: {
+    NoticeHead,
+  },
   name: "NoticeView",
   props: {
     loginId: null,

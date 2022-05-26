@@ -6,7 +6,8 @@
           <h2>회원 가입</h2>
           <hr />
           <div role="group" class="mt-2">
-            <label for="input-id">아이디</label><button class="btn" style="background-color: #ece6cc" @click="checkid">중복확인</button>
+            <label for="input-id">아이디</label>
+            <button class="btn-sm ml-2" id="bbtn" variant="outline-light" @click="checkid">중복확인</button>
             <b-form-input id="input-id" size="sm" v-model="id" :state="idState" placeholder="Enter at least 4 letters" trim></b-form-input>
             <b-form-invalid-feedback id="input-live-feedback-password"> Enter at least 4 letters </b-form-invalid-feedback>
           </div>
@@ -223,5 +224,11 @@ export default {
 }
 #user_col::-webkit-scrollbar {
   display: none;
+}
+#bbtn {
+  color: black;
+  background-color: #ece6cc;
+  border: 0;
+  outline: 0;
 }
 </style>
