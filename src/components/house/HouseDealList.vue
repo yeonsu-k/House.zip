@@ -715,55 +715,25 @@ export default {
         console.log(document.getElementById("icon`${deal.no}`"));
         alert("관심 매물로 추가했습니다!");
         document.getElementById("icon`${deal.no}`").setAttribute("icon", "heart-fill");
-        // console.log(this.deals);
-        // this.interest.forEach((element) => {
-        //   if (element.no == no) {
-        //     alert("이미 관심 매물로 추가되어있습니다.");
-        //     return;
-        //   }
-        // });
       } else {
         let intedeals = JSON.parse(sessionStorage.getItem(this.loginId + "_intedeal"));
-        console.log(22222);
-        // console.log(this.deals);
-
-        console.log(deal);
 
         for (let i = 0; i < intedeals.length; i++) {
           if (intedeals[i].dealno === deal.no) {
             intedeals.splice(i, 1);
-            // console.log(this.deals[index]);
-            // this.$set(this.deals[index], "inter", false);
-            // console.log(this.deals[index]);
+
             deal.inter = false;
             alert("삭제 완료");
             console.log(document.getElementById("icon`${deal.no}`"));
             document.getElementById("icon`${deal.no}`").setAttribute("icon", "heart");
 
-            // console.log(this.deals[index]);
             break;
           }
         }
         sessionStorage.setItem(this.loginId + "_intedeal", JSON.stringify(intedeals));
-
-        // this.interest.forEach((element) => {
-        //   if (element.no == no) {
-        //     alert("이미 관심 매물로 추가되어있습니다.");
-        //     return;
-        //   }
-        // });
       }
     },
     interestCancel(deal) {},
-
-    // initMap() {
-    // const container = document.getElementById("map");
-    // // console.log("this.x:  " + this.x);
-    // this.latlng = this.x == "" ? new kakao.maps.LatLng(33.450701, 126.570667) : new kakao.maps.LatLng(this.y, this.x);
-    // const options = {
-    //   center: this.latlng,
-    //   level: this.lv,
-    // };
 
     initMap() {
       const container = document.getElementById("map");
@@ -1038,7 +1008,6 @@ export default {
 .map_wrap {
   position: relative;
   width: 100%;
-  height: 350px;
 }
 #detail_info {
   position: absolute;
