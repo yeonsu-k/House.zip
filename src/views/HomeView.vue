@@ -24,7 +24,7 @@
         <b-col style="min-height: 100%">
           <!-- 추천매물/ 관심매물 -->
           <b-card-group deck>
-            <b-card header="추천매물 / 관심매물">
+            <b-card header="추천건물 / 관심건물">
               <b-row v-for="(item, index) in aptinfos" :key="index" no-gutters id="cardRow">
                 <b-col md="6">
                   <img class="rounded-0 card-img img-fluid p-1" id="cardRow" :src="getImg(item.aptCode)" alt="Image" />
@@ -97,7 +97,7 @@ export default {
       notices: {
         type: Array,
       },
-      lat: 37.541,
+      lat: 37.841,
       lng: 126.986,
       aptinfos: [],
       aptimg: [

@@ -28,7 +28,7 @@
         <hr style="border-top: 2px dashed #bcbcbc" />
         <b-img :src="getImg()" style="max-height: 250px; min-width: 100%; overflow: hidden" />
         <div>
-          <b-button style="background-color: #48608a" block v-b-toggle.accordion-1 class="mt-2" @click="updateAns">
+          <b-button style="background-color: #48608a" block v-b-toggle.accordion-1 class="mt-2">
             <div>평점 <b-icon v-if="collapseStates[0]" icon="chevron-down" /><b-icon v-else icon="chevron-up" /></div>
           </b-button>
           <b-collapse id="accordion-1" v-model="collapseStates[0]">
@@ -493,7 +493,7 @@ export default {
         let de = { aptno: this.$route.params.aptCode };
         intedeals.push({ ...de });
         sessionStorage.setItem(this.loginId + "_intedeal", JSON.stringify(intedeals));
-        alert("관심 매물로 추가했습니다!");
+        alert("관심 건물로 추가했습니다!");
 
         this.intereststatus = true;
       } else {
@@ -629,7 +629,7 @@ export default {
         // this.$set(deal, deal.inter, true);
         deal.inter = true;
         console.log(deal);
-        alert("관심 매물로 추가했습니다!");
+        alert("관심 건물로 추가했습니다!");
         // console.log(this.deals);
         // this.interest.forEach((element) => {
         //   if (element.no == no) {
@@ -686,7 +686,7 @@ export default {
         // this.$set(deal, deal.inter, true);
         deal.inter = true;
         console.log(document.getElementById("icon`${deal.no}`"));
-        alert("관심 매물로 추가했습니다!");
+        alert("관심 건물로 추가했습니다!");
         document.getElementById("icon`${deal.no}`").setAttribute("icon", "heart-fill");
       } else {
         let intedeals = JSON.parse(sessionStorage.getItem(this.loginId + "_intedeal"));
