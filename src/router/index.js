@@ -2,7 +2,6 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import HouseView from "../views/HouseView.vue";
-import IntroView from "@/components/IntroView.vue";
 import UserView from "@/views/UserView.vue";
 import NoticeView from "@/views/NoticeView.vue";
 import LoginForm from "@/components/LoginForm.vue";
@@ -17,12 +16,6 @@ const routes = [
     path: "/",
     name: "Home",
     component: HomeView,
-  },
-  {
-    // Intro 화면
-    path: "/intro",
-    name: "Intro",
-    component: IntroView,
   },
   {
     // 로그인 화면
@@ -41,18 +34,12 @@ const routes = [
     path: "/user",
     name: "User",
     component: UserView,
-    // redirect: "/user/login",
     children: [
       {
         path: "regist",
         name: "UserRegist",
         component: () => import("@/components/user/UserRegist.vue"),
       },
-      // {
-      //   path: "detail/:id",
-      //   name: "UserDetail",
-      //   component: () => import("@/components/user/UserDetail.vue"),
-      // },
     ],
   },
   {
@@ -120,11 +107,6 @@ const routes = [
         name: "HouseAll",
         component: () => import("@/components/house/HouseAll.vue"),
       },
-      // {
-      //   path: "search",
-      //   name: "HouseSearchBar",
-      //   component: () => import("@/components/house/HouseSearchBar.vue"),
-      // },
       {
         path: "deallist/:aptCode",
         name: "HouseDealList",

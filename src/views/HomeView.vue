@@ -21,7 +21,7 @@
 
     <b-container class="mt-5 mb-4">
       <b-row>
-        <b-col>
+        <b-col style="min-height: 100%">
           <!-- 추천매물/ 관심매물 -->
           <b-card-group deck>
             <b-card header="추천매물 / 관심매물">
@@ -176,7 +176,7 @@ export default {
     });
 
     axios
-      .get("http://localhost:8080/happyhouse/notice/", { params: { sortCal: "regtime", sortVal: "desc", limit: 5, offset: 0 } })
+      .get("http://localhost:8080/happyhouse/notice/", { params: { sortCal: "regtime", sortVal: "desc", limit: 4, offset: 0 } })
       .then(({ data }) => {
         this.notices = data;
       })
@@ -218,6 +218,7 @@ export default {
 
 <style scoped>
 #cardRow {
+  margin-bottom: 2px;
   border-bottom: 1px solid lightgray;
   max-height: 250px;
 }
@@ -226,11 +227,11 @@ export default {
   flex-flow: row wrap;
   margin-right: -15px;
   margin-left: -15px;
-  min-height: 350px;
+  min-height: 185px;
 }
 .card-body {
   flex: 1 1 auto;
-
+  /* min-height: 190px; */
   /* padding: 1.25rem; */
 }
 .sliders {

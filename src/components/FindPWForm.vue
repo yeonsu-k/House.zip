@@ -20,7 +20,6 @@
             </div>
           </form>
           <!-- Login Button-->
-          <!-- 버튼색 추천 :  #ece6cc , #637DB0 , #48608a , #506e80 -->
           <button class="btn mb-3" style="background-color: #ece6cc; width: 100%" @click="find">비밀번호 찾기</button>
         </b-col>
       </b-row>

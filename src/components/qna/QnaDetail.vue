@@ -37,8 +37,6 @@
       </div>
       <hr />
 
-      <!-- <hr style="border-top: 2px dashed #bbb" /> -->
-      <!-- <span class="h5 ml-5">Q&A 답변</span> -->
       <div class="shadow py-3 px-5" id="user_col">
         <div v-if="qna.masterid">
           <hr />

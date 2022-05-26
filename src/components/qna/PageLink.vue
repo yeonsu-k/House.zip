@@ -8,7 +8,6 @@
 
     <li v-for="index in endPageIndex - startPageIndex + 1" :key="index" class="page-item" :class="{ active: startPageIndex + index - 1 == currentPageIndex }">
       <button class="page-link" @click="movePage(startPageIndex + index - 1, (startPageIndex + index - 1) * listRowCount)">{{ startPageIndex + index - 1 }}</button>
-      <!-- <a class="page-link" href="javascript:movePage(' + i + ')">' + i + '</a> -->
     </li>
 
     <li class="page-item" v-if="next">

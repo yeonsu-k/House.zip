@@ -55,7 +55,6 @@
             <b-form-text id="input-live-help-name">매물을 볼 때 중요하게 생각하는 시설을 선택해주세요 (다중선택가능)</b-form-text>
           </b-form-group>
           <div class="mt-2">
-            <!-- 버튼색 추천 :  #ece6cc , #48608a , #637DB0 , #57788c -->
             <button class="btn" style="background-color: #ece6cc; width: 100%" @click="regist">등록</button>
           </div>
         </b-col>

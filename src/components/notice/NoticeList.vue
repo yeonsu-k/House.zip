@@ -19,7 +19,6 @@
               <col :style="{ width: '10%' }" />
               <col :style="{ width: '50%' }" />
               <col :style="{ width: '20' }" />
-              <!-- <col :style="{ width: '15%' }" /> -->
               <col :style="{ width: '15%' }" />
             </colgroup>
             <b-thead head-variant="light">
@@ -27,7 +26,6 @@
                 <b-th>#</b-th>
                 <b-th>Title</b-th>
                 <b-th>Date</b-th>
-                <!-- <b-th>작성자</b-th> -->
                 <b-th>View</b-th>
               </b-tr>
             </b-thead>
@@ -38,7 +36,6 @@
                   <router-link class="notice-link" :to="{ name: 'NoticeDetail', params: { no: notice.no } }">{{ notice.title }}</router-link>
                 </b-td>
                 <b-td>{{ notice.regtime.substring(0, 10) }}</b-td>
-                <!-- <b-td>{{ notice.userid }}</b-td> -->
                 <b-td>{{ notice.hit }}</b-td>
               </b-tr>
             </b-tbody>

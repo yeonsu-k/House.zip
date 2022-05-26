@@ -66,7 +66,6 @@ export default {
         }
       }
       sessionStorage.setItem(this.loginId + "_intedeal", JSON.stringify(intedeals));
-
       // this.interest.forEach((element) => {
       //   if (element.no == no) {
       //     alert("이미 관심 매물로 추가되어있습니다.");

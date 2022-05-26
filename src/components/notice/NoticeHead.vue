@@ -9,7 +9,6 @@ export default {};
 </script>
 
 <style scoped>
-/* 버튼색 추천 :  #ece6cc , #637DB0 , #48608a , #506e80 */
 #head p {
   font-weight: bold;
 }
