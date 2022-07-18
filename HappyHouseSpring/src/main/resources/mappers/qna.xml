@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.happy.model.repo.QnaRepo">
+
+	<insert id="insert" parameterType="Qna">
+		INSERT INTO qna (userid, title, content, asktime)
+		VALUES(#{userid}, #{title}, #{content}, now())
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM qna
+		WHERE no = #{no}
+	</delete>
+	
+	<update id="updateAsk" parameterType="Qna">
+		UPDATE qna
+		SET title = #{title} , content = #{content}
+		WHERE no = #{no}
+	</update>
+	
+	<update id="updateAns" parameterType="Qna">
+		UPDATE qna
+		SET masterid = #{masterid} , anscontent = #{anscontent} ,anstime = now()
+		WHERE no = #{no}
+	</update>
+	
+	<select id="select" parameterType="int" resultType="Qna">
+		SELECT *
+		FROM qna WHERE no = #{no}
+	</select>
+	
+	<select id="selectAll" resultType="Qna">
+		SELECT *
+		FROM qna
+		order by asktime desc
+		limit #{limit} offset #{offset}
+	</select>
+	
+	<select id="selectAns" resultType="Qna">
+		SELECT *
+		FROM qna
+		where masterid IS NOT NULL
+		order by asktime desc
+		limit #{limit} offset #{offset}
+	</select>
+	
+	
+	<select id="selectMyAll" resultType="Qna">
+		SELECT *
+		FROM qna
+		where userid=#{userid}
+		order by asktime desc
+		limit #{limit} offset #{offset}
+	</select>
+	
+	<select id="selectMyAns" resultType="Qna">
+		SELECT *
+		FROM qna
+		where masterid IS NOT NULL and userid=#{userid}
+		order by asktime desc
+		limit #{limit} offset #{offset}
+	</select>
+	
+	
+		<!-- 게시글 limit offset 조회 -->
+	<select id="selectBoardTotalCount" resultType="int">
+		select count(*) from qna
+	</select>
+	
+			<!-- 게시글 limit offset 조회 -->
+	<select id="selectBoardAnsTotalCount" resultType="int">
+		select count(*) from qna
+		where masterid IS NOT NULL
+	</select>
+	
+	<update id="updateHit" parameterType="int">
+		update qna
+		set hit = hit + 1
+		where no = #{no}
+	</update>
+
+</mapper>
+
+

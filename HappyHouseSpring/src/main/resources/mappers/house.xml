@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.happy.model.repo.HouseRepo">
+
+	<select id="select" parameterType="int" resultType="House">
+		SELECT *
+		FROM
+		houseinfo left join housedeal on houseinfo.aptCode = housedeal.aptCode
+		WHERE no=#{no}
+	</select>
+
+	<select id="selectGugun" parameterType="string"
+		resultType="House">
+		<!-- SELECT * -->
+		SELECT houseinfo.aptCode ,aptName, dongcode, dongName, buildYear,
+		jibun, lat, lng, count(*) as total,
+		infoType
+		FROM houseinfo left join
+		housedeal on houseinfo.aptCode = housedeal.aptCode
+		WHERE dongcode like
+		concat(left(#{guGun},5), '%')
+		GROUP BY houseinfo.aptcode
+
+	</select>
+
+	<select id="selectDong" parameterType="string"
+		resultType="House">
+		SELECT houseinfo.aptCode ,aptName, dongcode, dongName,
+		buildYear, jibun, lat, lng, count(*) as total,
+		infoType
+		FROM houseinfo
+		left
+		join housedeal on houseinfo.aptCode = housedeal.aptCode
+		WHERE
+		dongcode=#{dong}
+		GROUP BY houseinfo.aptcode
+	</select>
+
+	<select id="selectDist" parameterType="string"
+		resultType="House">
+		SELECT houseinfo.aptCode ,aptName, dongcode, dongName, buildYear,
+		jibun, lat, lng, count(*) as total,
+		dongcode,(6371*acos(cos(radians(#{lat}))*cos(radians(lat))*cos(radians(lng)-radians(#{lng}))+sin(radians(#{lat}))*sin(radians(lat))))
+		as dist,
+		infoType
+		from houseinfo left
+		join housedeal on houseinfo.aptCode
+		= housedeal.aptCode
+		GROUP BY houseinfo.aptcode
+		having dist <![CDATA[<=]]>
+		#{dist}
+		order by dist DESC;
+	</select>
+
+	<select id="selectApt" parameterType="string" resultType="House">
+		SELECT
+		*
+		FROM houseinfo left join housedeal on houseinfo.aptCode =
+		housedeal.aptCode
+		WHERE houseinfo.aptCode = #{aptCode}
+	</select>
+
+	<select id="selectAptCode" parameterType="string"
+		resultType="House">
+		SELECT * FROM housedeal
+		where no in (select dealno from
+		interestdeal where userid=#{userid}) and aptCode=#{aptCode} ;
+	</select>
+
+	<select id="selectInte" parameterType="string"
+		resultType="House">
+		SELECT houseinfo.aptCode ,aptName, dongcode, dongName,
+		buildYear,
+		jibun, lat, lng, count(*) as total,
+		infoType
+		FROM houseinfo left
+		join
+		housedeal on houseinfo.aptCode = housedeal.aptCode
+		WHERE
+		houseinfo.aptcode in
+		<foreach collection="aptCode" item="item" index="index"
+			separator="," open="(" close=")">
+			#{item}
+		</foreach>
+
+		GROUP BY houseinfo.aptcode
+	</select>
+
+	<select id="getAvgAll" resultType="Avgamount">
+		select
+		avg(dealAmount) as dealAmount, avg(rentMoney) as rentMoney
+		from housedeal
+		GROUP BY dealType
+	</select>
+
+	<select id="getAvgSido" parameterType="string"
+		resultType="Avgamount">
+		select avg(dealAmount) as dealAmount, avg(rentMoney)as rentMoney
+		from housedeal
+		where aptCode in (SELECT houseinfo.aptCode
+		FROM houseinfo
+		left
+		join housedeal
+		on houseinfo.aptCode = housedeal.aptCode
+		WHERE dongcode like
+		concat(left(#{dongCode},5), '%')
+		GROUP BY houseinfo.aptcode)
+		GROUP BY dealType
+	</select>
+
+	<select id="getAvgGugun" parameterType="string"
+		resultType="Avgamount">
+		select avg(dealAmount) as dealAmount, avg(rentMoney)as rentMoney
+		from housedeal
+		where aptCode in (SELECT houseinfo.aptCode
+		FROM houseinfo
+		left
+		join housedeal
+		on houseinfo.aptCode = housedeal.aptCode
+		WHERE dongcode like
+		concat(left(#{dongCode},2), '%')
+		GROUP BY houseinfo.aptcode)
+		GROUP BY dealType
+	</select>
+
+	<select id="getAvgDong" parameterType="string"
+		resultType="Avgamount">
+		select avg(dealAmount) as dealAmount, avg(rentMoney)as rentMoney
+		from housedeal
+		where aptCode in (SELECT houseinfo.aptCode
+		FROM houseinfo
+		left
+		join housedeal
+		on houseinfo.aptCode = housedeal.aptCode
+		WHERE
+		dongcode=#{dongCode}
+		GROUP BY houseinfo.aptcode)
+		GROUP BY dealType
+	</select>
+
+</mapper>
