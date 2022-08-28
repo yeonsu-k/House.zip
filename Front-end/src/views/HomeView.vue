@@ -14,7 +14,7 @@
           </b-carousel-slide>
         </b-carousel>
         <template #overlay>
-          <h1 class="sliderfont font-weight-bold text-center text-light">HAPPY HOUSE</h1>
+          <h1 class="sliderfont font-weight-bold text-center text-light">HOUSE ZIP</h1>
         </template>
       </b-overlay>
     </div>
