@@ -39,7 +39,7 @@ export default {
 
     if (this.loginId) {
       axios
-        .get("/happyhouse/user/inter/" + this.loginId, {
+        .get("/housezip/user/inter/" + this.loginId, {
           headers: {
             "Access-Control-Allow-Origin": "*",
             "Content-Type": "application/json; charset = utf-8",
@@ -59,13 +59,13 @@ export default {
   },
   methods: {
     getSido() {
-      axios.get("http://localhost:8080/happyhouse/house/list/sido").then(({ data }) => {
+      axios.get("http://localhost:8080/housezip/house/list/sido").then(({ data }) => {
         this.sidos = data.map((category) => ({ value: category.sidoCode, text: category.sidoName }));
       });
     },
     getGugun() {
       if (this.sidoCode) {
-        axios.get("http://localhost:8080/happyhouse/house/list/gugun/" + this.sidoCode).then(({ data }) => {
+        axios.get("http://localhost:8080/housezip/house/list/gugun/" + this.sidoCode).then(({ data }) => {
           this.guguns = data.map((category) => ({ value: category.gugunCode, text: category.gugunName }));
           if (this.checkGugun) {
             this.gugunCode = this.checkGugun;

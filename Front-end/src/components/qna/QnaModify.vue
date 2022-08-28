@@ -51,7 +51,7 @@ export default {
     },
   },
   created() {
-    axios.get("http://localhost:8080/happyhouse/qna/" + this.$route.params.no).then(({ data }) => {
+    axios.get("http://localhost:8080/housezip/qna/" + this.$route.params.no).then(({ data }) => {
       this.qna = data;
     });
   },
@@ -68,7 +68,6 @@ export default {
   height: 25vh;
   color: lightcyan;
 }
-/* 버튼색 추천 :  #ece6cc , #637DB0 , #48608a , #506e80 */
 #head p {
   font-weight: bold;
 }

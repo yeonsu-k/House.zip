@@ -108,7 +108,7 @@ export default {
         return;
       }
       axios
-        .get("/happyhouse/checked/" + this.id)
+        .get("/housezip/checked/" + this.id)
         .then(({ data }) => {
           let msg = "중복입니다!";
           if (data == 1) {
@@ -140,7 +140,6 @@ export default {
           category = element + "," + category;
         });
         category = category.substr(0, category.length - 1);
-        // console.log(category.split(",").length);
       }
       let user = {
         id: this.id,
@@ -152,17 +151,16 @@ export default {
         interestSidoCode: this.sidoCode,
         interestGugunCode: this.gugunCode,
       };
-      // alert(category);
       this.$emit("create-user", user);
     },
     getSido() {
-      axios.get("http://localhost:8080/happyhouse/house/list/sido").then(({ data }) => {
+      axios.get("http://localhost:8080/housezip/house/list/sido").then(({ data }) => {
         this.sidos = data.map((category) => ({ value: category.sidoCode, text: category.sidoName }));
       });
     },
     getGugun() {
       if (this.sidoCode) {
-        axios.get("http://localhost:8080/happyhouse/house/list/gugun/" + this.sidoCode).then(({ data }) => {
+        axios.get("http://localhost:8080/housezip/house/list/gugun/" + this.sidoCode).then(({ data }) => {
           this.guguns = data.map((category) => ({ value: category.gugunCode, text: category.gugunName }));
         });
       }
@@ -174,7 +172,6 @@ export default {
       console.log(this.sidoCode);
       this.guguns = [];
       this.gugunCode = null;
-      // if (this.sidoCode) this.getGugun(this.sidoCode);
       if (this.sidoCode) this.getGugun();
     },
   },

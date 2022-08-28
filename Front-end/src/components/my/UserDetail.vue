@@ -91,13 +91,13 @@ export default {
       return localStorage.getItem("isManager");
     },
     getSido() {
-      axios.get("http://localhost:8080/happyhouse/house/list/sido").then(({ data }) => {
+      axios.get("http://localhost:8080/housezip/house/list/sido").then(({ data }) => {
         this.sidos = data.map((category) => ({ value: category.sidoCode, text: category.sidoName }));
       });
     },
     getGugun() {
       if (this.sidoCode) {
-        axios.get("http://localhost:8080/happyhouse/house/list/gugun/" + this.sidoCode).then(({ data }) => {
+        axios.get("http://localhost:8080/housezip/house/list/gugun/" + this.sidoCode).then(({ data }) => {
           this.guguns = data.map((category) => ({ value: category.gugunCode, text: category.gugunName }));
         });
       }
@@ -109,7 +109,6 @@ export default {
       console.log(this.sidoCode);
       this.guguns = [];
       this.gugunCode = null;
-      // if (this.sidoCode) this.getGugun(this.sidoCode);
       if (this.sidoCode) this.getGugun();
     },
     updateUser() {
@@ -133,11 +132,9 @@ export default {
   created() {
     this.clearSido();
     this.getSido();
-    // let loginId = localStorage.getItem("loginId");
-    // console.log(localStorage.getItem("jwt"));
     if (this.$route.params.id) {
       axios
-        .get("/happyhouse/user/" + this.$route.params.id, {
+        .get("/housezip/user/" + this.$route.params.id, {
           headers: {
             "Access-Control-Allow-Origin": "*",
             "Content-Type": "application/json; charset = utf-8",

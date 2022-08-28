@@ -19,7 +19,7 @@ export default {
   methods: {
     createNotice(notice) {
       axios
-        .post("http://localhost:8080/happyhouse/notice/", {
+        .post("http://localhost:8080/housezip/notice/", {
           no: notice.no,
           title: notice.title,
           content: notice.content,
@@ -32,13 +32,12 @@ export default {
             msg = "등록이 완료되었습니다.";
           }
           alert(msg);
-          // this.$router.push({ name: "NoticeView" });
           this.$router.push("/notice");
         });
     },
     updateNotice(notice) {
       axios
-        .put("http://localhost:8080/happyhouse/notice/" + notice.no, {
+        .put("http://localhost:8080/housezip/notice/" + notice.no, {
           title: notice.title,
           content: notice.content,
           no: notice.no,
@@ -53,13 +52,12 @@ export default {
         });
     },
     deleteNotice(notice) {
-      axios.delete("http://localhost:8080/happyhouse/notice/" + notice.no).then(({ data }) => {
+      axios.delete("http://localhost:8080/housezip/notice/" + notice.no).then(({ data }) => {
         let msg = "삭제 처리시 문제가 발생했습니다.";
         if (data == "success") {
           msg = "삭제가 완료되었습니다.";
         }
         alert(msg);
-        // this.$router.push({ name: "NoticeView" });
         this.$router.push("/notice");
       });
     },

@@ -14,26 +14,16 @@ export default {
   methods: {
     createUser(user) {
       axios
-        .post(
-          "http://localhost:8080/happyhouse/userregist",
-          {
-            id: user.id,
-            password: user.password,
-            name: user.name,
-            email: user.email,
-            tel: user.tel,
-            category: user.category,
-            interestSidoCode: user.interestSidoCode,
-            interestGugunCode: user.interestGugunCode,
-          }
-          // {
-          //   headers: {
-          //     "Access-Control-Allow-Origin": "*",
-          //     "Content-Type": "application/json; charset = utf-8",
-          //     Authorization: "Bearer " + localStorage.getItem("jwt"),
-          //   },
-          // }
-        )
+        .post("http://localhost:8080/housezip/userregist", {
+          id: user.id,
+          password: user.password,
+          name: user.name,
+          email: user.email,
+          tel: user.tel,
+          category: user.category,
+          interestSidoCode: user.interestSidoCode,
+          interestGugunCode: user.interestGugunCode,
+        })
         .then(({ data }) => {
           let msg = "등록 처리시 문제가 발생했습니다.";
           if (data == 1) {

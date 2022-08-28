@@ -72,7 +72,7 @@ export default {
     updateUser(user) {
       axios
         .put(
-          "/happyhouse/user/" + user.id,
+          "/housezip/user/" + user.id,
           {
             id: user.id,
             password: user.password,
@@ -108,7 +108,7 @@ export default {
     deleteUser() {
       console.log(this.loginId);
       axios
-        .delete("/happyhouse/user/" + this.loginId, {
+        .delete("/housezip/user/" + this.loginId, {
           headers: {
             "Access-Control-Allow-Origin": "*",
             "Content-Type": "application/json; charset = utf-8",
@@ -145,7 +145,6 @@ export default {
   height: 25vh;
   color: lightcyan;
 }
-/* 버튼색 추천 :  #ece6cc , #637DB0 , #48608a , #506e80 */
 #head p {
   font-weight: bold;
 }

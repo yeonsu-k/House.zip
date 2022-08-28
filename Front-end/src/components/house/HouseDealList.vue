@@ -41,7 +41,6 @@
             </div>
             <div v-else>
               <div class="my-1">
-                <!-- <b-button @click="showMsgBoxTwo">거주자 평점등록</b-button> -->
                 <button style="background-color: #ece6cc" class="btn" @click="showMsgBoxTwo">거주자 평점등록</button>
               </div>
 
@@ -75,7 +74,7 @@
                   </div>
                 </div>
                 <div class="container my-3" style="background: #ffe6e6">
-                  <div class="shadow py-3 px-5">리뷰를 더 확인하고 싶으신가요? 실제 거주 중인 집의 거주자 평점을 작성하면 HAPPYHOUSE의 모든 회원리뷰를 읽을 수 있습니다.</div>
+                  <div class="shadow py-3 px-5">리뷰를 더 확인하고 싶으신가요? 실제 거주 중인 집의 거주자 평점을 작성하면 housezip의 모든 회원리뷰를 읽을 수 있습니다.</div>
                 </div>
               </div>
 
@@ -151,24 +150,6 @@
           <b-collapse id="accordion-3" v-model="collapseStatesChart">
             <div v-if="deals.length">
               <BarChart :dongcode="this.deals[0].dongCode" :avgdeal="this.avgdeal" :aptName="deals[0].aptName" />
-              <!-- <template v-for="item in dataSetsKey">
-                <label :for="`check_${item.index}`" :key="item.label" :style="`color: ${item.color}; margin: 8px;`"
-                  ><input :id="`check_${item.index}`" type="checkbox" v-model="filterItem" :value="item.index" />{{ item.label }}</label
-                >
-              </template>
-              <bar-chart
-                style="position: relative; height: 20vh"
-                :chart-data="filteredDataCollection"
-                :options="{
-                  responsive: true,
-                  maintainAspectRatio: false,
-                  labeling: { display: false },
-                  legend: {
-                    display: false,
-                  },
-                }"
-                v-if="collapseStatesChart"
-              /> -->
 
               <b-tabs card>
                 <b-tab no-body title="매매">
@@ -347,7 +328,7 @@ export default {
   created() {
     if (this.loginId) {
       axios
-        .get("/happyhouse/user/" + this.loginId, {
+        .get("/housezip/user/" + this.loginId, {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("jwt"),
           },
@@ -368,10 +349,8 @@ export default {
     }
 
     axios
-      .get("http://localhost:8080/happyhouse/house/review/" + this.$route.params.aptCode, {
+      .get("http://localhost:8080/housezip/house/review/" + this.$route.params.aptCode, {
         headers: {
-          // "Access-Control-Allow-Origin": "*",
-          // "Content-Type": "application/json; charset = utf-8",
           Authorization: "Bearer " + localStorage.getItem("jwt"),
         },
       })
@@ -383,12 +362,6 @@ export default {
             this.totalavg = this.totalavg + this.reviews[i].avg;
           }
           this.totalavg = this.totalavg / this.reviews.length;
-          // this.user = data;
-          // console.log(this.user);
-          // const cate = document.getElementById("category");
-          // this.user.category.split(",").forEach((element) => {
-          //   cate.children[parseInt(element)].style.display = "block";
-          // });
         }
       })
       .catch(({ error }) => {
@@ -399,7 +372,7 @@ export default {
       });
 
     axios
-      .post("/happyhouse/house/apt/", {
+      .post("/housezip/house/apt/", {
         aptCode: this.$route.params.aptCode,
       })
       .then(({ data }) => {
@@ -435,7 +408,6 @@ export default {
         if (intedeals) {
           intedeals.forEach((intedeal) => {
             if (intedeal.aptno == this.$route.params.aptCode) {
-              // this.checkdeals.push(intedeal.dealno);
               this.intereststatus = true;
               return true;
             }
@@ -444,18 +416,14 @@ export default {
 
         if (window.kakao && window.kakao.maps) {
           this.initMap();
-          // this.displayMarker();
         } else {
           const script = document.createElement("script");
           /* global kakao */
           script.onload = () => kakao.maps.load(this.initMap);
           script.src = "//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=7f40405e29341c1fa46226d9889e981a&libraries=services";
           document.head.appendChild(script);
-          // this.displayMarker();
         }
       });
-
-    // console.log(this.loginUser);
   },
   computed: {
     filteredDataCollection() {
@@ -524,7 +492,6 @@ export default {
     },
 
     showMsgBoxTwo() {
-      // this.boxTwo = "";
       this.$bvModal
         .msgBoxConfirm(this.deals[0].aptName + "에 거주한 경험이 있나요?", {
           title: "거주자 평점등록",
@@ -538,7 +505,6 @@ export default {
           centered: true,
         })
         .then((value) => {
-          // this.boxTwo = value;
           if (value) {
             for (let i = 0; i < this.reviews.length; i++) {
               if (this.reviews[i].userid == this.loginId) {
@@ -563,22 +529,18 @@ export default {
       this.nameState = null;
     },
     handleOk(bvModalEvent) {
-      // Prevent modal from closing
       bvModalEvent.preventDefault();
-      // Trigger submit handler
       this.handleSubmit();
     },
     handleSubmit() {
-      // Exit when the form isn't valid
       if (!this.checkFormValidity()) {
         return;
       }
-      // Push the name to submitted names
       this.submittedNames.push(this.name);
 
       axios
         .post(
-          "http://localhost:8080/happyhouse/house/review/" + this.$route.params.aptCode,
+          "http://localhost:8080/housezip/house/review/" + this.$route.params.aptCode,
           {
             userid: this.loginId,
             aptCode: this.$route.params.aptCode,
@@ -602,7 +564,6 @@ export default {
           this.$router.go();
         });
 
-      // Hide the modal manually
       this.$nextTick(() => {
         this.$bvModal.hide("modal-prevent-closing");
       });
@@ -617,26 +578,12 @@ export default {
 
         let de = { aptno: this.$route.params.aptCode, dealno: deal.no };
         intedeals.push({ ...de });
-        // deal.inter = false;
-        // console.log(deal);
-        // console.log(deal.inter);
         deal.inter = !deal.inter;
-        // console.log(deal.inter);
-
-        // console.log(this.deals[index]);
 
         sessionStorage.setItem(this.loginId + "_intedeal", JSON.stringify(intedeals));
-        // this.$set(deal, deal.inter, true);
         deal.inter = true;
         console.log(deal);
         alert("관심 건물로 추가했습니다!");
-        // console.log(this.deals);
-        // this.interest.forEach((element) => {
-        //   if (element.no == no) {
-        //     alert("이미 관심 매물로 추가되어있습니다.");
-        //     return;
-        //   }
-        // });
       } else {
         let intedeals = JSON.parse(sessionStorage.getItem(this.loginId + "_intedeal"));
 
@@ -648,14 +595,10 @@ export default {
           for (let i = 0; i < intedeals.length; i++) {
             if (intedeals[i].dealno === deal.no) {
               intedeals.splice(i, 1);
-              // console.log(this.deals[index]);
-              // this.$set(this.deals[index], "inter", false);
-              // console.log(this.deals[index]);
+
               deal.inter = false;
               alert("삭제 완료");
-              // console.log(deal);
 
-              // console.log(this.deals[index]);
               break;
             }
           }
@@ -674,16 +617,9 @@ export default {
 
         let de = { aptno: this.$route.params.aptCode, dealno: deal.no };
         intedeals.push({ ...de });
-        // deal.inter = false;
-        // console.log(deal);
-        // console.log(deal.inter);
         deal.inter = !deal.inter;
-        // console.log(deal.inter);
-
-        // console.log(this.deals[index]);
 
         sessionStorage.setItem(this.loginId + "_intedeal", JSON.stringify(intedeals));
-        // this.$set(deal, deal.inter, true);
         deal.inter = true;
         console.log(document.getElementById("icon`${deal.no}`"));
         alert("관심 건물로 추가했습니다!");
@@ -720,27 +656,19 @@ export default {
       this.contentNode = document.createElement("div"); // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
       this.pl_markers = []; // 마커를 담을 배열입니다
       this.currCategory = ""; // 현재 선택된 카테고리를 가지고 있을 변수입니다
-      //지도 객체를 등록합니다.
-      //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
       this.map = new kakao.maps.Map(container, options);
       this.map.setMinLevel(3);
       this.map.setMaxLevel(3);
 
       this.ps = new kakao.maps.services.Places(this.map);
 
-      // 지도에 idle 이벤트를 등록합니다
       kakao.maps.event.addListener(this.map, "idle", this.searchPlaces);
 
-      // 커스텀 오버레이의 컨텐츠 노드에 css class를 추가합니다
       this.contentNode.className = "placeinfo_wrap";
 
-      // 커스텀 오버레이의 컨텐츠 노드에 mousedown, touchstart 이벤트가 발생했을때
-      // 지도 객체에 이벤트가 전달되지 않도록 이벤트 핸들러로 kakao.maps.event.preventMap 메소드를 등록합니다
       this.addEventHandle(this.contentNode, "mousedown", kakao.maps.event.preventMap);
-      // 커스텀 오버레이 컨텐츠를 설정합니다
       this.placeOverlay.setContent(this.contentNode);
 
-      // 각 카테고리에 클릭 이벤트를 등록합니다
       this.addCategoryClickEvent();
       this.addEventHandle(this.contentNode, "touchstart", kakao.maps.event.preventMap);
 
@@ -753,7 +681,6 @@ export default {
       });
       this.displayMarker();
     },
-    // 엘리먼트에 이벤트 핸들러를 등록하는 함수입니다
     addEventHandle(target, type, callback) {
       if (target.addEventListener) {
         target.addEventListener(type, callback);
@@ -761,16 +688,13 @@ export default {
         target.attachEvent("on" + type, callback);
       }
     },
-    // 카테고리 검색을 요청하는 함수입니다
     searchPlaces() {
       if (!this.currCategory) {
         return;
       }
 
-      // 커스텀 오버레이를 숨깁니다
       this.placeOverlay.setMap(null);
 
-      // 지도에 표시되고 있는 마커를 제거합니다
       this.removeMarker();
 
       this.ps.categorySearch(this.currCategory, this.placesSearchCB, { useMapBounds: true });
@@ -845,7 +769,6 @@ export default {
       }
     },
     onClickCategory(event) {
-      // console.log(event.currentTarget);
       var id = event.currentTarget.id,
         className = event.currentTarget.className;
 
@@ -862,8 +785,6 @@ export default {
       }
     },
     changeCategoryClass(el) {
-      // console.log("el");
-      // console.log(el);
       var category = document.getElementById("category"),
         children = category.children,
         i;
@@ -877,20 +798,12 @@ export default {
       }
     },
     displayPlaces(places) {
-      // 몇번째 카테고리가 선택되어 있는지 얻어옵니다
-      // 이 순서는 스프라이트 이미지에서의 위치를 계산하는데 사용됩니다
       var order = document.getElementById(this.currCategory).getAttribute("data-order");
 
       console.log("검색 된 건물 수: " + places.length);
       for (var i = 0; i < places.length; i++) {
-        // 마커를 생성하고 지도에 표시합니다
         var marker = this.addMarker(new kakao.maps.LatLng(places[i].y, places[i].x), order);
 
-        // 마커와 검색결과 항목을 클릭 했을 때
-        // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
-        // kakao.maps.event.addListener(marker, "click", function () {
-        //     this.displayPlaceInfo(place);
-        //   });
         ((marker, place) => {
           window.kakao.maps.event.addListener(marker, "click", () => {
             this.displayPlaceInfo(place);
@@ -899,15 +812,9 @@ export default {
       }
     },
     displayMarker() {
-      // if (this.markers.length > 0) {
-      //   this.markers.forEach((marker) => marker.setMap(null));
-      // }
-
       this.markers = [];
 
       let i = 0;
-      // let imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-      // let imageSrc = "http://drive.google.com/uc?export=view&id=1Th8RjUjvvMWR-zYegM2taxOYB1NlL50S";
 
       let imageSrc_apt = "http://drive.google.com/uc?export=view&id=1Prms3VPLeaf9lmSjmtgx4sZaR0STdRd8";
       let imageSrc_op = "http://drive.google.com/uc?export=view&id=16BoBFDkUUhwMYsrwdjI_8IZXCJggA25W";
@@ -919,7 +826,7 @@ export default {
 
       // 마커 이미지를 생성합니다
       var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
-      // this.houses.forEach((house) => {
+
       let coords = new kakao.maps.LatLng(this.deals[0].lat, this.deals[0].lng);
 
       let marker = new kakao.maps.Marker({
@@ -933,26 +840,17 @@ export default {
         position: coords,
         content: '<div style="padding:10px;text-align:center;width:200px">' + this.deals[0].aptName + "</div>", // 인포윈도우에 표시할 내용
       });
-      // console.log("");
-      // kakao.maps.event.addListener(marker, "mouseover", this.makeOverListener(this.map, marker, infowindow));
-      // kakao.maps.event.addListener(marker, "mouseout", this.makeOutListener(infowindow));
-      // kakao.maps.event.addListener(marker, "click", function () {
-      //   alert(house.aptName + " " + house.aptCode);
-      // });
       i++;
       this.markers.push(marker);
       if (i == 1) {
         this.map.panTo(coords);
       }
-      // });
     },
-    // 인포윈도우를 표시하는 클로저를 만드는 함수입니다
     makeOverListener(map, marker, infowindow) {
       return function () {
         infowindow.open(map, marker);
       };
     },
-    // 인포윈도우를 닫는 클로저를 만드는 함수입니다
     makeOutListener(infowindow) {
       return function () {
         infowindow.close();
