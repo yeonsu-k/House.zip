@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.28, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: happyhouse127
+-- Host: 127.0.0.1    Database: housezip
 -- ------------------------------------------------------
 -- Server version	8.0.28
 
