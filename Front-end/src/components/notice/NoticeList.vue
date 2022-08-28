@@ -86,7 +86,7 @@ export default {
   },
   created() {
     axios
-      .get("http://localhost:8080/happyhouse/notice/", { params: { sortCal: "regtime", sortVal: "desc", limit: this.pageLimit, offset: this.no - this.pageLimit } })
+      .get("http://localhost:8080/housezip/notice/", { params: { sortCal: "regtime", sortVal: "desc", limit: this.pageLimit, offset: this.no - this.pageLimit } })
       .then(({ data }) => {
         this.notices = data;
       })
@@ -94,7 +94,7 @@ export default {
         alert("에러가 발생했습니다.");
       });
 
-    axios.get("http://localhost:8080/happyhouse/notice/total").then(({ data }) => {
+    axios.get("http://localhost:8080/housezip/notice/total").then(({ data }) => {
       this.total = data;
     });
     this.isManager = JSON.parse(localStorage.getItem("isManager"));
@@ -105,7 +105,7 @@ export default {
     },
     initComponent() {
       axios
-        .get("http://localhost:8080/happyhouse/notice/", {
+        .get("http://localhost:8080/housezip/notice/", {
           params: { sortCal: this.sortCal, sortVal: this.sortVal, limit: this.pageLimit, offset: this.no - this.pageLimit },
         })
         .then(({ data }) => {

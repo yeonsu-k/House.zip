@@ -41,7 +41,7 @@ export default {
     find() {
       axios
         .put(
-          "/happyhouse/findpwd/",
+          "/housezip/findpwd/",
           {
             id: this.id,
             name: this.name,

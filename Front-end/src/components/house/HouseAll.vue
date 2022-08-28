@@ -106,9 +106,9 @@ export default {
       dist: 0.55,
       houses: [],
       placeOverlay: null,
-      contentNode: null, // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
-      pl_markers: [], // 마커를 담을 배열입니다
-      currCategory: "", // 현재 선택된 카테고리를 가지고 있을 변수입니다
+      contentNode: null,
+      pl_markers: [],
+      currCategory: "",
       ps: null,
       checkedhouses: [],
     };
@@ -119,7 +119,7 @@ export default {
   created() {
     if (this.loginId) {
       axios
-        .get("/happyhouse/user/" + this.loginId, {
+        .get("/housezip/user/" + this.loginId, {
           headers: {
             "Access-Control-Allow-Origin": "*",
             "Content-Type": "application/json; charset = utf-8",
@@ -204,7 +204,7 @@ export default {
       // console.log(this.dist);
 
       axios
-        .post("http://localhost:8080/happyhouse/house/dist", {
+        .post("http://localhost:8080/housezip/house/dist", {
           lat: lat,
           lng: lng,
           dist: this.dist,
@@ -236,31 +236,24 @@ export default {
       this.latlng = new kakao.maps.LatLng(33.450701, 126.570667);
 
       axios
-        .post("http://localhost:8080/happyhouse/house/all", {
+        .post("http://localhost:8080/housezip/house/all", {
           gugun: gugunCode,
         })
         .then(({ data }) => {
           if (data && data.length) {
-            // this.houses = data;
-
             this.houses = [];
             this.houses.push(data[0]);
-            // this.houses = data;
             this.markerPositions = [];
             this.markerPositions.push({ title: this.houses[0].aptName, latlng: new kakao.maps.LatLng(this.houses[0].lat, this.houses[0].lng) });
-            // this.houses.forEach((house) => this.markerPositions.push({ title: house.aptName, latlng: new kakao.maps.LatLng(house.lat, house.lng) }));
             this.displayMarker(this.markerPositions);
-            // this.updateH();
           } else {
             this.houses = [];
-            // this.checkedhouses = [];
             this.updateH();
           }
         })
         .catch(({ error }) => {
           let msg = "조회 중 문제가 발생했습니다.";
           alert(msg);
-          // this.$router.push("/house");
         });
     },
     radioChange() {
@@ -305,12 +298,10 @@ export default {
       };
 
       this.placeOverlay = new kakao.maps.CustomOverlay({ zIndex: 1 });
-      this.contentNode = document.createElement("div"); // 커스텀 오버레이의 컨텐츠 엘리먼트 입니다
-      this.pl_markers = []; // 마커를 담을 배열입니다
-      this.currCategory = ""; // 현재 선택된 카테고리를 가지고 있을 변수입니다
+      this.contentNode = document.createElement("div");
+      this.pl_markers = [];
+      this.currCategory = "";
 
-      //지도 객체를 등록합니다.
-      //지도 객체는 반응형 관리 대상이 아니므로 initMap에서 선언합니다.
       this.map = new kakao.maps.Map(container, options);
       this.map.setMinLevel(1);
       this.map.setMaxLevel(3);
@@ -318,19 +309,13 @@ export default {
 
       this.ps = new kakao.maps.services.Places(this.map);
 
-      // 지도에 idle 이벤트를 등록합니다
       kakao.maps.event.addListener(this.map, "idle", this.searchPlaces);
 
-      // 커스텀 오버레이의 컨텐츠 노드에 css class를 추가합니다
       this.contentNode.className = "placeinfo_wrap";
 
-      // 커스텀 오버레이의 컨텐츠 노드에 mousedown, touchstart 이벤트가 발생했을때
-      // 지도 객체에 이벤트가 전달되지 않도록 이벤트 핸들러로 kakao.maps.event.preventMap 메소드를 등록합니다
       this.addEventHandle(this.contentNode, "mousedown", kakao.maps.event.preventMap);
-      // 커스텀 오버레이 컨텐츠를 설정합니다
       this.placeOverlay.setContent(this.contentNode);
 
-      // 각 카테고리에 클릭 이벤트를 등록합니다
       this.addCategoryClickEvent();
       this.addEventHandle(this.contentNode, "touchstart", kakao.maps.event.preventMap);
     },
@@ -347,7 +332,6 @@ export default {
         this.searchRoad(data);
       }
     },
-    // 엘리먼트에 이벤트 핸들러를 등록하는 함수입니다
 
     addEventHandle(target, type, callback) {
       if (target.addEventListener) {
@@ -356,16 +340,13 @@ export default {
         target.attachEvent("on" + type, callback);
       }
     },
-    // 카테고리 검색을 요청하는 함수입니다
     searchPlaces() {
       if (!this.currCategory) {
         return;
       }
 
-      // 커스텀 오버레이를 숨깁니다
       this.placeOverlay.setMap(null);
 
-      // 지도에 표시되고 있는 마커를 제거합니다
       this.removeMarker();
 
       this.ps.categorySearch(this.currCategory, this.placesSearchCB, { useMapBounds: true });
@@ -409,7 +390,6 @@ export default {
       }
     },
     onClickCategory(event) {
-      // console.log(event.currentTarget);
       var id = event.currentTarget.id,
         className = event.currentTarget.className;
 
@@ -438,28 +418,14 @@ export default {
       }
     },
     displayPlaces(places) {
-      // 몇번째 카테고리가 선택되어 있는지 얻어옵니다
-      // 이 순서는 스프라이트 이미지에서의 위치를 계산하는데 사용됩니다
       var order = document.getElementById(this.currCategory).getAttribute("data-order");
 
       console.log("검색 된 건물 수: " + places.length);
       for (var i = 0; i < places.length; i++) {
-        // 마커를 생성하고 지도에 표시합니다
         var marker = this.addMarker(new kakao.maps.LatLng(places[i].y, places[i].x), order);
-        // // 마커와 검색결과 항목을 클릭 했을 때
-        // // 장소정보를 표출하도록 클릭 이벤트를 등록합니다
-        // kakao.maps.event.addListener(marker, "click", function () {
-        //   this.displayPlaceInfo(places[i]);
-        // });
-
-        // kakao.maps.event.addListener(marker, "click", function () {
-        //   this.displayPlaceInfo(places[i]);
-        // });
         ((marker, place) => {
           window.kakao.maps.event.addListener(marker, "click", () => {
-            // console.log("장소클릭이벤트:" + place);
             this.displayPlaceInfo(place);
-            // this.test(place);
           });
         })(marker, places[i]);
       }
@@ -514,12 +480,8 @@ export default {
           position: coords,
           content: '<span class="info-title">' + house.aptName + "</span>",
         });
-        // infowindow.open(this.map, marker);
         kakao.maps.event.addListener(marker, "mouseover", this.makeOverListener(this.map, marker, infowindow));
         kakao.maps.event.addListener(marker, "mouseout", this.makeOutListener(infowindow));
-        // // kakao.maps.event.addListener(marker, "click", function () {
-        // //   alert(house.aptName + " " + house.aptCode);
-        // // });
         i++;
 
         if (house.infoType.trim() == "아파트") {
@@ -535,14 +497,12 @@ export default {
       });
 
       if (this.x !== "") {
-        // console.log(this.latlng);
         this.map.panTo(this.latlng);
       } else {
         this.map.panTo(f_coords);
       }
       this.changAptmark(this.checked);
     },
-    // 인포윈도우를 표시하는 클로저를 만드는 함수입니다
     makeOverListener(map, marker, infowindow) {
       return function () {
         infowindow.open(map, marker);
@@ -553,20 +513,17 @@ export default {
           e.parentElement.style.top = "82px";
           e.parentElement.style.left = "50%";
           e.parentElement.style.marginLeft = -ml + "px";
-          // e.parentElement.style.width = w + "px";
           e.parentElement.previousSibling.style.display = "none";
           e.parentElement.parentElement.style.border = "0px";
           e.parentElement.parentElement.style.background = "unset";
         });
       };
     },
-    // 인포윈도우를 닫는 클로저를 만드는 함수입니다
     makeOutListener(infowindow) {
       return function () {
         infowindow.close();
       };
     },
-    // 배열에 추가된 마커들을 지도에 표시하거나 삭제하는 함수입니다
     setMarkers(map, markers) {
       for (var i = 0; i < markers.length; i++) {
         markers[i].setMap(map);

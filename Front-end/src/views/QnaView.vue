@@ -19,7 +19,7 @@ export default {
   methods: {
     createQna(qna) {
       axios
-        .post("http://localhost:8080/happyhouse/qna/", {
+        .post("http://localhost:8080/housezip/qna/", {
           no: qna.no,
           title: qna.title,
           content: qna.content,
@@ -44,7 +44,7 @@ export default {
     },
     updateQna(qna) {
       axios
-        .put("http://localhost:8080/happyhouse/qna/" + qna.no, {
+        .put("http://localhost:8080/housezip/qna/" + qna.no, {
           title: qna.title,
           content: qna.content,
           no: qna.no,
@@ -64,7 +64,7 @@ export default {
     },
     deleteQna(qna) {
       axios
-        .delete("http://localhost:8080/happyhouse/qna/" + qna.no)
+        .delete("http://localhost:8080/housezip/qna/" + qna.no)
         .then(({ data }) => {
           let msg = "삭제 처리시 문제가 발생했습니다.";
           if (data == "success") {
@@ -80,7 +80,7 @@ export default {
     },
     createQnaAns(qna) {
       axios
-        .put("http://localhost:8080/happyhouse/qna/ans/" + qna.no, {
+        .put("http://localhost:8080/housezip/qna/ans/" + qna.no, {
           no: qna.no,
           anscontent: qna.anscontent,
           anstime: qna.anstime,
@@ -101,7 +101,7 @@ export default {
     },
     updateQnaAns(qna) {
       axios
-        .put("http://localhost:8080/happyhouse/qna/ans/" + qna.no, {
+        .put("http://localhost:8080/housezip/qna/ans/" + qna.no, {
           no: qna.no,
           anscontent: qna.anscontent,
           anstime: qna.anstime,

@@ -1,7 +1,7 @@
 <<<<<<< HEAD
 # House.zip
 =======
-# happyhousevue
+# housezipvue
 
 ## Project setup
 

@@ -77,7 +77,7 @@ export default {
     };
   },
   created() {
-    axios.get("http://localhost:8080/happyhouse/house/avg/" + this.dongcode).then(({ data }) => {
+    axios.get("http://localhost:8080/housezip/house/avg/" + this.dongcode).then(({ data }) => {
       this.avgs = data;
       // console.log(this.avgs.sido[0].dealAmount);
       // console.log(this.avgs.dong[0].dealAmount);

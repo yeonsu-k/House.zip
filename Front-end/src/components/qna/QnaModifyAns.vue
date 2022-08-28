@@ -28,14 +28,7 @@
           </b-row>
         </div>
         <hr />
-        <b-row class="text-right" align-h="end">
-          <!-- <b-col cols="auto">
-            <button v-if="this.loginUser == qna.userid" style="background-color: #ece6cc" class="btn" :to="{ name: 'QnaModify' }">질문수정</button>
-          </b-col>
-          <b-col cols="auto" v-if="this.loginUser == qna.userid || this.isManager">
-            <button style="background-color: #ece6cc" class="btn" @click="deleteQna">질문삭제</button>
-          </b-col> -->
-        </b-row>
+        <b-row class="text-right" align-h="end"> </b-row>
       </div>
       <hr style="border-top: 2px dashed #bbb" />
       <div class="shadow py-3 px-5 mx-auto" id="user_col">
@@ -82,7 +75,7 @@ export default {
     },
   },
   created() {
-    axios.get("http://localhost:8080/happyhouse/qna/" + this.$route.params.no).then(({ data }) => {
+    axios.get("http://localhost:8080/housezip/qna/" + this.$route.params.no).then(({ data }) => {
       this.qna = data;
     });
   },
@@ -99,7 +92,6 @@ export default {
   height: 20vh;
   color: lightcyan;
 }
-/* 버튼색 추천 :  #ece6cc , #637DB0 , #48608a , #506e80 */
 #head p {
   font-weight: bold;
 }
