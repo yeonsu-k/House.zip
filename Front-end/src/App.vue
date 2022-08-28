@@ -65,16 +65,12 @@ export default {
     },
     login(user) {
       axios
-        .post("http://localhost:8080/happyhouse/auth/login", { id: user.id, password: user.password })
+        .post("http://localhost:8080/housezip/auth/login", { id: user.id, password: user.password })
         .then((response) => {
           console.log(response.data);
           if (!response.data.status) {
             alert("로그인 실패");
           } else {
-            // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
-            // axios.defaults.headers.common["jwt-auth-token"] = response.data.auth_token;
-            // accessToken을 localStorage, cookie 등에 저장하지 않는다!
-            // axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.auth_token}`;
             console.log(response.data.data);
             localStorage.setItem("jwt", response.data.auth_token);
             localStorage.setItem("loginId", response.data.data.id);

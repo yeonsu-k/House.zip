@@ -7,12 +7,6 @@
             <h4 style="font-weight: bold">나의 질문</h4>
             <hr />
           </b-col>
-          <!-- <b-col class="text-right">
-            <b-form-checkbox id="checkbox-1" v-model="status" name="checkbox-1"> 답변완료 글만 보기 </b-form-checkbox>
-          </b-col> -->
-          <!-- <b-col>
-            <b-button v-if="this.loginId && !this.isManager" id="bbtn" class="btn-sm mr-4" variant="outline-light" :to="{ name: 'QnaRegist' }">문의하기</b-button>
-          </b-col> -->
         </b-row>
       </div>
       <div id="scrollView">
@@ -47,7 +41,6 @@
               </b-tr>
             </b-tbody>
           </b-table-simple>
-          <!-- <page-link @update-page="updatePage" :status="status" /> -->
         </div>
         <div v-else>등록된 QnA가 없습니다.</div>
       </div>
@@ -56,12 +49,9 @@
 </template>
 <script>
 import axios from "axios";
-// import PageLink from "@/components/notice/PageLink.vue";
 export default {
   name: "MyQna",
-  // components: {
-  //   PageLink,
-  // },
+
   props: {
     loginId: null,
   },
@@ -79,13 +69,10 @@ export default {
     };
   },
   methods: {
-    // updatePage(no) {
-    //   this.no = no;
-    // },
     initComponent() {
       if (this.status) {
         axios
-          .get("http://localhost:8080/happyhouse/qna/my/ans", {
+          .get("http://localhost:8080/housezip/qna/my/ans", {
             params: { userid: this.loginId, limit: this.pageLimit, offset: this.no - this.pageLimit },
           })
           .then(({ data }) => {
@@ -96,7 +83,7 @@ export default {
           });
       } else {
         axios
-          .get("http://localhost:8080/happyhouse/qna/my", {
+          .get("http://localhost:8080/housezip/qna/my", {
             params: { userid: this.loginId, limit: this.pageLimit, offset: this.no - this.pageLimit },
           })
           .then(({ data }) => {
@@ -107,27 +94,6 @@ export default {
           });
       }
     },
-    // initTotal() {
-    //   if (this.status) {
-    //     axios
-    //       .get("http://localhost:8080/happyhouse/qna/ans/total")
-    //       .then(({ data }) => {
-    //         this.total = data;
-    //       })
-    //       .catch(() => {
-    //         alert("에러가 발생했습니다.");
-    //       });
-    //   } else {
-    //     axios
-    //       .get("http://localhost:8080/happyhouse/qna/total")
-    //       .then(({ data }) => {
-    //         this.total = data;
-    //       })
-    //       .catch(() => {
-    //         alert("에러가 발생했습니다.");
-    //       });
-    //   }
-    // },
   },
 
   computed: {
@@ -135,19 +101,8 @@ export default {
       return this.qnas.length;
     },
   },
-  // watch: {
-  //   status() {
-  //     this.no = 10;
-  //     this.initTotal();
-  //     this.initComponent();
-  //   },
-  //   no() {
-  //     this.initComponent();
-  //   },
-  // },
 
   created() {
-    // this.initTotal();
     this.initComponent();
     this.isManager = JSON.parse(localStorage.getItem("isManager"));
   },

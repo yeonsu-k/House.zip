@@ -52,7 +52,7 @@ export default {
     initComponent() {
       if (this.status) {
         axios
-          .get("http://localhost:8080/happyhouse/qna/ans/total")
+          .get("http://localhost:8080/housezip/qna/ans/total")
           .then(({ data }) => {
             this.totalListItemCount = data;
             this.initUI();
@@ -62,7 +62,7 @@ export default {
           });
       } else {
         axios
-          .get("http://localhost:8080/happyhouse/qna/total")
+          .get("http://localhost:8080/housezip/qna/total")
           .then(({ data }) => {
             this.totalListItemCount = data;
             this.initUI();
@@ -118,7 +118,6 @@ export default {
       this.next = false;
 
       this.initComponent();
-      // this.updatePage(this.listRowCount);
     },
     currentPageIndex: function () {
       this.initUI();

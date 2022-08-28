@@ -70,7 +70,7 @@ export default {
       return;
     }
     this.isManager = JSON.parse(localStorage.getItem("isManager"));
-    axios.get("http://localhost:8080/happyhouse/notice/" + this.$route.params.no).then(({ data }) => {
+    axios.get("http://localhost:8080/housezip/notice/" + this.$route.params.no).then(({ data }) => {
       this.notice = data;
     });
   },

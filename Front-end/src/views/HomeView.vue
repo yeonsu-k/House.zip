@@ -50,7 +50,6 @@
               <b-card-group deck v-if="notices">
                 <b-card header="공지사항">
                   <b-list-group>
-                    <!-- :to="{ name: 'NoticeDetail', params: { no: notice.no } }" -->
                     <b-list-group-item v-for="(notice, index) in notices" :key="index" href="javascript:void(0);" @click="goNoticeD(notice.no)" class="flex-column align-items-start">
                       <div class="d-flex w-100 justify-content-between">
                         <div class="mb-1 font-weight-bold"><b-icon icon="caret-right-fill" class="mr-1"></b-icon>{{ notice.title }}</div>
@@ -135,7 +134,7 @@ export default {
         }
         axios
           .post(
-            "http://localhost:8080/happyhouse/house/interest",
+            "http://localhost:8080/housezip/house/interest",
             {
               aptCode: arr,
             },
@@ -171,12 +170,12 @@ export default {
       this.check();
     }
 
-    axios.get("http://localhost:8080/happyhouse/crawling/").then(({ data }) => {
+    axios.get("http://localhost:8080/housezip/crawling/").then(({ data }) => {
       this.newslist = data;
     });
 
     axios
-      .get("http://localhost:8080/happyhouse/notice/", { params: { sortCal: "regtime", sortVal: "desc", limit: 4, offset: 0 } })
+      .get("http://localhost:8080/housezip/notice/", { params: { sortCal: "regtime", sortVal: "desc", limit: 4, offset: 0 } })
       .then(({ data }) => {
         this.notices = data;
       })
@@ -197,7 +196,7 @@ export default {
     },
     check() {
       axios
-        .post("http://localhost:8080/happyhouse/house/dist", {
+        .post("http://localhost:8080/housezip/house/dist", {
           lat: this.lat,
           lng: this.lng,
           dist: 7,
@@ -231,8 +230,6 @@ export default {
 }
 .card-body {
   flex: 1 1 auto;
-  /* min-height: 190px; */
-  /* padding: 1.25rem; */
 }
 .sliders {
   width: 100%;

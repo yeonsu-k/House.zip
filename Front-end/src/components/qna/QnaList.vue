@@ -85,7 +85,7 @@ export default {
     initComponent() {
       if (this.status) {
         axios
-          .get("http://localhost:8080/happyhouse/qna/ans", {
+          .get("http://localhost:8080/housezip/qna/ans", {
             params: { limit: this.pageLimit, offset: this.no - this.pageLimit },
           })
           .then(({ data }) => {
@@ -96,7 +96,7 @@ export default {
           });
       } else {
         axios
-          .get("http://localhost:8080/happyhouse/qna/", {
+          .get("http://localhost:8080/housezip/qna/", {
             params: { limit: this.pageLimit, offset: this.no - this.pageLimit },
           })
           .then(({ data }) => {
@@ -110,7 +110,7 @@ export default {
     initTotal() {
       if (this.status) {
         axios
-          .get("http://localhost:8080/happyhouse/qna/ans/total")
+          .get("http://localhost:8080/housezip/qna/ans/total")
           .then(({ data }) => {
             this.total = data;
           })
@@ -119,7 +119,7 @@ export default {
           });
       } else {
         axios
-          .get("http://localhost:8080/happyhouse/qna/total")
+          .get("http://localhost:8080/housezip/qna/total")
           .then(({ data }) => {
             this.total = data;
           })
@@ -164,7 +164,6 @@ export default {
   height: 25vh;
   color: lightcyan;
 }
-/* 버튼색 추천 :  #ece6cc , #637DB0 , #48608a , #506e80 */
 #head p {
   font-weight: bold;
 }
