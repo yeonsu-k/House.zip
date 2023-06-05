@@ -68,7 +68,7 @@
 
 ### Front-End
 
-| Vue | BootStrap | Bootstrap-vue | Axios |
+| Vue | Bootstrap | Bootstrap-vue | Axios |
 | :---: | :---: | :---: | :---: |
 | 2.6.14 | 4.6.1 | 2.22.0 | 1.3.2 |
 
