@@ -126,7 +126,7 @@
 
     
     
-- **우편번호 검색**
+- **우편 주소 검색**
     > 
     <img src="https://github.com/really-really-really-the-final/House.zip/assets/26339069/adb47d18-9aad-4427-a185-0e277b4755b7" alt="우편번호검색" width="95%" />
 
