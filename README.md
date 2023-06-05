@@ -160,6 +160,10 @@
     >
      ![리뷰](https://github.com/really-really-really-the-final/House.zip/assets/26339069/11094d66-be6b-46e2-8485-5febf6d8d9dc)
      
+- **리뷰 등록** 
+     ![리뷰등록](https://github.com/really-really-really-the-final/House.zip/assets/26339069/a8c44c39-10f4-4775-b5db-da6ce5563bb6)
+
+     
     
 
 ### 게시판
