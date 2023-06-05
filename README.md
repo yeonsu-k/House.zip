@@ -40,15 +40,19 @@
   </br>
   
 <div markdown="1">
-<img src="https://github.com/NewSainTurtle/NewSainTurtleProject/assets/83412032/897971b2-1388-47cd-abf6-f91afe3c39ee" alt="image" style="zoom: 33%;" />
-
-<img src="https://github.com/NewSainTurtle/NewSainTurtleProject/assets/83412032/a66dfa3f-966e-454a-8c16-2c8c773add17" alt="image" style="zoom: 33%;" />
-
-<img src="https://github.com/NewSainTurtle/NewSainTurtleProject/assets/83412032/55495218-1206-4967-814c-c223805f8266" alt="image" style="zoom: 33%;" />
-
-<img src="https://github.com/NewSainTurtle/NewSainTurtleProject/assets/83412032/af3d76b3-93e8-49b7-bb2f-183d20a512fa" alt="image" style="zoom:33%;" />
-
-<img src="https://github.com/NewSainTurtle/NewSainTurtleProject/assets/83412032/0f9bccef-bc97-4e3c-bbdc-57dabd733604" alt="image" style="zoom:33%;" />
+<table>
+<tr>
+<img src="https://github.com/NewSainTurtle/NewSainTurtleProject/assets/83412032/897971b2-1388-47cd-abf6-f91afe3c39ee" alt="image" width="50%" />
+<img src="https://github.com/NewSainTurtle/NewSainTurtleProject/assets/83412032/a66dfa3f-966e-454a-8c16-2c8c773add17" alt="image" width="50%" />
+</tr>
+<tr>
+<img src="https://github.com/NewSainTurtle/NewSainTurtleProject/assets/83412032/55495218-1206-4967-814c-c223805f8266" alt="image" width="50%" />
+<img src="https://github.com/NewSainTurtle/NewSainTurtleProject/assets/83412032/af3d76b3-93e8-49b7-bb2f-183d20a512fa" alt="image" width="50%" />
+</tr>
+<tr>
+<img src="https://github.com/NewSainTurtle/NewSainTurtleProject/assets/83412032/0f9bccef-bc97-4e3c-bbdc-57dabd733604" alt="image" width="50%" />
+</tr>
+</table>
 </div>
 </details>
  
@@ -96,30 +100,35 @@
     > 추천 매물 : 사용자 지역 기준 건물 추천<br>
     부동산 뉴스 : 부동산 관련 최신 뉴스 크롤링
     > 
-    ![홈화면](https://github.com/really-really-really-the-final/House.zip/assets/26339069/e21d9ea9-6e42-4766-8785-41af6ce8df0d)
-
+    <img src="https://github.com/really-really-really-the-final/House.zip/assets/26339069/e21d9ea9-6e42-4766-8785-41af6ce8df0d" alt="홈화면" width="95%" />
+    
+    
     
 - **챗봇**
-    ![챗봇](https://github.com/really-really-really-the-final/House.zip/assets/26339069/1d84b69c-578d-4659-875e-94d38a718a11)
+    > 
+    <img src="https://github.com/really-really-really-the-final/House.zip/assets/26339069/1d84b69c-578d-4659-875e-94d38a718a11" alt="챗봇" width="95%" />
 
     
 
 ### 회원가입/로그인
 
 - **회원가입/로그인**
-    ![회원가입로그인](https://github.com/really-really-really-the-final/House.zip/assets/26339069/499abf27-07c4-4894-8b82-388964479a41)
+    > 
+    <img src="https://github.com/really-really-really-the-final/House.zip/assets/26339069/499abf27-07c4-4894-8b82-388964479a41" alt="회원가입로그인" width="95%" />
 
     
 
 ### 아파트 매물 조회
 
 - **지역 조회(시도 / 구군조회)**
-    ![지역조회](https://github.com/really-really-really-the-final/House.zip/assets/26339069/80eb7145-56f5-437b-91c8-9b2ee1840930)
+    > 
+    <img src="https://github.com/really-really-really-the-final/House.zip/assets/26339069/80eb7145-56f5-437b-91c8-9b2ee1840930" alt="지역조회" width="95%" />
 
     
     
 - **우편번호 검색**
-    ![우편번호검색](https://github.com/really-really-really-the-final/House.zip/assets/26339069/adb47d18-9aad-4427-a185-0e277b4755b7)
+    > 
+    <img src="https://github.com/really-really-really-the-final/House.zip/assets/26339069/adb47d18-9aad-4427-a185-0e277b4755b7" alt="우편번호검색" width="95%" />
 
     
     
@@ -127,7 +136,7 @@
     
     > 3가지 건물 타입(아파트 / 연립다세대 / 오피스텔) 마커를 클릭해 활성화 여부 설정
     >
-    ![마커선택](https://github.com/really-really-really-the-final/House.zip/assets/26339069/d46cf370-1b4f-482c-91b9-82dabf8df345)
+    <img src="https://github.com/really-really-really-the-final/House.zip/assets/26339069/d46cf370-1b4f-482c-91b9-82dabf8df345" alt="마커선택" width="95%" />
 
     
     
@@ -135,7 +144,7 @@
     
     > 사용자가 관심사로 등록한 편의시설 확인 가능
     >
-    ![편의시설](https://github.com/really-really-really-the-final/House.zip/assets/26339069/ef3eecc0-f31f-4edb-9c17-75389fc911db)
+    <img src="https://github.com/really-really-really-the-final/House.zip/assets/26339069/ef3eecc0-f31f-4edb-9c17-75389fc911db" alt="편의시설" width="95%" />
 
     
     
@@ -143,13 +152,15 @@
     
     > 관심 건물 등록시 마이페이지에서 조회 가능
     > 
-    ![관심건물](https://github.com/really-really-really-the-final/House.zip/assets/26339069/8b307eb3-6438-4d09-8faa-9a712b5c5216)
+    <img src="https://github.com/really-really-really-the-final/House.zip/assets/26339069/8b307eb3-6438-4d09-8faa-9a712b5c5216" alt="관심건물" width="95%" />
 
 
 
-- **매물 세부 정보(평균 전월세, 로드뷰)**
-    ![로드뷰랑그래프](https://github.com/really-really-really-the-final/House.zip/assets/26339069/a8dfcc96-b0d3-4731-8316-8187094b28dc)
+- **매물 세부 정보**
 
+    > 평균 매매가와 전·월세, 로드뷰 확인 가능
+    > 
+    <img src="https://github.com/really-really-really-the-final/House.zip/assets/26339069/a8dfcc96-b0d3-4731-8316-8187094b28dc" alt="로드뷰랑그래프" width="95%" />
 
 
 
@@ -158,23 +169,27 @@
     > 건물에 대한 다른 사용자들의 리뷰를 확인할 수 있다. <br>
     초기에는 건물 당 1개의 리뷰만 확인히 가능하며, 자신이 거주했던 건물의 리뷰를 작성하면 모든 리뷰를 확인할 수 있다.
     >
-     ![리뷰](https://github.com/really-really-really-the-final/House.zip/assets/26339069/11094d66-be6b-46e2-8485-5febf6d8d9dc)
-     
+    <img src="https://github.com/really-really-really-the-final/House.zip/assets/26339069/11094d66-be6b-46e2-8485-5febf6d8d9dc" alt="리뷰" width="95%" />
+   
+   
+   
 - **리뷰 등록** 
-     ![리뷰등록](https://github.com/really-really-really-the-final/House.zip/assets/26339069/a8c44c39-10f4-4775-b5db-da6ce5563bb6)
-
+     >
+     <img src="https://github.com/really-really-really-the-final/House.zip/assets/26339069/a8c44c39-10f4-4775-b5db-da6ce5563bb6" alt="리뷰등록" width="95%" />
      
     
 
 ### 게시판
 
 - **문의하기**
-    ![문의하기](https://github.com/really-really-really-the-final/House.zip/assets/26339069/c776d0d7-6a90-4353-b9c9-e5ea42faf6d4)
-
-    
+     >
+     <img src="https://github.com/really-really-really-the-final/House.zip/assets/26339069/c776d0d7-6a90-4353-b9c9-e5ea42faf6d4" alt="문의하기" width="95%" />
+   
+   
     
 - **관리자 답변**
-    ![관리자답변](https://github.com/really-really-really-the-final/House.zip/assets/26339069/b6fd9016-5510-4445-b81a-d599266c29a5)
+    >
+    <img src="https://github.com/really-really-really-the-final/House.zip/assets/26339069/b6fd9016-5510-4445-b81a-d599266c29a5" alt="관리자답변" width="95%" />
 
     
     
