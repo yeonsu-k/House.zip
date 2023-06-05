@@ -40,7 +40,15 @@
   </br>
   
 <div markdown="1">
+<img src="https://github.com/NewSainTurtle/NewSainTurtleProject/assets/83412032/897971b2-1388-47cd-abf6-f91afe3c39ee" alt="image" style="zoom: 33%;" />
 
+<img src="https://github.com/NewSainTurtle/NewSainTurtleProject/assets/83412032/a66dfa3f-966e-454a-8c16-2c8c773add17" alt="image" style="zoom: 33%;" />
+
+<img src="https://github.com/NewSainTurtle/NewSainTurtleProject/assets/83412032/55495218-1206-4967-814c-c223805f8266" alt="image" style="zoom: 33%;" />
+
+<img src="https://github.com/NewSainTurtle/NewSainTurtleProject/assets/83412032/af3d76b3-93e8-49b7-bb2f-183d20a512fa" alt="image" style="zoom:33%;" />
+
+<img src="https://github.com/NewSainTurtle/NewSainTurtleProject/assets/83412032/0f9bccef-bc97-4e3c-bbdc-57dabd733604" alt="image" style="zoom:33%;" />
 </div>
 </details>
  
@@ -88,7 +96,8 @@
     > 추천 매물 : 사용자 지역 기준 건물 추천
     부동산 뉴스 : 부동산 관련 최신 뉴스 크롤링
     > 
-    
+   
+   ![홈화면](https://drive.google.com/uc?export=view&id=1d-HNgOhlAP0AI8UT-YnG6zxVk2ifOvYm)
     
 - **챗봇**
     
@@ -128,7 +137,7 @@
     
 - **리뷰**
     
-    > 건물에 대한 다른 사용자들의 리뷰를 확인할 수 있다. 
+    > 건물에 대한 다른 사용자들의 리뷰를 확인할 수 있다. <br>
     초기에는 건물 당 1개의 리뷰만 확인히 가능하며, 자신이 거주했던 건물의 리뷰를 작성하면 모든 리뷰를 확인할 수 있다.
     > 
     
