@@ -93,47 +93,63 @@
 
 - **추천 매물 / 공지사항 / 부동산 뉴스**
     
-    > 추천 매물 : 사용자 지역 기준 건물 추천
+    > 추천 매물 : 사용자 지역 기준 건물 추천<br>
     부동산 뉴스 : 부동산 관련 최신 뉴스 크롤링
     > 
+    ![홈화면](https://github.com/really-really-really-the-final/House.zip/assets/26339069/e21d9ea9-6e42-4766-8785-41af6ce8df0d)
 
     
 - **챗봇**
-    
+    ![챗봇](https://github.com/really-really-really-the-final/House.zip/assets/26339069/1d84b69c-578d-4659-875e-94d38a718a11)
+
     
 
 ### 회원가입/로그인
 
-- **로그인**
-    
+- **회원가입/로그인**
+    ![회원가입로그인](https://github.com/really-really-really-the-final/House.zip/assets/26339069/499abf27-07c4-4894-8b82-388964479a41)
+
     
 
 ### 아파트 매물 조회
 
 - **지역 조회(시도 / 구군조회)**
+    ![지역조회](https://github.com/really-really-really-the-final/House.zip/assets/26339069/80eb7145-56f5-437b-91c8-9b2ee1840930)
+
     
     
 - **우편번호 검색**
+    ![우편번호검색](https://github.com/really-really-really-the-final/House.zip/assets/26339069/adb47d18-9aad-4427-a185-0e277b4755b7)
+
     
     
 - **마커 선택**
     
     > 3가지 건물 타입(아파트 / 연립다세대 / 오피스텔) 마커를 클릭해 활성화 여부 설정
     >
+    ![마커선택](https://github.com/really-really-really-the-final/House.zip/assets/26339069/d46cf370-1b4f-482c-91b9-82dabf8df345)
+
     
     
 - **편의시설**
     
     > 사용자가 관심사로 등록한 편의시설 확인 가능
-    > 
+    >
+    ![편의시설](https://github.com/really-really-really-the-final/House.zip/assets/26339069/ef3eecc0-f31f-4edb-9c17-75389fc911db)
+
     
     
 - **관심건물**
     
     > 관심 건물 등록시 마이페이지에서 조회 가능
+    > 
+    ![관심건물](https://github.com/really-really-really-the-final/House.zip/assets/26339069/8b307eb3-6438-4d09-8faa-9a712b5c5216)
+
 
 
 - **매물 세부 정보(평균 전월세, 로드뷰)**
+    ![로드뷰랑그래프](https://github.com/really-really-really-the-final/House.zip/assets/26339069/a8dfcc96-b0d3-4731-8316-8187094b28dc)
+
 
 
 
@@ -141,16 +157,21 @@
     
     > 건물에 대한 다른 사용자들의 리뷰를 확인할 수 있다. <br>
     초기에는 건물 당 1개의 리뷰만 확인히 가능하며, 자신이 거주했던 건물의 리뷰를 작성하면 모든 리뷰를 확인할 수 있다.
-    > 
-    
+    >
+     ![리뷰](https://github.com/really-really-really-the-final/House.zip/assets/26339069/11094d66-be6b-46e2-8485-5febf6d8d9dc)
+     
     
 
 ### 게시판
 
 - **문의하기**
+    ![문의하기](https://github.com/really-really-really-the-final/House.zip/assets/26339069/c776d0d7-6a90-4353-b9c9-e5ea42faf6d4)
+
     
     
 - **관리자 답변**
+    ![관리자답변](https://github.com/really-really-really-the-final/House.zip/assets/26339069/b6fd9016-5510-4445-b81a-d599266c29a5)
+
     
     
  
